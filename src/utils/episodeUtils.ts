@@ -1,9 +1,9 @@
 export const getColorScale = (expectedEpisodeCount: number) => {
 	const scale = [
-		{ threshold: 1, color: 'gray-800', label: 'Single' },
-		{ threshold: expectedEpisodeCount - 1, color: 'purple-800', label: 'Incomplete' },
-		{ threshold: expectedEpisodeCount, color: 'green-900', label: 'Complete' },
-		{ threshold: Infinity, color: 'blue-900', label: 'With extras' },
+		{ threshold: 1, color: 'bg-default-200/20 text-default-600 border border-divider', label: 'Single' },
+		{ threshold: expectedEpisodeCount - 1, color: 'bg-warning/10 text-warning border border-warning/20', label: 'Incomplete' },
+		{ threshold: expectedEpisodeCount, color: 'bg-success/10 text-success border border-success/20', label: 'Complete' },
+		{ threshold: Infinity, color: 'bg-primary/10 text-primary border border-primary/20', label: 'With extras' },
 	];
 	return scale;
 };
@@ -24,10 +24,10 @@ export const getEpisodeCountClass = (
 	const scale = getColorScale(expectedEpisodeCount);
 	for (let i = 0; i < scale.length; i++) {
 		if (videoCount <= scale[i].threshold) {
-			return `bg-${scale[i].color}`;
+			return scale[i].color;
 		}
 	}
-	return `bg-${scale[scale.length - 1].color}`;
+	return scale[scale.length - 1].color;
 };
 
 export const getEpisodeCountLabel = (videoCount: number, expectedEpisodeCount: number) => {

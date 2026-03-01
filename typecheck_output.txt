@@ -1,0 +1,212 @@
+scripts/populate-season-episode.ts(1,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/components/settings/PerformanceSettings.tsx(82,49): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PerformanceSettings.tsx(83,49): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PerformanceSettings.tsx(84,49): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PerformanceSettings.tsx(85,50): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PerformanceSettings.tsx(86,50): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PerformanceSettings.tsx(87,50): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PerformanceSettings.tsx(88,49): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PerformanceSettings.tsx(102,51): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PerformanceSettings.tsx(103,51): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PerformanceSettings.tsx(104,51): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PerformanceSettings.tsx(105,49): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PerformanceSettings.tsx(106,49): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PerformanceSettings.tsx(107,49): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PerformanceSettings.tsx(108,49): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(31,54): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(34,63): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(35,72): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(36,81): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(37,82): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(38,74): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(41,64): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(42,58): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(43,55): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(44,61): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(47,64): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(48,58): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(49,57): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(50,63): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(51,62): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(52,64): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(55,59): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/PlaybackSettings.tsx(56,65): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/StremioCastSettings.tsx(48,45): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/StremioCastSettings.tsx(49,45): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/StremioCastSettings.tsx(50,45): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/StremioCastSettings.tsx(51,45): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/StremioCastSettings.tsx(52,45): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/components/settings/StremioCastSettings.tsx(53,45): error TS2322: Type '{ children: string; key: string; value: string; }' is not assignable to type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & Omit<ListboxItemBaseProps<object>, "value">'.
+src/pages/api/music/debug.ts(34,36): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/pages/api/music/debug.ts(40,23): error TS7006: Parameter 'ext' implicitly has an 'any' type.
+src/pages/api/music/debug.ts(57,37): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/pages/api/music/library.ts(82,49): error TS7006: Parameter 'm' implicitly has an 'any' type.
+src/pages/api/music/library.ts(94,45): error TS7006: Parameter 'm' implicitly has an 'any' type.
+src/pages/api/music/library.ts(97,52): error TS7006: Parameter 'music' implicitly has an 'any' type.
+src/pages/api/music/library.ts(131,43): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/pages/api/music/library.ts(148,42): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/pages/api/music/library.ts(148,45): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/pages/api/music/library.ts(158,19): error TS2339: Property 'artist' does not exist on type '{}'.
+src/pages/api/music/library.ts(159,18): error TS2339: Property 'album' does not exist on type '{}'.
+src/pages/api/music/library.ts(160,17): error TS2339: Property 'year' does not exist on type '{}'.
+src/pages/api/music/library.ts(161,21): error TS2339: Property 'coverUrl' does not exist on type '{}'.
+src/pages/api/music/library.ts(162,31): error TS7006: Parameter 'file' implicitly has an 'any' type.
+src/pages/api/music/library.ts(162,37): error TS7006: Parameter 'index' implicitly has an 'any' type.
+src/pages/api/torrents/index.ts(4,10): error TS2305: Module '"@prisma/client"' has no exported member 'Prisma'.
+src/services/database/allDebridCast.ts(99,6): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(101,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(138,13): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(139,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(224,22): error TS7006: Parameter 'movie' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(244,10): error TS7006: Parameter 'show' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(245,13): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(245,20): error TS7006: Parameter 'index' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(245,27): error TS7006: Parameter 'self' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(275,25): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(318,21): error TS7006: Parameter 'cast' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(369,6): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(372,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(437,6): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/allDebridCast.ts(440,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/anime.ts(29,23): error TS7006: Parameter 'anime' implicitly has an 'any' type.
+src/services/database/anime.ts(48,23): error TS7006: Parameter 'anime' implicitly has an 'any' type.
+src/services/database/anime.ts(74,23): error TS7006: Parameter 'anime' implicitly has an 'any' type.
+src/services/database/anime.ts(100,23): error TS7006: Parameter 'anime' implicitly has an 'any' type.
+src/services/database/availability.ts(311,31): error TS7006: Parameter 'record' implicitly has an 'any' type.
+src/services/database/availability.ts(313,29): error TS7006: Parameter 'file' implicitly has an 'any' type.
+src/services/database/availability.ts(348,31): error TS7006: Parameter 'record' implicitly has an 'any' type.
+src/services/database/availability.ts(350,29): error TS7006: Parameter 'file' implicitly has an 'any' type.
+src/services/database/availability.ts(494,31): error TS7006: Parameter 'record' implicitly has an 'any' type.
+src/services/database/availability.ts(496,29): error TS7006: Parameter 'file' implicitly has an 'any' type.
+src/services/database/cast.ts(200,6): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/cast.ts(202,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/cast.ts(239,13): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/cast.ts(240,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/cast.ts(323,22): error TS7006: Parameter 'movie' implicitly has an 'any' type.
+src/services/database/cast.ts(343,10): error TS7006: Parameter 'show' implicitly has an 'any' type.
+src/services/database/cast.ts(344,13): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/services/database/cast.ts(344,20): error TS7006: Parameter 'index' implicitly has an 'any' type.
+src/services/database/cast.ts(344,27): error TS7006: Parameter 'self' implicitly has an 'any' type.
+src/services/database/cast.ts(374,25): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/cast.ts(417,21): error TS7006: Parameter 'cast' implicitly has an 'any' type.
+src/services/database/cast.ts(464,6): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/cast.ts(467,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/cast.ts(525,13): error TS7006: Parameter 'file' implicitly has an 'any' type.
+src/services/database/cast.ts(526,10): error TS7006: Parameter 'file' implicitly has an 'any' type.
+src/services/database/cast.ts(573,13): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/cast.ts(586,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/cast.ts(631,6): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/cast.ts(634,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/client.ts(1,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/services/database/hashSearch.ts(169,6): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/services/database/hashSearch.ts(173,10): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/services/database/hashSearch.ts(213,10): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/services/database/hashSearch.ts(217,13): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/services/database/hashSearch.ts(218,10): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(233,43): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(233,48): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(237,6): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(237,11): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(243,49): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(245,6): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(245,11): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(249,6): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(249,11): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(256,41): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(263,52): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(264,51): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(266,6): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(399,21): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(442,21): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(496,55): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(611,21): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(647,21): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(695,43): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(695,48): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(699,6): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(699,11): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(705,49): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(707,6): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(707,11): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(711,6): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(711,11): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/services/database/historyAggregation.ts(718,41): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/services/database/imdbSearch.ts(1,10): error TS2305: Module '"@prisma/client"' has no exported member 'Prisma'.
+src/services/database/imdbSearch.ts(183,23): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/services/database/imdbSearch.ts(254,23): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/services/database/imdbSearch.ts(307,23): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/services/database/report.ts(62,29): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/scraped.ts(1,10): error TS2305: Module '"@prisma/client"' has no exported member 'Prisma'.
+src/services/database/scraped.ts(1,18): error TS2305: Module '"@prisma/client"' has no exported member 'Scraped'.
+src/services/database/scraped.ts(311,29): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/scraped.ts(328,48): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/streamHealth.ts(97,24): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/services/database/streamHealth.ts(169,11): error TS7006: Parameter 'h' implicitly has an 'any' type.
+src/services/database/streamHealth.ts(170,14): error TS7006: Parameter 'host' implicitly has an 'any' type.
+src/services/database/streamHealth.ts(233,49): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+src/services/database/streamHealth.ts(233,54): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/services/database/streamHealth.ts(247,39): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/services/database/streamHealth.ts(341,44): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/services/database/streamHealth.ts(363,24): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/services/database/streamHealth.ts(413,44): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/services/database/streamHealth.ts(435,24): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(155,6): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(157,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(194,13): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(195,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(280,22): error TS7006: Parameter 'movie' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(300,10): error TS7006: Parameter 'show' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(301,13): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(301,20): error TS7006: Parameter 'index' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(301,27): error TS7006: Parameter 'self' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(331,25): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(374,21): error TS7006: Parameter 'cast' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(425,6): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(428,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(494,6): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/torboxCast.ts(497,10): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/services/database/torrentSnapshot.ts(1,10): error TS2305: Module '"@prisma/client"' has no exported member 'Prisma'.
+src/services/database/trackerStats.ts(85,22): error TS7006: Parameter 'stat' implicitly has an 'any' type.
+src/services/database/trackerStats.ts(125,26): error TS7006: Parameter 'stat' implicitly has an 'any' type.
+src/services/database/trackerStats.ts(155,21): error TS7006: Parameter 'stat' implicitly has an 'any' type.
+src/services/database/zurgKeys.ts(115,20): error TS7006: Parameter 'key' implicitly has an 'any' type.
+src/services/repository.ts(1,10): error TS2305: Module '"@prisma/client"' has no exported member 'Prisma'.
+src/utils/prisma.ts(1,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.

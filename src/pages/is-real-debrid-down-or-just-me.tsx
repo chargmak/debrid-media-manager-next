@@ -6,6 +6,7 @@ import {
 	AlertTriangle,
 	CheckCircle2,
 	Clock,
+	ChevronRight,
 	Globe,
 	Loader2,
 	RefreshCw,
@@ -187,389 +188,221 @@ const RealDebridStatusPage: NextPage & { disableLibraryProvider?: boolean } = ()
 				<meta name="description" content={defaultDescription} />
 			</Head>
 
-			<main className="min-h-screen bg-slate-950 text-slate-100">
+			<main className="min-h-screen bg-black text-foreground selection:bg-emerald-500/30">
 				{/* Connectivity Banner */}
 				{!isOnline && (
-					<div className="bg-amber-500/10 px-4 py-2 text-center text-sm font-medium text-amber-500">
+					<div className="bg-danger/10 px-4 py-2 text-center text-sm font-medium text-danger backdrop-blur-md">
 						<div className="mx-auto flex max-w-5xl items-center justify-center gap-2">
 							<WifiOff className="h-4 w-4" />
-							<span>You are offline. This status might not be up to date.</span>
+							<span>You are currently offline</span>
 						</div>
 					</div>
 				)}
 
-				<div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-8">
+				<div className="mx-auto flex w-full max-w-5xl flex-col gap-12 px-6 py-12">
 					{/* Header / Hero */}
-					<header className="flex flex-col items-center gap-6 pt-8 text-center">
+					<header className="flex flex-col items-center gap-8 text-center">
 						<div
-							className={`flex items-center gap-3 rounded-full border px-6 py-2 ${currentStatus.bgColorClass} ${currentStatus.borderColorClass}`}
+							className={`glass-card flex items-center gap-3 px-6 py-2 ${currentStatus.borderColorClass}`}
 						>
-							<div className={`relative flex h-3 w-3`}>
+							<div className="relative flex h-3 w-3">
 								<span
-									className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${state === 'up' ? 'bg-emerald-400' : state === 'down' ? 'bg-rose-500' : 'bg-slate-400'}`}
+									className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${state === 'up' ? 'bg-emerald-400' : state === 'down' ? 'bg-rose-500' : 'bg-default-400'}`}
 								></span>
 								<span
-									className={`relative inline-flex h-3 w-3 rounded-full ${state === 'up' ? 'bg-emerald-500' : state === 'down' ? 'bg-rose-600' : 'bg-slate-500'}`}
+									className={`relative inline-flex h-3 w-3 rounded-full ${state === 'up' ? 'bg-emerald-500' : state === 'down' ? 'bg-rose-600' : 'bg-default-500'}`}
 								></span>
 							</div>
-							<span className={`font-semibold ${currentStatus.colorClass}`}>
-								<span data-testid="status-answer-mobile">
-									{state === 'up'
-										? 'Operational'
-										: state === 'down'
-											? 'Major Outage'
-											: ' collecting data'}
-								</span>
+							<span className={`text-sm font-bold uppercase tracking-widest ${currentStatus.colorClass}`}>
+								{state === 'up' ? 'Operational' : state === 'down' ? 'Major Outage' : 'Investigating'}
 							</span>
 						</div>
 
-						<h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-							{currentStatus.label}
-						</h1>
+						<div className="space-y-4">
+							<h1 className="text-4xl font-black tracking-tight text-white sm:text-6xl">
+								{currentStatus.label}
+							</h1>
+							<p className="mx-auto max-w-2xl text-lg text-default-400">
+								Real-time monitor of Real-Debrid stream servers and API endpoints
+							</p>
+						</div>
 
-						<p className="max-w-2xl text-lg text-slate-400">
-							Live monitoring of Real-Debrid stream server availability.
-						</p>
-
-						<div className="flex items-center gap-4 text-xs font-medium text-slate-500">
-							<div className="flex items-center gap-1.5">
-								<Clock className="h-3.5 w-3.5" />
-								<span data-testid="status-freshness">
-									Last updated: {formatDateTime(lastChecked)}
-								</span>
+						<div className="flex items-center gap-6 text-xs font-bold uppercase tracking-widest text-default-500">
+							<div className="flex items-center gap-2">
+								<Clock className="h-4 w-4" />
+								<span>Updated: {formatDateTime(lastChecked)}</span>
 							</div>
 							<button
 								onClick={() => loadStats()}
-								className="flex items-center gap-1.5 transition-colors hover:text-slate-300"
-								title="Refresh status"
+								className="group flex items-center gap-2 transition-colors hover:text-white"
 							>
-								<RefreshCw className="h-3.5 w-3.5" />
+								<RefreshCw className="h-4 w-4 transition-transform group-hover:rotate-180 duration-500" />
 								<span>Refresh</span>
 							</button>
 						</div>
 
-						<div className="mt-4 grid w-full gap-6 md:grid-cols-2">
-							<div className="rounded-xl border border-white/10 bg-white/5 p-6">
-								<h3 className="text-lg font-medium text-white">About this data</h3>
-								<p className="mt-2 text-sm text-slate-400">
-									This status page is powered by{' '}
-									<a
-										className="font-semibold text-sky-300 hover:text-white"
-										href="https://debridmediamanager.com/"
-										rel="noreferrer noopener"
-										target="_blank"
-									>
-										Debrid Media Manager
-									</a>
-									, a free, open source dashboard for Real-Debrid, AllDebrid, and
-									TorBox. We run automated health checks every 5 minutes to
-									monitor stream server and{' '}
-									<a
-										className="font-semibold text-sky-300 hover:text-white"
-										href="https://torrentio.strem.fun/configure"
-										rel="noreferrer noopener"
-										target="_blank"
-									>
-										Torrentio
-									</a>{' '}
-									availability.
+						<div className="grid w-full gap-4 md:grid-cols-2">
+							<div className="glass-card flex flex-col items-start gap-2 p-6 text-left">
+								<h3 className="text-lg font-bold text-white">About DMM Status</h3>
+								<p className="text-sm leading-relaxed text-default-400">
+									This dashboard is provided by <Link href="/" className="text-primary hover:underline">Debrid Media Manager</Link>.
+									Our automated systems perform health checks every 5 minutes from multiple global locations.
 								</p>
 							</div>
 
-							<div className="rounded-xl border border-white/10 bg-white/5 p-6">
-								<h3 className="flex items-center gap-2 text-lg font-medium text-white">
-									<span className="flex h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
-									Is it just you?
+							<div className="glass-card flex flex-col items-start gap-2 p-6 text-left">
+								<h3 className="flex items-center gap-2 text-lg font-bold text-white">
+									<Activity className="h-5 w-5 text-emerald-500" />
+									Connectivity Check
 								</h3>
-								<p className="mt-2 text-sm text-slate-400">
-									Check your internet connection first. If Real-Debrid is down for
-									everyone, you&apos;ll see failure here. If this page says
-									&quot;Operational&quot; but you can&apos;t connect, the issue
-									might be your ISP or local network.
+								<p className="text-sm leading-relaxed text-default-400">
+									If this page shows "Operational" but you're experiencing issues, check your local ISP or VPN configuration.
+									Real-Debrid occasionally blacklists specific IP ranges.
 								</p>
 							</div>
 						</div>
 					</header>
 
-					{/* Stream Health & Info */}
+					{/* Metrics Grid */}
 					<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-						<div
-							data-testid="working-stream-card"
-							className="rounded-xl border border-white/10 bg-white/5 p-6"
-						>
-							<h3 className="flex items-center gap-2 text-sm font-medium text-slate-300">
-								<Wifi className="h-4 w-4" />
-								Stream Server Check
-							</h3>
-							<div className="mt-4">
-								<div className="flex items-baseline gap-2">
-									<span
-										className={`text-3xl font-bold ${
-											workingStream.total === 0
-												? 'text-slate-400'
-												: workingStream.rate >= 0.8
-													? 'text-emerald-400'
-													: workingStream.rate >= 0.4
-														? 'text-amber-400'
-														: 'text-rose-500'
-										}`}
-									>
-										{workingStream.total > 0
-											? `${Math.round(workingStream.rate * 100)}%`
-											: '—'}
-									</span>
-									<span className="text-sm text-slate-500">
-										{workingStream.total > 0
-											? `${workingStream.working}/${workingStream.total} servers`
-											: 'no data yet'}
-									</span>
-								</div>
-								{workingServers.length > 0 && (
-									<div className="mt-3 space-y-1.5">
-										<div className="text-xs font-medium text-emerald-400">
-											Working servers ({workingServers.length})
-										</div>
-										<div className="flex flex-wrap gap-1">
-											{workingServers.map((s) => (
-												<span
-													key={s.server}
-													className="rounded bg-emerald-500/20 px-1.5 py-0.5 text-xs text-emerald-400"
-													title={
-														s.latencyMs
-															? `${Math.round(s.latencyMs)}ms`
-															: 'OK'
-													}
-												>
-													{s.server
-														.replace('.download.real-debrid.com', '')
-														.toUpperCase()}
-													{s.latencyMs && (
-														<span className="ml-1 text-emerald-500/70">
-															{Math.round(s.latencyMs)}ms
-														</span>
-													)}
-												</span>
-											))}
-										</div>
-									</div>
-								)}
-								{failedServers.length > 0 && (
-									<div className="mt-3 space-y-1.5">
-										<div className="text-xs font-medium text-rose-400">
-											Failed servers ({failedServers.length})
-										</div>
-										<div className="flex flex-wrap gap-1">
-											{failedServers.map((server) => (
-												<span
-													key={server}
-													className="rounded bg-rose-500/20 px-1.5 py-0.5 text-xs text-rose-400"
-												>
-													{server
-														.replace('.download.real-debrid.com', '')
-														.toUpperCase()}
-												</span>
-											))}
-										</div>
-									</div>
-								)}
+						<div className="glass-card flex flex-col gap-6 p-6">
+							<div className="flex items-center justify-between">
+								<h3 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-default-400">
+									<Wifi className="h-4 w-4" />
+									Server Health
+								</h3>
 								{workingStream.total > 0 && (
-									<div className="mt-3 text-xs text-slate-500">
-										Latencies measured from Germany
+									<span className={`text-2xl font-black ${workingStream.rate >= 0.8 ? 'text-emerald-400' : 'text-danger'}`}>
+										{Math.round(workingStream.rate * 100)}%
+									</span>
+								)}
+							</div>
+
+							<div className="space-y-4">
+								<div className="space-y-1">
+									<div className="flex justify-between text-xs font-bold text-default-500">
+										<span>AVAILABILITY</span>
+										<span>{workingStream.working}/{workingStream.total} ONLINE</span>
+									</div>
+									<div className="h-1.5 w-full rounded-full bg-default-100 overflow-hidden">
+										<div
+											className={`h-full transition-all duration-1000 ${workingStream.rate >= 0.8 ? 'bg-emerald-500' : 'bg-danger'}`}
+											style={{ width: `${workingStream.rate * 100}%` }}
+										/>
+									</div>
+								</div>
+
+								{workingServers.length > 0 && (
+									<div className="space-y-2 pt-2">
+										<div className="text-[10px] font-bold text-emerald-500 uppercase">Working Regions</div>
+										<div className="flex flex-wrap gap-1.5">
+											{workingServers.map((s) => (
+												<div
+													key={s.server}
+													className="flex items-center gap-1.5 rounded-md bg-emerald-500/10 px-2 py-1 text-[10px] font-bold text-emerald-400 border border-emerald-500/20"
+												>
+													{s.server.split('.')[0].toUpperCase()}
+													<span className="opacity-50">{s.latencyMs ? Math.round(s.latencyMs) : '—'}ms</span>
+												</div>
+											))}
+										</div>
 									</div>
 								)}
 							</div>
 						</div>
 
-						<div
-							data-testid="rd-api-card"
-							className="rounded-xl border border-white/10 bg-white/5 p-6"
-						>
-							<h3 className="flex items-center gap-2 text-sm font-medium text-slate-300">
-								<Activity className="h-4 w-4" />
-								API Success Rate (1h)
-							</h3>
-							<div className="mt-4">
-								<div className="flex items-baseline gap-2">
-									<span
-										className={`text-3xl font-bold ${
-											rdApiPct === null
-												? 'text-slate-400'
-												: rdApiPct >= 95
-													? 'text-emerald-400'
-													: rdApiPct >= 80
-														? 'text-amber-400'
-														: 'text-rose-500'
-										}`}
-									>
-										{rdApiPct !== null ? `${rdApiPct}%` : '—'}
+						<div className="glass-card flex flex-col gap-6 p-6">
+							<div className="flex items-center justify-between">
+								<h3 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-default-400">
+									<Activity className="h-4 w-4" />
+									API Success
+								</h3>
+								{rdApiPct !== null && (
+									<span className={`text-2xl font-black ${Number(rdApiPct) >= 95 ? 'text-emerald-400' : 'text-warning'}`}>
+										{rdApiPct}%
 									</span>
-									<span className="text-sm text-slate-500">
-										{rdApiConsidered > 0
-											? `${rdApi?.successCount ?? 0} of ${rdApiConsidered}`
-											: 'no data yet'}
-									</span>
-								</div>
-								{rdApi && rdApi.totalCount > 0 && (
-									<div className="mt-3 space-y-2">
-										<div className="text-xs font-medium text-slate-500">
-											By operation
-										</div>
-										{Object.values(rdApi.byOperation)
-											.filter((op) => op.totalCount > 0)
-											.sort((a, b) => b.totalCount - a.totalCount)
-											.map((op) => {
-												const pct = Math.round(op.successRate * 100);
-												const label = op.operation
-													.replace('GET ', '')
-													.replace('POST ', '')
-													.replace('DELETE ', '')
-													.replace('/torrents/', '')
-													.replace('{id}', '');
-												return (
-													<div
-														key={op.operation}
-														className="flex items-center justify-between text-xs"
-													>
-														<span
-															className="truncate text-slate-400"
-															title={op.operation}
-														>
-															{label}
-														</span>
-														<div className="flex items-center gap-2">
-															{op.failureCount > 0 && (
-																<span className="text-rose-400">
-																	{op.failureCount} err
-																</span>
-															)}
-															<span
-																className={
-																	pct >= 95
-																		? 'text-emerald-400'
-																		: pct >= 80
-																			? 'text-amber-400'
-																			: 'text-rose-400'
-																}
-															>
-																{pct}%
-															</span>
-														</div>
-													</div>
-												);
-											})}
-									</div>
 								)}
 							</div>
-						</div>
 
-						<div
-							data-testid="torrentio-card"
-							className="rounded-xl border border-white/10 bg-white/5 p-6"
-						>
-							<h3 className="flex items-center gap-2 text-sm font-medium text-slate-300">
-								<Globe className="h-4 w-4" />
-								<a
-									href="https://torrentio.strem.fun/configure"
-									rel="noreferrer noopener"
-									target="_blank"
-									className="hover:text-white"
-								>
-									Torrentio Health
-								</a>
-							</h3>
-							<div className="mt-4">
-								<div className="flex items-baseline gap-2">
-									<span
-										className={`text-3xl font-bold ${
-											torrentioPct === null
-												? 'text-slate-400'
-												: torrentioPct >= 80
-													? 'text-emerald-400'
-													: torrentioPct >= 40
-														? 'text-amber-400'
-														: 'text-rose-500'
-										}`}
-									>
-										{torrentioPct !== null ? `${torrentioPct}%` : '—'}
-									</span>
-									<span className="text-sm text-slate-500">
-										{torrentioTotalChecks > 0
-											? `${torrentioPassedCount}/${torrentioTotalChecks} passed`
-											: 'no data yet'}
-									</span>
-								</div>
-								{torrentioTotalChecks > 0 && (
-									<div className="mt-3 space-y-1.5">
-										<div className="text-xs font-medium text-slate-500">
-											Last {torrentioTotalChecks} checks
-										</div>
-										{torrentioChecks.map((check, i) => (
-											<div
-												key={i}
-												className="flex items-center justify-between text-xs"
-											>
-												<div className="flex items-center gap-2">
-													<span
-														className={`h-2 w-2 rounded-full ${check.ok ? 'bg-emerald-500' : 'bg-rose-500'}`}
-													/>
-													<span className="text-slate-400">
-														{new Date(
-															check.checkedAt
-														).toLocaleTimeString(FIXED_LOCALE, {
-															hour: '2-digit',
-															minute: '2-digit',
-														})}
+							<div className="space-y-3">
+								{rdApi && Object.values(rdApi.byOperation)
+									.filter((op) => op.totalCount > 0)
+									.sort((a, b) => b.totalCount - a.totalCount)
+									.slice(0, 5)
+									.map((op) => {
+										const pct = Math.round(op.successRate * 100);
+										return (
+											<div key={op.operation} className="flex items-center justify-between">
+												<span className="text-xs font-medium text-default-500 truncate max-w-[140px]">
+													{op.operation.split(' ').pop()?.replace('/', '')}
+												</span>
+												<div className="flex items-center gap-3">
+													{op.failureCount > 0 && (
+														<span className="text-[10px] font-bold text-danger">-{op.failureCount}</span>
+													)}
+													<span className={`text-xs font-bold ${pct >= 95 ? 'text-emerald-400' : 'text-warning'}`}>
+														{pct}%
 													</span>
 												</div>
-												<span
-													className={
-														check.ok
-															? 'text-emerald-400'
-															: 'text-rose-400'
-													}
-												>
-													{check.ok
-														? check.latencyMs
-															? `${Math.round(check.latencyMs)}ms`
-															: 'OK'
-														: check.latencyMs
-															? `Failed (${Math.round(check.latencyMs)}ms)`
-															: 'Failed'}
-												</span>
 											</div>
-										))}
-									</div>
+										);
+									})}
+							</div>
+						</div>
+
+						<div className="glass-card flex flex-col gap-6 p-6">
+							<div className="flex items-center justify-between">
+								<h3 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-default-400">
+									<Globe className="h-4 w-4" />
+									Torrentio
+								</h3>
+								{torrentioPct !== null && (
+									<span className={`text-2xl font-black ${torrentioPct >= 80 ? 'text-emerald-400' : 'text-danger'}`}>
+										{torrentioPct}%
+									</span>
 								)}
-								<div className="mt-3 rounded-lg bg-sky-500/10 p-2.5">
-									<p className="text-xs text-slate-300">
-										Try{' '}
-										<Link
-											href="/stremio"
-											className="font-semibold text-sky-400 hover:text-sky-300"
-										>
-											DMM Cast
-										</Link>{' '}
-										- our Stremio addon for Real-Debrid
-									</p>
-								</div>
+							</div>
+
+							<div className="grid grid-cols-5 gap-1.5">
+								{torrentioChecks.slice(0, 15).map((check, i) => (
+									<div
+										key={i}
+										className={`h-2 rounded-sm ${check.ok ? 'bg-emerald-500' : 'bg-danger'}`}
+										title={`${new Date(check.checkedAt).toLocaleTimeString()} - ${check.latencyMs}ms`}
+									/>
+								))}
+							</div>
+
+							<div className="mt-auto">
+								<Link href="/stremio" className="group flex items-center justify-between rounded-xl bg-primary/10 p-3 transition-colors hover:bg-primary/20">
+									<div className="flex flex-col gap-0.5">
+										<span className="text-[10px] font-bold text-primary uppercase">Alternative</span>
+										<span className="text-xs font-bold text-white">DMM Cast Addon</span>
+									</div>
+									<ChevronRight className="h-4 w-4 text-primary transition-transform group-hover:translate-x-1" />
+								</Link>
 							</div>
 						</div>
 					</div>
 
-					{/* Charts */}
-					<HistoryCharts />
+					{/* Charts Section */}
+					<div className="glass-card p-6">
+						<div className="mb-6 flex items-center justify-between">
+							<h3 className="text-lg font-bold text-white font-mono uppercase tracking-tight">Status History</h3>
+							<span className="text-xs font-bold text-default-400 uppercase tracking-widest">Global Samples</span>
+						</div>
+						<div className="w-full overflow-hidden rounded-xl bg-content1/30 p-4">
+							<HistoryCharts />
+						</div>
+					</div>
 
-					{/* Footer */}
-					<footer className="mt-8 border-t border-white/10 pt-8 text-center">
-						<p className="text-sm text-slate-500">
-							Debrid Media Manager is an open-source project.
-							<a
-								href="https://debridmediamanager.com"
-								className="ml-1 text-emerald-400 hover:underline"
-							>
-								Visit Homepage
-							</a>
+					<footer className="flex flex-col items-center gap-4 pt-12 text-center border-t border-white/5">
+						<p className="text-sm font-medium text-default-400">
+							Maintained by the Debrid Media Manager Community
 						</p>
+						<Link href="/" className="text-sm font-bold text-primary hover:text-primary/80 transition-colors">
+							Return to Home
+						</Link>
 					</footer>
 				</div>
 			</main>

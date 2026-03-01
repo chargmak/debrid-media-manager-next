@@ -22,10 +22,11 @@ const posterCache = new Map<string, string>();
 type PosterProps = {
 	imdbId: string;
 	title?: string;
+	className?: string;
 };
 
 const Poster = memo(
-	function Poster({ imdbId, title }: PosterProps) {
+	function Poster({ imdbId, title, className }: PosterProps) {
 		const [posterUrl, setPosterUrl] = useState(() => getPosterUrl(imdbId));
 		const [fallbackAttempted, setFallbackAttempted] = useState(false);
 		const mountedRef = useRef(true);
@@ -84,7 +85,7 @@ const Poster = memo(
 		}, [fallbackAttempted, imdbId, title]);
 
 		return (
-			<div className="relative aspect-[2/3] w-full overflow-hidden rounded bg-gray-800">
+			<div className={`relative aspect-[2/3] w-full overflow-hidden rounded bg-gray-800 ${className || ''}`}>
 				{posterUrl ? (
 					<Image
 						fill

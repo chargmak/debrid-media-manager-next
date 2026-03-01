@@ -43,7 +43,7 @@ import { getHashOfTorrent } from '@/utils/torrentFile';
 import { handleShowInfoForAD, handleShowInfoForRD } from '@/utils/torrentInfo';
 import { withAuth } from '@/utils/withAuth';
 import { saveAs } from 'file-saver';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, RefreshCw } from 'lucide-react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -1104,30 +1104,30 @@ function TorrentsPage() {
 		// Apply the current sort to all torrents or use already sorted filtered data
 		const listToBackup = backupChoice.isConfirmed
 			? [...userTorrentsList].sort((a, b) => {
-					const isAsc = sortBy.direction === 'asc';
-					let comparison = 0;
+				const isAsc = sortBy.direction === 'asc';
+				let comparison = 0;
 
-					if (sortBy.column === 'title') {
-						const titleA = a[sortBy.column] as string;
-						const titleB = b[sortBy.column] as string;
-						const lowerA = titleA.toLowerCase();
-						const lowerB = titleB.toLowerCase();
+				if (sortBy.column === 'title') {
+					const titleA = a[sortBy.column] as string;
+					const titleB = b[sortBy.column] as string;
+					const lowerA = titleA.toLowerCase();
+					const lowerB = titleB.toLowerCase();
 
-						if (lowerA === lowerB) {
-							comparison = titleA < titleB ? -1 : 1; // Uppercase first
-						} else {
-							comparison = lowerA < lowerB ? -1 : 1;
-						}
+					if (lowerA === lowerB) {
+						comparison = titleA < titleB ? -1 : 1; // Uppercase first
 					} else {
-						if (a[sortBy.column] > b[sortBy.column]) {
-							comparison = 1;
-						} else if (a[sortBy.column] < b[sortBy.column]) {
-							comparison = -1;
-						}
+						comparison = lowerA < lowerB ? -1 : 1;
 					}
+				} else {
+					if (a[sortBy.column] > b[sortBy.column]) {
+						comparison = 1;
+					} else if (a[sortBy.column] < b[sortBy.column]) {
+						comparison = -1;
+					}
+				}
 
-					return isAsc ? comparison : comparison * -1;
-				})
+				return isAsc ? comparison : comparison * -1;
+			})
 			: sortedData;
 		const backupType = backupChoice.isConfirmed ? 'full' : 'filtered';
 
@@ -1550,76 +1550,70 @@ function TorrentsPage() {
 	// Remove the initialize function as we're using cached data now
 
 	return (
-		<div className="mx-1 my-0 flex min-h-screen flex-col bg-gray-900 text-gray-100">
+		<div className="flex h-screen flex-col bg-mesh bg-noise text-foreground overflow-hidden">
 			<Head>
-				<title>Debrid Media Manager - Library</title>
+				<title>DMM — Library</title>
 			</Head>
-			<Toaster position="bottom-right" />
-			<div className="flex flex-1 flex-col">
-				<div className="sticky top-0 z-20 bg-gray-900 pb-2">
-					<div className="mb-1 flex items-center justify-between pt-2">
-						<div className="flex items-center gap-2">
+			<Toaster position="bottom-right" toastOptions={{
+				style: { background: '#18181B', color: '#FAFAFA', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)' }
+			}} />
+			<div className="flex flex-1 flex-col overflow-hidden">
+				<div className="z-20 bg-content1/80 backdrop-blur-xl border-b border-divider shadow-sm pb-3 px-4 pt-3">
+					<div className="mb-3 flex items-center justify-between">
+						<div className="flex items-center gap-3">
 							<h1
-								className="text-xl font-bold text-white"
+								className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2"
 								onDoubleClick={backupOldWeekData}
 								style={{ cursor: 'default' }}
 							>
-								<BookOpen className="mr-1 inline-block h-5 w-5 text-cyan-400" />
-								Library{' '}
-								<LibrarySize
-									torrentCount={userTorrentsList.length}
-									totalBytes={totalBytes}
-									isLoading={isFetching}
-								/>
+								<BookOpen className="h-5 w-5 text-primary" />
+								Library
+								<span className="font-medium text-default-400 text-sm ml-2">
+									<LibrarySize
+										torrentCount={userTorrentsList.length}
+										totalBytes={totalBytes}
+										isLoading={isFetching}
+									/>
+								</span>
 								{selectedTorrents.size > 0 && (
-									<span className="ml-2 text-sm font-normal text-cyan-400">
-										({selectedTorrents.size}/{filteredList.length} selected)
+									<span className="ml-2 text-sm font-semibold text-secondary bg-secondary/10 px-2 py-0.5 rounded-full border border-secondary/20">
+										{selectedTorrents.size}/{filteredList.length} selected
 									</span>
 								)}
 							</h1>
-							<div className="flex items-center gap-2">
-								<span className="text-xs text-gray-500">{lastFetchLabel}</span>
+							<div className="flex items-center gap-2 ml-4">
+								<span className="text-xs font-medium text-default-400 bg-content2 px-2 py-1 rounded-md border border-divider">
+									{lastFetchLabel}
+								</span>
 								<button
 									onClick={refreshLibrary}
 									disabled={isFetching}
-									className={`rounded-full p-1.5 transition-all ${
-										isFetching
-											? 'cursor-not-allowed bg-gray-700 text-gray-500'
-											: cacheError
-												? 'bg-red-900/50 text-red-400 hover:bg-red-800/50'
-												: 'bg-cyan-900/50 text-cyan-400 hover:bg-cyan-800/50 hover:text-cyan-300'
-									}`}
+									className={`rounded-lg p-1.5 transition-all outline-none border border-transparent ${isFetching
+										? 'cursor-not-allowed bg-content2 text-default-500'
+										: cacheError
+											? 'bg-danger/10 text-danger border-danger/20 hover:bg-danger/20'
+											: 'bg-primary/10 text-primary hover:bg-primary/20 hover:border-primary/30'
+										}`}
 									title={cacheError ? `Retry (${cacheError})` : 'Refresh library'}
 								>
-									<svg
-										className={`h-4 w-4 ${isFetching ? 'animate-spin' : ''}`}
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth={2}
-											d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-										/>
-									</svg>
+									<RefreshCw className={`h-4 w-4 ${isFetching ? 'animate-spin' : ''}`} />
 								</button>
 							</div>
 						</div>
 						<Link
 							href="/"
-							className="rounded border-2 border-cyan-500 bg-cyan-900/30 px-2 py-0.5 text-sm text-cyan-100 transition-colors hover:bg-cyan-800/50"
+							className="rounded-lg border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary transition-all hover:bg-primary/20 hover:border-primary/50"
 						>
 							Go Home
 						</Link>
 					</div>
-					<div className="mb-2 flex items-center border-b-2 border-gray-600 py-0">
+
+					<div className="mb-3 flex items-center border border-divider bg-content1/50 rounded-lg py-0 focus-within:border-primary/50 focus-within:bg-content2 transition-colors">
 						<input
-							className="mr-3 w-full appearance-none border-none bg-transparent px-2 py-0.5 text-xs leading-tight text-gray-100 focus:outline-none"
+							className="mr-3 w-full appearance-none border-none bg-transparent px-3 py-2 text-sm font-medium leading-tight text-foreground focus:outline-none placeholder:text-default-400"
 							type="text"
 							id="query"
-							placeholder="search by filename/hash/id, supports regex"
+							placeholder="Search by filename, hash, or ID..."
 							value={query}
 							onChange={(e) => {
 								setCurrentPage(1);
@@ -1675,8 +1669,8 @@ function TorrentsPage() {
 									<div className="h-10 w-10 animate-spin rounded-full border-b-2 border-t-2 border-blue-500"></div>
 								</div>
 							) : (
-								<table className="w-full">
-									<thead>
+								<table className="w-full text-left font-sans text-sm">
+									<thead className="sticky top-0 z-10">
 										<LibraryTableHeader
 											sortBy={sortBy}
 											onSort={handleSort}
@@ -1725,9 +1719,9 @@ function TorrentsPage() {
 														);
 														if (
 															t.status ===
-																UserTorrentStatus.waiting ||
+															UserTorrentStatus.waiting ||
 															t.status ===
-																UserTorrentStatus.downloading
+															UserTorrentStatus.downloading
 														) {
 															const selectedFiles = info.files.filter(
 																(f: RDFileInfo) => f.selected === 1
@@ -1749,7 +1743,7 @@ function TorrentsPage() {
 																		filesize: f.bytes,
 																		link:
 																			selectedFiles.length ===
-																			info.links.length
+																				info.links.length
 																				? info.links[idx]
 																				: '',
 																	})

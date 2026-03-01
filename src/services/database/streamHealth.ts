@@ -94,7 +94,7 @@ export class StreamHealthService extends DatabaseClient {
 				orderBy: [{ ok: 'desc' }, { latencyMs: 'asc' }],
 			});
 
-			return results.map((r) => ({
+			return results.map((r: any) => ({
 				host: r.host,
 				status: r.status,
 				latencyMs: r.latencyMs,
@@ -166,8 +166,8 @@ export class StreamHealthService extends DatabaseClient {
 			// Find hosts that are not in the valid list
 			const validHostSet = new Set(validHosts);
 			const deprecatedHosts = allHosts
-				.map((h) => h.host)
-				.filter((host) => !validHostSet.has(host));
+				.map((h: any) => h.host)
+				.filter((host: string) => !validHostSet.has(host));
 
 			if (deprecatedHosts.length === 0) {
 				return 0;
@@ -230,7 +230,7 @@ export class StreamHealthService extends DatabaseClient {
 			// Calculate average latency
 			let avgLatencyMs: number | null = null;
 			if (workingServers.length > 0) {
-				const totalLatency = workingServers.reduce((sum, s) => sum + (s.latencyMs ?? 0), 0);
+				const totalLatency = workingServers.reduce((sum: number, s: any) => sum + (s.latencyMs ?? 0), 0);
 				avgLatencyMs = totalLatency / workingServers.length;
 			}
 
@@ -244,7 +244,7 @@ export class StreamHealthService extends DatabaseClient {
 				lastChecked: lastCheckedResult?.checkedAt.getTime() ?? null,
 				avgLatencyMs,
 				fastestServer,
-				failedServers: failedServers.map((s) => s.host),
+				failedServers: failedServers.map((s: any) => s.host),
 			};
 		} catch (error: any) {
 			// Handle database errors gracefully - return empty metrics for any Prisma error
@@ -338,7 +338,7 @@ export class StreamHealthService extends DatabaseClient {
 					select: { id: true },
 				});
 				await this.prisma.streamCheckResult.deleteMany({
-					where: { id: { in: oldestRecords.map((r) => r.id) } },
+					where: { id: { in: oldestRecords.map((r: any) => r.id) } },
 				});
 			}
 		} catch (error: any) {
@@ -360,7 +360,7 @@ export class StreamHealthService extends DatabaseClient {
 				take: limit,
 			});
 
-			return results.map((r) => ({
+			return results.map((r: any) => ({
 				ok: r.ok,
 				latencyMs: r.latencyMs,
 				server: r.server,
@@ -410,7 +410,7 @@ export class StreamHealthService extends DatabaseClient {
 					select: { id: true },
 				});
 				await this.prisma.torrentioCheckResult.deleteMany({
-					where: { id: { in: oldestRecords.map((r) => r.id) } },
+					where: { id: { in: oldestRecords.map((r: any) => r.id) } },
 				});
 			}
 		} catch (error: any) {
@@ -432,7 +432,7 @@ export class StreamHealthService extends DatabaseClient {
 				take: limit,
 			});
 
-			return results.map((r) => ({
+			return results.map((r: any) => ({
 				ok: r.ok,
 				latencyMs: r.latencyMs,
 				error: r.error,

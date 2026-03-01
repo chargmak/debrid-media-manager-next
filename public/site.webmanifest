@@ -1,7 +1,7 @@
 {
-  "name": "Debrid Media Manager",
-  "short_name": "DMM",
-  "description": "Debrid Media Manager - Works Offline",
+  "name": "Debrid Media Manager Next",
+  "short_name": "DMM Next",
+  "description": "Debrid Media Manager Next - Works Offline",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -24,5 +24,8 @@
   "scope": "/",
   "prefer_related_applications": false,
   "offline_enabled": true,
-  "categories": ["entertainment", "utilities"]
+  "categories": [
+    "entertainment",
+    "utilities"
+  ]
 }

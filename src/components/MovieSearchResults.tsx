@@ -1,10 +1,11 @@
 import type { DebridService } from '@/hooks/useAvailabilityCheck';
 import { SearchResult } from '@/services/mediasearch';
 import { downloadMagnetFile } from '@/utils/downloadMagnet';
-import { borderColor, btnColor, btnIcon, btnLabel, fileSize } from '@/utils/results';
+import { borderColor, getBtnClasses, btnIcon, btnLabel, fileSize } from '@/utils/results';
 import { isVideo } from '@/utils/selectable';
 import {
 	Cast,
+	Download,
 	Eye as EyeIcon,
 	Folder,
 	Link2,
@@ -269,9 +270,9 @@ const MovieSearchResults = ({
 	};
 
 	const getMovieCountClass = (videoCount: number, isInstantlyAvailable: boolean) => {
-		if (!isInstantlyAvailable) return ''; // No color for unavailable torrents
-		if (videoCount === 1) return 'bg-gray-800';
-		return 'bg-blue-900';
+		if (!isInstantlyAvailable) return 'bg-content1/20';
+		if (videoCount === 1) return 'bg-content2/40';
+		return 'bg-primary/5';
 	};
 
 	return (
@@ -302,9 +303,9 @@ const MovieSearchResults = ({
 				)
 					return null;
 
-				const rdColor = btnColor(r.rdAvailable, r.noVideos);
-				const adColor = btnColor(r.adAvailable, r.noVideos);
-				const tbColor = btnColor(r.tbAvailable, r.noVideos);
+				const rdClasses = getBtnClasses(r.rdAvailable, r.noVideos);
+				const adClasses = getBtnClasses(r.adAvailable, r.noVideos);
+				const tbClasses = getBtnClasses(r.tbAvailable, r.noVideos);
 				const isLoading = loadingHashes.has(r.hash);
 				const isCasting = castingHashes.has(r.hash);
 				const isCastingTb = castingTbHashes.has(r.hash);
@@ -314,20 +315,20 @@ const MovieSearchResults = ({
 				return (
 					<div
 						key={i}
-						className={`border-2 border-gray-700 ${borderColor(downloaded, downloading)} ${getMovieCountClass(r.videoCount, r.rdAvailable || r.adAvailable || r.tbAvailable)} overflow-hidden rounded-lg bg-opacity-30 shadow transition-shadow duration-200 ease-in hover:shadow-lg`}
+						className={`relative flex flex-col border ${borderColor(downloaded, downloading)} ${getMovieCountClass(r.videoCount, r.rdAvailable || r.adAvailable || r.tbAvailable)} overflow-hidden rounded-xl backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:shadow-xl group`}
 					>
 						<div className="space-y-2 p-1">
-							<h2 className="line-clamp-2 overflow-hidden text-ellipsis break-words text-sm font-bold leading-tight">
+							<h2 className="line-clamp-2 min-h-[2.5rem] overflow-hidden text-ellipsis break-words text-sm font-bold leading-tight text-foreground group-hover:text-primary transition-colors">
 								{r.title}
 							</h2>
 
 							{r.videoCount > 0 ? (
 								<div className="text-xs text-gray-300">
 									<span
-										className="haptic-sm inline-flex cursor-pointer items-center rounded bg-black bg-opacity-50 px-2 py-1 hover:bg-opacity-75"
+										className="inline-flex cursor-pointer items-center rounded-lg bg-content3/50 px-2 py-1.5 font-semibold text-default-700 transition-all hover:bg-content3"
 										onClick={() => handleShowInfo(r)}
 									>
-										<Folder className="mr-1 h-4 w-4" />
+										<Folder className="mr-1.5 h-3.5 w-3.5" />
 										{getMovieCountLabel(r.videoCount)}
 									</span>
 									{r.videoCount > 1 ? (
@@ -406,12 +407,12 @@ const MovieSearchResults = ({
 								)}
 								{rdKey && notInLibrary('rd', r.hash) && (
 									<button
-										className={`border-2 border-${rdColor}-500 bg-${rdColor}-900/30 text-${rdColor}-100 hover:bg-${rdColor}-800/50 haptic-sm inline rounded px-1 text-xs transition-colors ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
+										className={`inline-flex items-center justify-center rounded-lg border px-2 py-1.5 text-xs font-bold transition-all ${rdClasses} ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
 										onClick={() => handleAddRd(r.hash)}
 										disabled={isLoading}
 									>
 										{isLoading ? (
-											<Loader2 className="inline-block h-3 w-3 animate-spin" />
+											<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
 										) : (
 											btnIcon(r.rdAvailable)
 										)}
@@ -438,12 +439,12 @@ const MovieSearchResults = ({
 								)}
 								{adKey && notInLibrary('ad', r.hash) && (
 									<button
-										className={`border-2 border-${adColor}-500 bg-${adColor}-900/30 text-${adColor}-100 hover:bg-${adColor}-800/50 haptic-sm inline rounded px-1 text-xs transition-colors ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
+										className={`inline-flex items-center justify-center rounded-lg border px-2 py-1.5 text-xs font-bold transition-all ${adClasses} ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
 										onClick={() => handleAddAd(r.hash)}
 										disabled={isLoading}
 									>
 										{isLoading ? (
-											<Loader2 className="inline-block h-3 w-3 animate-spin" />
+											<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
 										) : (
 											btnIcon(r.adAvailable)
 										)}
@@ -470,12 +471,12 @@ const MovieSearchResults = ({
 								)}
 								{torboxKey && notInLibrary('tb', r.hash) && (
 									<button
-										className={`border-2 border-${tbColor}-500 bg-${tbColor}-900/30 text-${tbColor}-100 hover:bg-${tbColor}-800/50 haptic-sm inline rounded px-1 text-xs transition-colors ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
+										className={`inline-flex items-center justify-center rounded-lg border px-2 py-1.5 text-xs font-bold transition-all ${tbClasses} ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
 										onClick={() => handleAddTb(r.hash)}
 										disabled={isLoading}
 									>
 										{isLoading ? (
-											<Loader2 className="inline-block h-3 w-3 animate-spin" />
+											<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
 										) : (
 											btnIcon(r.tbAvailable)
 										)}
@@ -486,18 +487,18 @@ const MovieSearchResults = ({
 								{/* Cast (RD) btn - only show if cached on RD */}
 								{rdKey && r.rdAvailable && (
 									<button
-										className={`haptic-sm inline rounded border-2 border-green-500 bg-green-900/30 px-1 text-xs text-green-100 transition-colors hover:bg-green-800/50 ${isCasting ? 'cursor-not-allowed opacity-50' : ''}`}
+										className={`inline-flex items-center justify-center rounded-lg border border-success/30 bg-success/10 px-2 py-1.5 text-xs font-bold text-success transition-all hover:bg-success/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
 										onClick={() => handleCastWithLoading(r.hash)}
 										disabled={isCasting}
 									>
 										{isCasting ? (
 											<>
-												<Loader2 className="mr-1 inline-block h-3 w-3 animate-spin" />
+												<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
 												Casting...
 											</>
 										) : (
 											<span className="inline-flex items-center">
-												<Cast className="mr-1 h-3 w-3 text-green-400" />
+												<Cast className="mr-1.5 h-3.5 w-3.5" />
 												Cast (RD)
 											</span>
 										)}
@@ -507,18 +508,18 @@ const MovieSearchResults = ({
 								{/* Cast (TB) btn - only show if cached on TB */}
 								{torboxKey && handleCastTorBox && r.tbAvailable && (
 									<button
-										className={`haptic-sm inline rounded border-2 border-purple-500 bg-purple-900/30 px-1 text-xs text-purple-100 transition-colors hover:bg-purple-800/50 ${isCastingTb ? 'cursor-not-allowed opacity-50' : ''}`}
+										className={`inline-flex items-center justify-center rounded-lg border border-secondary/30 bg-secondary/10 px-2 py-1.5 text-xs font-bold text-secondary transition-all hover:bg-secondary/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
 										onClick={() => handleCastTorBoxWithLoading(r.hash)}
 										disabled={isCastingTb}
 									>
 										{isCastingTb ? (
 											<>
-												<Loader2 className="mr-1 inline-block h-3 w-3 animate-spin" />
+												<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
 												Casting...
 											</>
 										) : (
 											<span className="inline-flex items-center">
-												<Cast className="mr-1 h-3 w-3 text-purple-400" />
+												<Cast className="mr-1.5 h-3.5 w-3.5" />
 												Cast (TB)
 											</span>
 										)}
@@ -528,18 +529,18 @@ const MovieSearchResults = ({
 								{/* Cast (AD) btn - only show if cached on AD */}
 								{adKey && handleCastAllDebrid && r.adAvailable && (
 									<button
-										className={`haptic-sm inline rounded border-2 border-yellow-500 bg-yellow-900/30 px-1 text-xs text-yellow-100 transition-colors hover:bg-yellow-800/50 ${isCastingAd ? 'cursor-not-allowed opacity-50' : ''}`}
+										className={`inline-flex items-center justify-center rounded-lg border border-warning/30 bg-warning/10 px-2 py-1.5 text-xs font-bold text-warning transition-all hover:bg-warning/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
 										onClick={() => handleCastAllDebridWithLoading(r.hash)}
 										disabled={isCastingAd}
 									>
 										{isCastingAd ? (
 											<>
-												<Loader2 className="mr-1 inline-block h-3 w-3 animate-spin" />
+												<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
 												Casting...
 											</>
 										) : (
 											<span className="inline-flex items-center">
-												<Cast className="mr-1 h-3 w-3 text-yellow-400" />
+												<Cast className="mr-1.5 h-3.5 w-3.5" />
 												Cast (AD)
 											</span>
 										)}
@@ -549,7 +550,7 @@ const MovieSearchResults = ({
 								{/* Check service availability btns per service */}
 								{rdKey && !r.rdAvailable && (
 									<button
-										className={`haptic-sm inline rounded border-2 border-yellow-500 bg-yellow-900/30 px-1 text-xs text-yellow-100 transition-colors hover:bg-yellow-800/50 ${isCheckingAvailability || checkingHashes.has(r.hash) ? 'cursor-not-allowed opacity-50' : ''}`}
+										className={`inline-flex items-center justify-center rounded-lg border border-warning/30 bg-warning/10 px-2 py-1.5 text-xs font-bold text-warning transition-all hover:bg-warning/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
 										onClick={() => handleCheckWithLoading(r, ['RD'])}
 										disabled={
 											isCheckingAvailability || checkingHashes.has(r.hash)
@@ -557,12 +558,12 @@ const MovieSearchResults = ({
 									>
 										{isCheckingAvailability || checkingHashes.has(r.hash) ? (
 											<>
-												<Loader2 className="mr-1 inline-block h-3 w-3 animate-spin" />
-												{`Checking ${checkingLabel || 'service'}...`}
+												<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+												{checkingLabel || 'Checking...'}
 											</>
 										) : (
 											<span className="inline-flex items-center">
-												<SearchIcon className="mr-1 h-3 w-3 text-yellow-500" />
+												<SearchIcon className="mr-1.5 h-3.5 w-3.5" />
 												Check RD
 											</span>
 										)}
@@ -570,7 +571,7 @@ const MovieSearchResults = ({
 								)}
 								{adKey && !r.adAvailable && (
 									<button
-										className={`haptic-sm inline rounded border-2 border-orange-500 bg-orange-900/30 px-1 text-xs text-orange-100 transition-colors hover:bg-orange-800/50 ${isCheckingAvailability || checkingHashes.has(r.hash) ? 'cursor-not-allowed opacity-50' : ''}`}
+										className={`inline-flex items-center justify-center rounded-lg border border-[#F59E0B]/30 bg-[#F59E0B]/10 px-2 py-1.5 text-xs font-bold text-[#F59E0B] transition-all hover:bg-[#F59E0B]/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
 										onClick={() => handleCheckWithLoading(r, ['AD'])}
 										disabled={
 											isCheckingAvailability || checkingHashes.has(r.hash)
@@ -578,12 +579,12 @@ const MovieSearchResults = ({
 									>
 										{isCheckingAvailability || checkingHashes.has(r.hash) ? (
 											<>
-												<Loader2 className="mr-1 inline-block h-3 w-3 animate-spin" />
-												{`Checking ${checkingLabel || 'service'}...`}
+												<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+												{checkingLabel || 'Checking...'}
 											</>
 										) : (
 											<span className="inline-flex items-center">
-												<SearchIcon className="mr-1 h-3 w-3 text-orange-500" />
+												<SearchIcon className="mr-1.5 h-3.5 w-3.5" />
 												Check AD
 											</span>
 										)}
@@ -591,7 +592,7 @@ const MovieSearchResults = ({
 								)}
 								{torboxKey && !r.tbAvailable && (
 									<button
-										className={`haptic-sm inline rounded border-2 border-cyan-500 bg-cyan-900/30 px-1 text-xs text-cyan-100 transition-colors hover:bg-cyan-800/50 ${isCheckingAvailability || checkingHashes.has(r.hash) ? 'cursor-not-allowed opacity-50' : ''}`}
+										className={`inline-flex items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-2 py-1.5 text-xs font-bold text-cyan-500 transition-all hover:bg-cyan-500/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
 										onClick={() => handleCheckWithLoading(r, ['TB'])}
 										disabled={
 											isCheckingAvailability || checkingHashes.has(r.hash)
@@ -599,12 +600,12 @@ const MovieSearchResults = ({
 									>
 										{isCheckingAvailability || checkingHashes.has(r.hash) ? (
 											<>
-												<Loader2 className="mr-1 inline-block h-3 w-3 animate-spin" />
-												{`Checking ${checkingLabel || 'service'}...`}
+												<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+												{checkingLabel || 'Checking...'}
 											</>
 										) : (
 											<span className="inline-flex items-center">
-												<SearchIcon className="mr-1 h-3 w-3 text-cyan-500" />
+												<SearchIcon className="mr-1.5 h-3.5 w-3.5" />
 												Check TB
 											</span>
 										)}
@@ -616,7 +617,7 @@ const MovieSearchResults = ({
 									<>
 										{r.rdAvailable && player && (
 											<button
-												className="haptic-sm inline rounded border-2 border-teal-500 bg-teal-900/30 px-1 text-xs text-teal-100 transition-colors hover:bg-teal-800/50"
+												className="inline-flex items-center justify-center rounded-lg border border-secondary/30 bg-secondary/10 px-2 py-1.5 text-xs font-bold text-secondary transition-all hover:bg-secondary/20 backdrop-blur-sm"
 												onClick={() =>
 													window.open(
 														`/api/watch/instant/${player}?token=${rdKey}&hash=${r.hash}&fileId=${getBiggestFileId(r)}`
@@ -624,7 +625,7 @@ const MovieSearchResults = ({
 												}
 											>
 												<span className="inline-flex items-center">
-													<EyeIcon className="mr-1 h-3 w-3 text-teal-500" />
+													<EyeIcon className="mr-1.5 h-3.5 w-3.5" />
 													Watch
 												</span>
 											</button>
@@ -634,11 +635,15 @@ const MovieSearchResults = ({
 
 								{/* Magnet btn */}
 								<button
-									className="haptic-sm inline rounded border-2 border-pink-500 bg-pink-900/30 px-1 text-xs text-pink-100 transition-colors hover:bg-pink-800/50"
+									className="inline-flex items-center justify-center rounded-lg border border-pink-500/30 bg-pink-500/10 px-2 py-1.5 text-xs font-bold text-pink-500 transition-all hover:bg-pink-500/20 backdrop-blur-sm"
 									onClick={() => handleMagnetAction(r.hash)}
 								>
 									<span className="inline-flex items-center">
-										<Link2 className="mr-1 h-3 w-3 text-teal-500" />
+										{downloadMagnets ? (
+											<Download className="mr-1.5 h-3.5 w-3.5" />
+										) : (
+											<Link2 className="mr-1.5 h-3.5 w-3.5" />
+										)}
 										{downloadMagnets ? 'Download' : 'Copy'}
 									</span>
 								</button>

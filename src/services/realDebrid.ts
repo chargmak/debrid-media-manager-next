@@ -392,6 +392,10 @@ export const getCredentials = async (deviceCode: string) => {
 		const response = await genericAxios.get<CredentialsResponse>(url);
 		return response.data;
 	} catch (error: any) {
+		// 403 is expected while waiting for the user to authorize - don't log as error
+		if (axios.isAxiosError(error) && error.response?.status === 403) {
+			return null;
+		}
 		console.error('Error fetching credentials:', error.message);
 		throw error;
 	}

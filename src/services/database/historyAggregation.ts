@@ -93,7 +93,7 @@ export class HistoryAggregationService extends DatabaseClient {
 				const newAvgLatency =
 					data.avgLatencyMs !== null && existing.avgLatencyMs !== null
 						? (existing.avgLatencyMs * existing.checksInHour + data.avgLatencyMs) /
-							newChecksInHour
+						newChecksInHour
 						: (data.avgLatencyMs ?? existing.avgLatencyMs);
 
 				// Merge failed servers (union)
@@ -106,7 +106,7 @@ export class HistoryAggregationService extends DatabaseClient {
 						workingServers: Math.round(
 							(existing.workingServers * existing.checksInHour +
 								data.workingServers) /
-								newChecksInHour
+							newChecksInHour
 						),
 						workingRate: newWorkingRate,
 						avgLatencyMs: newAvgLatency,
@@ -172,8 +172,8 @@ export class HistoryAggregationService extends DatabaseClient {
 						status.ok && status.latencyMs !== null
 							? existing.avgLatencyMs !== null
 								? (existing.avgLatencyMs * existing.successCount +
-										status.latencyMs) /
-									newSuccessCount
+									status.latencyMs) /
+								newSuccessCount
 								: status.latencyMs
 							: existing.avgLatencyMs;
 
@@ -230,40 +230,40 @@ export class HistoryAggregationService extends DatabaseClient {
 			}
 
 			// Calculate weighted aggregates (weighted by checks per hour)
-			const totalChecks = hourlyData.reduce((sum, h) => sum + h.checksInHour, 0);
+			const totalChecks = hourlyData.reduce((sum: number, h: any) => sum + h.checksInHour, 0);
 
 			// Weighted average of working rates
 			const weightedWorkingRateSum = hourlyData.reduce(
-				(sum, h) => sum + h.workingRate * h.checksInHour,
+				(sum: number, h: any) => sum + h.workingRate * h.checksInHour,
 				0
 			);
 			const avgWorkingRate = totalChecks > 0 ? weightedWorkingRateSum / totalChecks : 0;
 
 			// Weighted average of latencies (only for hours with latency data)
-			const hourlyWithLatency = hourlyData.filter((h) => h.avgLatencyMs !== null);
+			const hourlyWithLatency = hourlyData.filter((h: any) => h.avgLatencyMs !== null);
 			const totalChecksWithLatency = hourlyWithLatency.reduce(
-				(sum, h) => sum + h.checksInHour,
+				(sum: number, h: any) => sum + h.checksInHour,
 				0
 			);
 			const weightedLatencySum = hourlyWithLatency.reduce(
-				(sum, h) => sum + (h.avgLatencyMs as number) * h.checksInHour,
+				(sum: number, h: any) => sum + (h.avgLatencyMs as number) * h.checksInHour,
 				0
 			);
 			const avgLatencyMs =
 				totalChecksWithLatency > 0 ? weightedLatencySum / totalChecksWithLatency : null;
 
 			// Min/max are still the extremes across all hourly records
-			const workingRates = hourlyData.map((h) => h.workingRate);
+			const workingRates = hourlyData.map((h: any) => h.workingRate);
 
 			// Get server reliability for this day
 			const serverReliability = await this.prisma.serverReliabilityDaily.findMany({
 				where: { date },
 			});
 
-			const alwaysWorking = serverReliability.filter((s) => s.reliability === 1).length;
-			const neverWorking = serverReliability.filter((s) => s.reliability === 0).length;
+			const alwaysWorking = serverReliability.filter((s: any) => s.reliability === 1).length;
+			const neverWorking = serverReliability.filter((s: any) => s.reliability === 0).length;
 			const flaky = serverReliability.filter(
-				(s) => s.reliability > 0 && s.reliability < 1
+				(s: any) => s.reliability > 0 && s.reliability < 1
 			).length;
 
 			await this.prisma.streamHealthDaily.upsert({
@@ -396,7 +396,7 @@ export class HistoryAggregationService extends DatabaseClient {
 				orderBy: { hour: 'asc' },
 			});
 
-			return data.map((d) => ({
+			return data.map((d: any) => ({
 				hour: d.hour,
 				totalServers: d.totalServers,
 				workingServers: d.workingServers,
@@ -439,7 +439,7 @@ export class HistoryAggregationService extends DatabaseClient {
 				orderBy: { date: 'asc' },
 			});
 
-			return data.map((d) => ({
+			return data.map((d: any) => ({
 				date: d.date,
 				avgWorkingRate: d.avgWorkingRate,
 				minWorkingRate: d.minWorkingRate,
@@ -493,7 +493,7 @@ export class HistoryAggregationService extends DatabaseClient {
 				},
 			});
 
-			const results: ServerReliabilityData[] = data.map((d) => ({
+			const results: ServerReliabilityData[] = data.map((d: any) => ({
 				date: since, // Aggregate date
 				host: d.host,
 				checksCount: d._sum.checksCount ?? 0,
@@ -608,7 +608,7 @@ export class HistoryAggregationService extends DatabaseClient {
 				orderBy: { hour: 'asc' },
 			});
 
-			return data.map((d) => ({
+			return data.map((d: any) => ({
 				hour: d.hour,
 				successCount: d.successCount,
 				totalCount: d.totalCount,
@@ -644,7 +644,7 @@ export class HistoryAggregationService extends DatabaseClient {
 				orderBy: { date: 'asc' },
 			});
 
-			return data.map((d) => ({
+			return data.map((d: any) => ({
 				date: d.date,
 				avgSuccessRate: d.avgSuccessRate,
 				minSuccessRate: d.minSuccessRate,
@@ -692,30 +692,30 @@ export class HistoryAggregationService extends DatabaseClient {
 			}
 
 			// Calculate weighted aggregates (weighted by checks per hour)
-			const totalChecks = hourlyData.reduce((sum, h) => sum + h.totalCount, 0);
+			const totalChecks = hourlyData.reduce((sum: number, h: any) => sum + h.totalCount, 0);
 
 			// Weighted average of success rates
 			const weightedSuccessRateSum = hourlyData.reduce(
-				(sum, h) => sum + h.successRate * h.totalCount,
+				(sum: number, h: any) => sum + h.successRate * h.totalCount,
 				0
 			);
 			const avgSuccessRate = totalChecks > 0 ? weightedSuccessRateSum / totalChecks : 0;
 
 			// Weighted average of latencies (only for hours with latency data)
-			const hourlyWithLatency = hourlyData.filter((h) => h.avgLatencyMs !== null);
+			const hourlyWithLatency = hourlyData.filter((h: any) => h.avgLatencyMs !== null);
 			const totalChecksWithLatency = hourlyWithLatency.reduce(
-				(sum, h) => sum + h.totalCount,
+				(sum: number, h: any) => sum + h.totalCount,
 				0
 			);
 			const weightedLatencySum = hourlyWithLatency.reduce(
-				(sum, h) => sum + (h.avgLatencyMs as number) * h.totalCount,
+				(sum: number, h: any) => sum + (h.avgLatencyMs as number) * h.totalCount,
 				0
 			);
 			const avgLatencyMs =
 				totalChecksWithLatency > 0 ? weightedLatencySum / totalChecksWithLatency : null;
 
 			// Min/max are the extremes across all hourly records
-			const successRates = hourlyData.map((h) => h.successRate);
+			const successRates = hourlyData.map((h: any) => h.successRate);
 
 			await this.prisma.torrentioHealthDaily.upsert({
 				where: { date },

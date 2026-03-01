@@ -166,11 +166,11 @@ export class HashSearchService extends DatabaseClient {
 		// Apply substring filter in-memory
 		return results
 			.filter(
-				(r) =>
+				(r: any) =>
 					matchesSubstringFilters(r.filename, substringFilters) ||
 					matchesSubstringFilters(r.originalFilename, substringFilters)
 			)
-			.map((r) => ({
+			.map((r: any) => ({
 				hash: r.hash,
 				source: 'available' as const,
 				filename: r.filename,
@@ -210,12 +210,12 @@ export class HashSearchService extends DatabaseClient {
 		});
 
 		return results
-			.map((r) => {
+			.map((r: any) => {
 				const filename = r.url.split('/').pop() || 'Unknown';
 				return { ...r, filename, sizeNum: Number(r.size) };
 			})
-			.filter((r) => matchesSubstringFilters(r.filename, substringFilters))
-			.map((r) => ({
+			.filter((r: any) => matchesSubstringFilters(r.filename, substringFilters))
+			.map((r: any) => ({
 				hash: r.hash,
 				source: 'cast' as const,
 				filename: r.filename,
@@ -251,7 +251,7 @@ export class HashSearchService extends DatabaseClient {
 		}>;
 
 		return scrapedResults
-			.filter((r) => {
+			.filter((r: any) => {
 				const sizeInBytes = r.fileSize * 1024 * 1024;
 
 				// Size filter
@@ -262,7 +262,7 @@ export class HashSearchService extends DatabaseClient {
 				// Substring filter
 				return matchesSubstringFilters(r.title, substringFilters);
 			})
-			.map((r) => ({
+			.map((r: any) => ({
 				hash: r.hash,
 				source: 'scraped' as const,
 				filename: r.title,

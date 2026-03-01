@@ -1,3 +1,5 @@
+import { HeroUIProvider } from '@heroui/react';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import FloatingLibraryIndicator from '@/components/FloatingLibraryIndicator';
 import { ModalProvider } from '@/components/modals/ModalContext';
 import { LibraryCacheProvider } from '@/contexts/LibraryCacheContext';
@@ -88,12 +90,16 @@ export default function App({ Component, pageProps }: AppWithProvidersProps) {
 	);
 
 	return (
-		<ModalProvider>
-			{shouldWrapWithLibraryProvider ? (
-				<LibraryCacheProvider>{AppContent}</LibraryCacheProvider>
-			) : (
-				AppContent
-			)}
-		</ModalProvider>
+		<HeroUIProvider>
+			<NextThemesProvider attribute="class" defaultTheme="dark">
+				<ModalProvider>
+					{shouldWrapWithLibraryProvider ? (
+						<LibraryCacheProvider>{AppContent}</LibraryCacheProvider>
+					) : (
+						AppContent
+					)}
+				</ModalProvider>
+			</NextThemesProvider>
+		</HeroUIProvider>
 	);
 }

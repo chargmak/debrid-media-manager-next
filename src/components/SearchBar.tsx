@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import Poster from './poster';
+import { Input, Button, Card } from '@heroui/react';
+import { Search } from 'lucide-react';
 
 function useDebounce<T>(value: T, delay: number): T {
 	const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -95,71 +97,77 @@ export function SearchBar({
 
 	return (
 		<div className={`relative ${className}`}>
-			<form onSubmit={handleSearch}>
-				<div className="flex items-center border-b-2 border-gray-500 py-2">
-					<input
-						className="mr-3 w-full appearance-none border-none bg-transparent px-2 py-1 text-lg leading-tight text-white focus:outline-none"
-						type="text"
-						placeholder={placeholder}
-						value={typedQuery}
-						onChange={(e) => setTypedQuery(e.target.value)}
-						onFocus={() => setShowSuggestions(true)}
-					/>
-					<button
-						type="submit"
-						className="haptic-sm flex-shrink-0 rounded-lg border-2 border-gray-500 bg-gray-800/30 px-4 py-2 text-sm font-medium text-gray-100 transition-all hover:bg-gray-700/50"
-					>
-						Search
-					</button>
-				</div>
+			<form onSubmit={handleSearch} className="flex gap-2 w-full">
+				<Input
+					classNames={{
+						base: "w-full",
+						input: "text-base font-medium placeholder:text-default-400",
+						inputWrapper: "h-14 bg-content2/50 backdrop-blur-xl border-white/5 transition-all hover:bg-content2/80 focus-within:bg-content2/80 group-data-[focus=true]:border-primary",
+					}}
+					placeholder={placeholder}
+					value={typedQuery}
+					onValueChange={setTypedQuery}
+					onFocus={() => setShowSuggestions(true)}
+					startContent={<Search className="text-primary min-w-5 min-h-5" />}
+					radius="lg"
+					variant="bordered"
+					isClearable
+					onClear={() => setTypedQuery('')}
+				/>
+				<Button
+					type="submit"
+					color="primary"
+					className="h-14 px-8 text-base font-black uppercase tracking-wider shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95"
+					radius="lg"
+				>
+					Search
+				</Button>
 			</form>
 
 			{showSuggestions && suggestions.length > 0 && (
 				<div
-					ref={suggestionsRef}
-					className="absolute z-50 mt-2 w-full divide-y divide-gray-700/50 overflow-hidden rounded-xl border border-gray-700 bg-gray-800/95 shadow-2xl backdrop-blur-sm"
+					ref={suggestionsRef as any}
+					className="absolute z-50 mt-4 w-full overflow-hidden glass-card shadow-2xl animate-in fade-in slide-in-from-top-2 duration-300"
 				>
-					{suggestions.map((suggestion, index) => {
-						const media = suggestion.movie || suggestion.show;
-						if (!media) return null;
-						return (
-							<div
-								key={`${media.ids?.trakt}-${index}`}
-								className="group relative h-[64px] cursor-pointer overflow-hidden transition-all duration-300 ease-in-out"
-								onClick={() => handleSuggestionClick(suggestion)}
-							>
-								{/* Content */}
-								<div className="relative z-20 flex h-full items-center">
-									<div className="flex w-[calc(100%-42px)] items-center justify-between px-3">
-										<div className="flex max-w-[70%] items-center space-x-2">
-											<span className="line-clamp-1 text-base font-medium text-white transition-colors group-hover:text-blue-400">
+					<div className="flex flex-col">
+						{suggestions.map((suggestion, index) => {
+							const media = suggestion.movie || suggestion.show;
+							if (!media) return null;
+							return (
+								<div
+									key={`${media.ids?.trakt}-${index}`}
+									className="group flex items-center gap-4 px-4 py-3 cursor-pointer transition-colors hover:bg-white/5 first:rounded-t-3xl last:rounded-b-3xl"
+									onClick={() => handleSuggestionClick(suggestion)}
+								>
+									<div className="flex-1 min-w-0">
+										<div className="flex items-center gap-2">
+											<span className="text-sm font-bold text-white transition-colors group-hover:text-primary truncate">
 												{media.title}
 											</span>
-											<span className="whitespace-nowrap text-sm text-gray-400">
-												({media.year})
+											<span className="text-[10px] font-bold text-default-400">
+												{media.year}
 											</span>
 										</div>
-										<span className="whitespace-nowrap rounded-full bg-gray-900/80 px-2 py-0.5 text-xs text-gray-400">
-											{suggestion.type.charAt(0).toUpperCase() +
-												suggestion.type.slice(1)}
-										</span>
+										<div className="flex items-center gap-2 mt-1">
+											<span className={`text-[10px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded ${suggestion.type === 'movie' ? 'bg-secondary/10 text-secondary' : 'bg-primary/10 text-primary'}`}>
+												{suggestion.type}
+											</span>
+										</div>
 									</div>
 
-									{/* Right-side poster (full view) */}
-									<div className="absolute right-0 top-0 z-30 aspect-[2/3] h-full">
-										{media.ids?.imdb && (
-											<div className="h-full w-full">
-												<Poster
-													imdbId={media.ids.imdb}
-													title={media.title}
-												/>
-											</div>
-										)}
-									</div>
+									{media.ids?.imdb && (
+										<div className="h-12 w-8 shrink-0 overflow-hidden rounded-md bg-content3/50 shadow-lg">
+											<Poster
+												imdbId={media.ids.imdb}
+												title={media.title}
+												className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+											/>
+										</div>
+									)}
 								</div>
-							</div>
-						);
-					})}
+							);
+						})}
+					</div>
 				</div>
 			)}
 		</div>

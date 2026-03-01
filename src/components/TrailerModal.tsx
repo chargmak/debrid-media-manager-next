@@ -1,5 +1,5 @@
-import { X } from 'lucide-react';
 import React, { useEffect } from 'react';
+import { Modal, ModalContent } from '@heroui/react';
 
 interface TrailerModalProps {
 	trailerUrl: string;
@@ -31,29 +31,24 @@ const TrailerModal: React.FC<TrailerModalProps> = ({ trailerUrl, onClose, title 
 	}
 
 	return (
-		<div
-			className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
-			onClick={onClose}
-		>
-			<div className="relative w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
-				<button
-					onClick={onClose}
-					className="absolute -right-4 -top-4 z-10 rounded-full bg-red-600 p-2 text-white transition-colors hover:bg-red-700"
-					aria-label="Close trailer"
-				>
-					<X size={24} />
-				</button>
-				<div className="relative pb-[56.25%]">
-					<iframe
-						className="absolute inset-0 h-full w-full rounded-lg"
-						src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
-						title={title ? `${title} - Trailer` : 'Trailer'}
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						allowFullScreen
-					/>
-				</div>
-			</div>
-		</div>
+		<Modal isOpen={true} onOpenChange={(open) => !open && onClose()} size="4xl" backdrop="blur" classNames={{
+			base: "bg-black/90",
+			closeButton: "hover:bg-default-100/50 active:bg-default-200/50 text-white z-50",
+		}}>
+			<ModalContent>
+				{(onClose) => (
+					<div className="relative pb-[56.25%] w-full h-full">
+						<iframe
+							className="absolute inset-0 h-full w-full rounded-lg"
+							src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+							title={title ? `${title} - Trailer` : 'Trailer'}
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allowFullScreen
+						/>
+					</div>
+				)}
+			</ModalContent>
+		</Modal>
 	);
 };
 

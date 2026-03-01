@@ -1,7 +1,8 @@
-import { Clock3, Drama, Search } from 'lucide-react';
+import { Clock3, Drama, Search, Shuffle } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
+import { Button } from '@heroui/react';
 
 interface BrowseSectionProps {
 	terms: string[];
@@ -22,34 +23,58 @@ export function BrowseSection({ terms }: BrowseSectionProps) {
 	};
 
 	return (
-		<div className="flex w-full items-center justify-center gap-2 overflow-x-auto pb-2">
-			<Link
-				href="/browse"
-				className="haptic-sm flex flex-1 items-center justify-center rounded border-2 border-blue-500 bg-blue-900/30 px-2 py-1 text-xs font-medium text-blue-100 transition-colors hover:bg-blue-800/50"
-			>
-				<Drama className="mr-1 inline-block h-3 w-3 text-blue-500" />
-				genres
-			</Link>
-			<Link
-				href="/browse/recent"
-				className="haptic-sm flex flex-1 items-center justify-center rounded border-2 border-blue-500 bg-blue-900/30 px-2 py-1 text-xs font-medium text-blue-100 transition-colors hover:bg-blue-800/50"
-			>
-				<Clock3 className="mr-1 inline-block h-3 w-3 text-blue-500" />
-				recent
-			</Link>
-			<Link
-				href={`/browse/${randomTerm.replace(/\W/gi, '')}`}
-				className="haptic-sm flex flex-1 items-center justify-center rounded border-2 border-blue-500 bg-blue-900/30 px-2 py-1 text-xs font-medium text-blue-100 transition-colors hover:bg-blue-800/50"
-			>
-				{randomTerm}
-			</Link>
-			<button
-				onClick={handleCustomSearch}
-				className="haptic-sm flex flex-1 items-center justify-center rounded border-2 border-blue-500 bg-blue-900/30 px-2 py-1 text-xs font-medium text-blue-100 transition-colors hover:bg-blue-800/50"
-			>
-				<Search className="mr-1 inline-block h-3 w-3 text-blue-500" />
-				browse
-			</button>
+		<div className="w-full">
+			<h2 className="text-xs font-semibold uppercase tracking-wider text-default-400 mb-3 px-1">
+				Discover
+			</h2>
+			<div className="grid grid-cols-4 gap-2">
+				<Button
+					as={Link}
+					href="/browse"
+					className="h-14 font-medium bg-content1/40 hover:bg-content2 border border-divider backdrop-blur-sm transition-all"
+					variant="flat"
+				>
+					<div className="flex flex-col items-center gap-1">
+						<Drama className="h-4 w-4 text-primary" />
+						<span className="text-[10px] text-default-400 uppercase tracking-wide">Genres</span>
+					</div>
+				</Button>
+
+				<Button
+					as={Link}
+					href="/browse/recent"
+					className="h-14 font-medium bg-content1/40 hover:bg-content2 border border-divider backdrop-blur-sm transition-all"
+					variant="flat"
+				>
+					<div className="flex flex-col items-center gap-1">
+						<Clock3 className="h-4 w-4 text-secondary" />
+						<span className="text-[10px] text-default-400 uppercase tracking-wide">Recent</span>
+					</div>
+				</Button>
+
+				<Button
+					as={Link}
+					href={`/browse/${randomTerm.replace(/\W/gi, '')}`}
+					className="h-14 font-medium bg-content1/40 hover:bg-content2 border border-divider backdrop-blur-sm transition-all"
+					variant="flat"
+				>
+					<div className="flex flex-col items-center gap-1 max-w-full">
+						<Shuffle className="h-4 w-4 text-warning" />
+						<span className="text-[10px] text-default-400 uppercase tracking-wide truncate w-full">{randomTerm}</span>
+					</div>
+				</Button>
+
+				<Button
+					onClick={handleCustomSearch}
+					className="h-14 font-medium bg-content1/40 hover:bg-content2 border border-divider backdrop-blur-sm transition-all"
+					variant="flat"
+				>
+					<div className="flex flex-col items-center gap-1">
+						<Search className="h-4 w-4 text-success" />
+						<span className="text-[10px] text-default-400 uppercase tracking-wide">Browse</span>
+					</div>
+				</Button>
+			</div>
 		</div>
 	);
 }

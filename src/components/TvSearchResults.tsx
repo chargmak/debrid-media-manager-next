@@ -2,9 +2,10 @@ import type { DebridService } from '@/hooks/useAvailabilityCheck';
 import { SearchResult } from '@/services/mediasearch';
 import { downloadMagnetFile } from '@/utils/downloadMagnet';
 import { getEpisodeCountClass, getEpisodeCountLabel } from '@/utils/episodeUtils';
-import { borderColor, btnColor, btnIcon, btnLabel, fileSize } from '@/utils/results';
+import { borderColor, getBtnClasses, btnIcon, btnLabel, fileSize } from '@/utils/results';
 import {
 	Cast,
+	Download,
 	Eye as EyeIcon,
 	Folder,
 	Link2,
@@ -237,10 +238,10 @@ const TvSearchResults: React.FC<TvSearchResultsProps> = ({
 		videoCount: number;
 	}) => (
 		<span
-			className="haptic-sm inline-flex cursor-pointer items-center rounded bg-black bg-opacity-50 px-2 py-1 hover:bg-opacity-75"
+			className="inline-flex cursor-pointer items-center rounded-lg bg-content3/50 px-2 py-1.5 font-semibold text-default-700 transition-all hover:bg-content3"
 			onClick={() => handleShowInfo(result)}
 		>
-			<Folder className="mr-1 h-4 w-4" />
+			<Folder className="mr-1.5 h-3.5 w-3.5" />
 			{getEpisodeCountLabel(videoCount, expectedEpisodeCount)}
 		</span>
 	);
@@ -257,89 +258,70 @@ const TvSearchResults: React.FC<TvSearchResultsProps> = ({
 		<div className="mx-1 my-1 grid grid-cols-1 gap-2 overflow-x-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
 			{filteredResults && filteredResults.length > 0
 				? filteredResults.map((r: SearchResult, i: number) => {
-						const downloaded =
-							isDownloaded('rd', r.hash) ||
-							isDownloaded('ad', r.hash) ||
-							isDownloaded('tb', r.hash);
-						const downloading =
-							isDownloading('rd', r.hash) ||
-							isDownloading('ad', r.hash) ||
-							isDownloading('tb', r.hash);
-						const inYourLibrary = downloaded || downloading;
+					const downloaded =
+						isDownloaded('rd', r.hash) ||
+						isDownloaded('ad', r.hash) ||
+						isDownloaded('tb', r.hash);
+					const downloading =
+						isDownloading('rd', r.hash) ||
+						isDownloading('ad', r.hash) ||
+						isDownloading('tb', r.hash);
+					const inYourLibrary = downloaded || downloading;
 
-						if (
-							onlyShowCached &&
-							!r.rdAvailable &&
-							!r.adAvailable &&
-							!r.tbAvailable &&
-							!inYourLibrary
-						)
-							return null;
-						if (
-							episodeMaxSize !== '0' &&
-							(r.medianFileSize ?? r.fileSize) > parseFloat(episodeMaxSize) * 1024 &&
-							!inYourLibrary
-						)
-							return null;
+					if (
+						onlyShowCached &&
+						!r.rdAvailable &&
+						!r.adAvailable &&
+						!r.tbAvailable &&
+						!inYourLibrary
+					)
+						return null;
+					if (
+						episodeMaxSize !== '0' &&
+						(r.medianFileSize ?? r.fileSize) > parseFloat(episodeMaxSize) * 1024 &&
+						!inYourLibrary
+					)
+						return null;
 
-						const rdColor = btnColor(r.rdAvailable, r.noVideos);
-						const adColor = btnColor(r.adAvailable, r.noVideos);
-						let epRegex1 = /S(\d+)\s?E(\d+)/i;
-						let epRegex2 = /[^\d](\d{1,2})x(\d{1,2})[^\d]/i;
-						const castableFileIds = r.files
-							.filter((f) => f.filename.match(epRegex1) || f.filename.match(epRegex2))
-							.map((f) => `${f.fileId}`);
+					const rdClasses = getBtnClasses(r.rdAvailable, r.noVideos);
+					const adClasses = getBtnClasses(r.adAvailable, r.noVideos);
+					const tbClasses = getBtnClasses(r.tbAvailable, r.noVideos);
+					let epRegex1 = /S(\d+)\s?E(\d+)/i;
+					let epRegex2 = /[^\d](\d{1,2})x(\d{1,2})[^\d]/i;
+					const castableFileIds = r.files
+						.filter((f) => f.filename.match(epRegex1) || f.filename.match(epRegex2))
+						.map((f) => `${f.fileId}`);
 
-						const isLoading = loadingHashes.has(r.hash);
-						const isCasting = castingHashes.has(r.hash);
-						const isCastingTb = castingTbHashes.has(r.hash);
-						const isCastingAd = castingAdHashes.has(r.hash);
-						const checkingLabel = checkingHashes.get(r.hash);
+					const isLoading = loadingHashes.has(r.hash);
+					const isCasting = castingHashes.has(r.hash);
+					const isCastingTb = castingTbHashes.has(r.hash);
+					const isCastingAd = castingAdHashes.has(r.hash);
+					const checkingLabel = checkingHashes.get(r.hash);
 
-						return (
-							<div
-								key={i}
-								className={`border-2 border-gray-700 ${borderColor(downloaded, downloading)} ${getEpisodeCountClass(r.videoCount, expectedEpisodeCount, r.rdAvailable || r.adAvailable || r.tbAvailable)} overflow-hidden rounded-lg bg-opacity-30 shadow transition-shadow duration-200 ease-in hover:shadow-lg`}
-							>
-								<div className="space-y-2 p-1">
-									<h2 className="line-clamp-2 overflow-hidden text-ellipsis break-words text-sm font-bold leading-tight">
-										{r.title}
-									</h2>
+					return (
+						<div
+							key={i}
+							className={`relative flex flex-col border ${borderColor(downloaded, downloading)} ${getEpisodeCountClass(r.videoCount, expectedEpisodeCount, r.rdAvailable || r.adAvailable || r.tbAvailable)} overflow-hidden rounded-xl backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:shadow-xl group`}
+						>
+							<div className="space-y-2 p-1">
+								<h2 className="line-clamp-2 min-h-[2.5rem] overflow-hidden text-ellipsis break-words text-sm font-bold leading-tight text-foreground group-hover:text-primary transition-colors">
+									{r.title}
+								</h2>
 
-									{r.videoCount > 0 ? (
-										<div className="text-xs text-gray-300">
-											<EpisodeCountDisplay
-												result={r}
-												videoCount={r.videoCount}
-											/>
-											<span className="ml-2">
-												Total: {fileSize(r.fileSize)} GB; Median:{' '}
-												{fileSize(r.medianFileSize)} GB
-												{r.trackerStats &&
-													!r.rdAvailable &&
-													!r.adAvailable &&
-													!r.tbAvailable &&
-													(r.trackerStats.seeders > 0 ? (
-														<span className="text-green-400">
-															{' '}
-															• Has seeders
-														</span>
-													) : (
-														<span className="text-red-400">
-															{' '}
-															• No seeders
-														</span>
-													))}
-											</span>
-										</div>
-									) : (
-										<div className="text-xs text-gray-300">
-											Total: {fileSize(r.fileSize)} GB
+								{r.videoCount > 0 ? (
+									<div className="text-xs text-gray-300">
+										<EpisodeCountDisplay
+											result={r}
+											videoCount={r.videoCount}
+										/>
+										<span className="ml-2">
+											Total: {fileSize(r.fileSize)} GB; Median:{' '}
+											{fileSize(r.medianFileSize)} GB
 											{r.trackerStats &&
 												!r.rdAvailable &&
 												!r.adAvailable &&
 												!r.tbAvailable &&
-												(r.trackerStats.hasActivity ? (
+												(r.trackerStats.seeders > 0 ? (
 													<span className="text-green-400">
 														{' '}
 														• Has seeders
@@ -350,314 +332,321 @@ const TvSearchResults: React.FC<TvSearchResultsProps> = ({
 														• No seeders
 													</span>
 												))}
-										</div>
+										</span>
+									</div>
+								) : (
+									<div className="text-xs text-gray-300">
+										Total: {fileSize(r.fileSize)} GB
+										{r.trackerStats &&
+											!r.rdAvailable &&
+											!r.adAvailable &&
+											!r.tbAvailable &&
+											(r.trackerStats.hasActivity ? (
+												<span className="text-green-400">
+													{' '}
+													• Has seeders
+												</span>
+											) : (
+												<span className="text-red-400">
+													{' '}
+													• No seeders
+												</span>
+											))}
+									</div>
+								)}
+
+								<div className="space-x-1 space-y-1">
+									{/* RD download/delete */}
+									{rdKey && inLibrary('rd', r.hash) && (
+										<button
+											className={`inline-flex items-center justify-center rounded-lg border border-danger/30 bg-danger/10 px-2 py-1.5 text-xs font-bold text-danger transition-all hover:bg-danger/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
+											onClick={() => handleDeleteRd(r.hash)}
+											disabled={isLoading}
+										>
+											{isLoading ? (
+												<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+											) : (
+												<X className="mr-1.5 h-3.5 w-3.5" />
+											)}
+											{isLoading
+												? 'Removing...'
+												: `RD (${hashAndProgress[`rd:${r.hash}`] + '%'})`}
+										</button>
+									)}
+									{rdKey && notInLibrary('rd', r.hash) && (
+										<button
+											className={`inline-flex items-center justify-center rounded-lg border px-2 py-1.5 text-xs font-bold transition-all ${rdClasses} ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
+											onClick={() => handleAddRd(r.hash)}
+											disabled={isLoading}
+										>
+											{isLoading ? (
+												<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+											) : (
+												btnIcon(r.rdAvailable)
+											)}
+											{isLoading ? 'Adding...' : btnLabel(r.rdAvailable, 'RD')}
+										</button>
 									)}
 
-									<div className="space-x-1 space-y-1">
-										{/* RD download/delete */}
-										{rdKey && inLibrary('rd', r.hash) && (
-											<button
-												className={`haptic-sm inline rounded border-2 border-red-500 bg-red-900/30 px-1 text-xs text-red-100 transition-colors hover:bg-red-800/50 ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
-												onClick={() => handleDeleteRd(r.hash)}
-												disabled={isLoading}
-											>
-												{isLoading ? (
-													<span className="inline-block animate-spin">
-														⌛
-													</span>
-												) : (
-													<X className="mr-2 inline h-3 w-3" />
-												)}
-												{isLoading
-													? 'Removing...'
-													: `RD (${hashAndProgress[`rd:${r.hash}`] + '%'})`}
-											</button>
-										)}
-										{rdKey && notInLibrary('rd', r.hash) && (
-											<button
-												className={`border-2 border-${rdColor}-500 bg-${rdColor}-900/30 text-${rdColor}-100 hover:bg-${rdColor}-800/50 haptic-sm inline rounded px-1 text-xs transition-colors ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
-												onClick={() => handleAddRd(r.hash)}
-												disabled={isLoading}
-											>
-												{isLoading ? (
-													<span className="inline-block animate-spin">
-														⌛
-													</span>
-												) : (
-													btnIcon(r.rdAvailable)
-												)}
-												{isLoading
-													? 'Adding...'
-													: btnLabel(r.rdAvailable, 'RD')}
-											</button>
-										)}
+									{/* AD download/delete */}
+									{adKey && inLibrary('ad', r.hash) && (
+										<button
+											className={`inline-flex items-center justify-center rounded-lg border border-danger/30 bg-danger/10 px-2 py-1.5 text-xs font-bold text-danger transition-all hover:bg-danger/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
+											onClick={() => handleDeleteAd(r.hash)}
+											disabled={isLoading}
+										>
+											{isLoading ? (
+												<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+											) : (
+												<X className="mr-1.5 h-3.5 w-3.5" />
+											)}
+											{isLoading
+												? 'Removing...'
+												: `AD (${hashAndProgress[`ad:${r.hash}`] + '%'})`}
+										</button>
+									)}
+									{adKey && notInLibrary('ad', r.hash) && (
+										<button
+											className={`inline-flex items-center justify-center rounded-lg border px-2 py-1.5 text-xs font-bold transition-all ${adClasses} ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
+											onClick={() => handleAddAd(r.hash)}
+											disabled={isLoading}
+										>
+											{isLoading ? (
+												<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+											) : (
+												btnIcon(r.adAvailable)
+											)}
+											{isLoading ? 'Adding...' : btnLabel(r.adAvailable, 'AD')}
+										</button>
+									)}
 
-										{/* AD download/delete */}
-										{adKey && inLibrary('ad', r.hash) && (
-											<button
-												className={`haptic-sm inline rounded border-2 border-red-500 bg-red-900/30 px-1 text-xs text-red-100 transition-colors hover:bg-red-800/50 ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
-												onClick={() => handleDeleteAd(r.hash)}
-												disabled={isLoading}
-											>
-												{isLoading ? (
-													<span className="inline-block animate-spin">
-														⌛
-													</span>
-												) : (
-													<X className="mr-2 inline h-3 w-3" />
-												)}
-												{isLoading
-													? 'Removing...'
-													: `AD (${hashAndProgress[`ad:${r.hash}`] + '%'})`}
-											</button>
-										)}
-										{adKey && notInLibrary('ad', r.hash) && (
-											<button
-												className={`border-2 border-${adColor}-500 bg-${adColor}-900/30 text-${adColor}-100 hover:bg-${adColor}-800/50 haptic-sm inline rounded px-1 text-xs transition-colors ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
-												onClick={() => handleAddAd(r.hash)}
-												disabled={isLoading}
-											>
-												{isLoading ? (
-													<span className="inline-block animate-spin">
-														⌛
-													</span>
-												) : (
-													btnIcon(r.adAvailable)
-												)}
-												{isLoading
-													? 'Adding...'
-													: btnLabel(r.adAvailable, 'AD')}
-											</button>
-										)}
+									{/* TorBox download/delete */}
+									{torboxKey && inLibrary('tb', r.hash) && (
+										<button
+											className={`inline-flex items-center justify-center rounded-lg border border-danger/30 bg-danger/10 px-2 py-1.5 text-xs font-bold text-danger transition-all hover:bg-danger/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
+											onClick={() => deleteTb(r.hash)}
+											disabled={isLoading}
+										>
+											{isLoading ? (
+												<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+											) : (
+												<X className="mr-1.5 h-3.5 w-3.5" />
+											)}
+											{isLoading
+												? 'Removing...'
+												: `TB (${hashAndProgress[`tb:${r.hash}`] + '%'})`}
+										</button>
+									)}
+									{torboxKey && notInLibrary('tb', r.hash) && (
+										<button
+											className={`inline-flex items-center justify-center rounded-lg border px-2 py-1.5 text-xs font-bold transition-all ${tbClasses} ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
+											onClick={() => addTb(r.hash)}
+											disabled={isLoading}
+										>
+											{isLoading ? (
+												<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+											) : (
+												btnIcon(r.tbAvailable)
+											)}
+											{isLoading ? 'Adding...' : btnLabel(r.tbAvailable, 'TB')}
+										</button>
+									)}
 
-										{/* TorBox download/delete */}
-										{torboxKey && inLibrary('tb', r.hash) && (
-											<button
-												className={`haptic-sm inline rounded border-2 border-red-500 bg-red-900/30 px-1 text-xs text-red-100 transition-colors hover:bg-red-800/50 ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
-												onClick={() => deleteTb(r.hash)}
-												disabled={isLoading}
-											>
-												{isLoading ? (
-													<span className="inline-block animate-spin">
-														⌛
-													</span>
-												) : (
-													<X className="mr-2 inline h-3 w-3" />
-												)}
-												{isLoading
-													? 'Removing...'
-													: `TB (${hashAndProgress[`tb:${r.hash}`] + '%'})`}
-											</button>
-										)}
-										{torboxKey && notInLibrary('tb', r.hash) && (
-											<button
-												className={`border-2 border-${btnColor(r.tbAvailable, r.noVideos)}-500 bg-${btnColor(r.tbAvailable, r.noVideos)}-900/30 text-${btnColor(r.tbAvailable, r.noVideos)}-100 hover:bg-${btnColor(r.tbAvailable, r.noVideos)}-800/50 haptic-sm inline rounded px-1 text-xs transition-colors ${isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
-												onClick={() => addTb(r.hash)}
-												disabled={isLoading}
-											>
-												{isLoading ? (
-													<span className="inline-block animate-spin">
-														⌛
-													</span>
-												) : (
-													btnIcon(r.tbAvailable)
-												)}
-												{isLoading
-													? 'Adding...'
-													: btnLabel(r.tbAvailable, 'TB')}
-											</button>
-										)}
+									{/* Cast (RD) button - only show if cached on RD */}
+									{rdKey && r.rdAvailable && castableFileIds.length > 0 && (
+										<button
+											className={`inline-flex items-center justify-center rounded-lg border border-success/30 bg-success/10 px-2 py-1.5 text-xs font-bold text-success transition-all hover:bg-success/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
+											onClick={() =>
+												handleCastWithLoading(r.hash, castableFileIds)
+											}
+											disabled={isCasting}
+										>
+											{isCasting ? (
+												<>
+													<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+													Casting...
+												</>
+											) : (
+												<span className="inline-flex items-center">
+													<Cast className="mr-1.5 h-3.5 w-3.5" />
+													Cast (RD)
+												</span>
+											)}
+										</button>
+									)}
 
-										{/* Cast (RD) button - only show if cached on RD */}
-										{rdKey && r.rdAvailable && castableFileIds.length > 0 && (
+									{/* Cast (TB) button - only show if cached on TB */}
+									{torboxKey &&
+										handleCastTorBox &&
+										r.tbAvailable &&
+										castableFileIds.length > 0 && (
 											<button
-												className={`haptic-sm inline rounded border-2 border-green-500 bg-green-900/30 px-1 text-xs text-green-100 transition-colors hover:bg-green-800/50 ${isCasting ? 'cursor-not-allowed opacity-50' : ''}`}
+												className={`inline-flex items-center justify-center rounded-lg border border-secondary/30 bg-secondary/10 px-2 py-1.5 text-xs font-bold text-secondary transition-all hover:bg-secondary/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
 												onClick={() =>
-													handleCastWithLoading(r.hash, castableFileIds)
+													handleCastTorBoxWithLoading(
+														r.hash,
+														castableFileIds
+													)
 												}
-												disabled={isCasting}
+												disabled={isCastingTb}
 											>
-												{isCasting ? (
+												{isCastingTb ? (
 													<>
-														<Loader2 className="mr-1 inline-block h-3 w-3 animate-spin" />
+														<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
 														Casting...
 													</>
 												) : (
-													<>
-														<Cast className="mr-1 inline-block h-3 w-3 text-green-400" />
-														Cast (RD)
-													</>
+													<span className="inline-flex items-center">
+														<Cast className="mr-1.5 h-3.5 w-3.5" />
+														Cast (TB)
+													</span>
 												)}
 											</button>
 										)}
 
-										{/* Cast (TB) button - only show if cached on TB */}
-										{torboxKey &&
-											handleCastTorBox &&
-											r.tbAvailable &&
-											castableFileIds.length > 0 && (
-												<button
-													className={`haptic-sm inline rounded border-2 border-purple-500 bg-purple-900/30 px-1 text-xs text-purple-100 transition-colors hover:bg-purple-800/50 ${isCastingTb ? 'cursor-not-allowed opacity-50' : ''}`}
-													onClick={() =>
-														handleCastTorBoxWithLoading(
-															r.hash,
-															castableFileIds
-														)
-													}
-													disabled={isCastingTb}
-												>
-													{isCastingTb ? (
-														<>
-															<Loader2 className="mr-1 inline-block h-3 w-3 animate-spin" />
-															Casting...
-														</>
-													) : (
-														<>
-															<Cast className="mr-1 inline-block h-3 w-3 text-purple-400" />
-															Cast (TB)
-														</>
-													)}
-												</button>
-											)}
-
-										{/* Cast (AD) button - only show if cached on AD */}
-										{adKey &&
-											handleCastAllDebrid &&
-											r.adAvailable &&
-											castableFileIds.length > 0 && (
-												<button
-													className={`haptic-sm inline rounded border-2 border-yellow-500 bg-yellow-900/30 px-1 text-xs text-yellow-100 transition-colors hover:bg-yellow-800/50 ${isCastingAd ? 'cursor-not-allowed opacity-50' : ''}`}
-													onClick={() =>
-														handleCastAllDebridWithLoading(
-															r.hash,
-															castableFileIds
-														)
-													}
-													disabled={isCastingAd}
-												>
-													{isCastingAd ? (
-														<>
-															<Loader2 className="mr-1 inline-block h-3 w-3 animate-spin" />
-															Casting...
-														</>
-													) : (
-														<>
-															<Cast className="mr-1 inline-block h-3 w-3 text-yellow-400" />
-															Cast (AD)
-														</>
-													)}
-												</button>
-											)}
-
-										{/* Check service availability btns */}
-										{rdKey && !r.rdAvailable && (
+									{adKey &&
+										handleCastAllDebrid &&
+										r.adAvailable &&
+										castableFileIds.length > 0 && (
 											<button
-												className={`haptic-sm inline rounded border-2 border-yellow-500 bg-yellow-900/30 px-1 text-xs text-yellow-100 transition-colors hover:bg-yellow-800/50 ${isCheckingAvailability || checkingHashes.has(r.hash) ? 'cursor-not-allowed opacity-50' : ''}`}
-												onClick={() => handleCheckWithLoading(r, ['RD'])}
-												disabled={
-													isCheckingAvailability ||
-													checkingHashes.has(r.hash)
-												}
-											>
-												{isCheckingAvailability ||
-												checkingHashes.has(r.hash) ? (
-													<>
-														<Loader2 className="mr-1 inline-block h-3 w-3 animate-spin" />
-														{`Checking ${checkingLabel || 'service'}...`}
-													</>
-												) : (
-													<>
-														<SearchIcon className="mr-1 inline-block h-3 w-3 text-yellow-400" />
-														Check RD
-													</>
-												)}
-											</button>
-										)}
-										{adKey && !r.adAvailable && (
-											<button
-												className={`haptic-sm inline rounded border-2 border-orange-500 bg-orange-900/30 px-1 text-xs text-orange-100 transition-colors hover:bg-orange-800/50 ${isCheckingAvailability || checkingHashes.has(r.hash) ? 'cursor-not-allowed opacity-50' : ''}`}
-												onClick={() => handleCheckWithLoading(r, ['AD'])}
-												disabled={
-													isCheckingAvailability ||
-													checkingHashes.has(r.hash)
-												}
-											>
-												{isCheckingAvailability ||
-												checkingHashes.has(r.hash) ? (
-													<>
-														<Loader2 className="mr-1 inline-block h-3 w-3 animate-spin" />
-														{`Checking ${checkingLabel || 'service'}...`}
-													</>
-												) : (
-													<>
-														<SearchIcon className="mr-1 inline-block h-3 w-3 text-orange-400" />
-														Check AD
-													</>
-												)}
-											</button>
-										)}
-										{torboxKey && !r.tbAvailable && (
-											<button
-												className={`haptic-sm inline rounded border-2 border-cyan-500 bg-cyan-900/30 px-1 text-xs text-cyan-100 transition-colors hover:bg-cyan-800/50 ${isCheckingAvailability || checkingHashes.has(r.hash) ? 'cursor-not-allowed opacity-50' : ''}`}
-												onClick={() => handleCheckWithLoading(r, ['TB'])}
-												disabled={
-													isCheckingAvailability ||
-													checkingHashes.has(r.hash)
-												}
-											>
-												{isCheckingAvailability ||
-												checkingHashes.has(r.hash) ? (
-													<>
-														<Loader2 className="mr-1 inline-block h-3 w-3 animate-spin" />
-														{`Checking ${checkingLabel || 'service'}...`}
-													</>
-												) : (
-													<>
-														<SearchIcon className="mr-1 inline-block h-3 w-3 text-cyan-400" />
-														Check TB
-													</>
-												)}
-											</button>
-										)}
-
-										{/* Watch button */}
-										{rdKey && player && r.rdAvailable && (
-											<button
-												className="haptic-sm inline rounded border-2 border-teal-500 bg-teal-900/30 px-1 text-xs text-teal-100 transition-colors hover:bg-teal-800/50"
+												className={`inline-flex items-center justify-center rounded-lg border border-warning/30 bg-warning/10 px-2 py-1.5 text-xs font-bold text-warning transition-all hover:bg-warning/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
 												onClick={() =>
-													window.open(
-														`/api/watch/instant/${player}?token=${rdKey}&hash=${r.hash}&fileId=${getBiggestFileId(r)}`
+													handleCastAllDebridWithLoading(
+														r.hash,
+														castableFileIds
 													)
 												}
+												disabled={isCastingAd}
 											>
-												<>
-													<EyeIcon className="mr-1 inline-block h-3 w-3 text-teal-400" />
-													Watch
-												</>
+												{isCastingAd ? (
+													<>
+														<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+														Casting...
+													</>
+												) : (
+													<span className="inline-flex items-center">
+														<Cast className="mr-1.5 h-3.5 w-3.5" />
+														Cast (AD)
+													</span>
+												)}
 											</button>
 										)}
 
-										{/* Magnet button */}
+									{/* Check service availability btns */}
+									{rdKey && !r.rdAvailable && (
 										<button
-											className="haptic-sm inline rounded border-2 border-pink-500 bg-pink-900/30 px-1 text-xs text-pink-100 transition-colors hover:bg-pink-800/50"
-											onClick={() => handleMagnetAction(r.hash)}
+											className={`inline-flex items-center justify-center rounded-lg border border-warning/30 bg-warning/10 px-2 py-1.5 text-xs font-bold text-warning transition-all hover:bg-warning/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
+											onClick={() => handleCheckWithLoading(r, ['RD'])}
+											disabled={
+												isCheckingAvailability ||
+												checkingHashes.has(r.hash)
+											}
 										>
-											<Link2 className="inline h-3 w-3 text-teal-400" />{' '}
-											{downloadMagnets ? 'Download' : 'Copy'}
+											{isCheckingAvailability ||
+												checkingHashes.has(r.hash) ? (
+												<>
+													<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+													{checkingLabel || 'Checking...'}
+												</>
+											) : (
+												<span className="inline-flex items-center">
+													<SearchIcon className="mr-1.5 h-3.5 w-3.5" />
+													Check RD
+												</span>
+											)}
 										</button>
+									)}
+									{adKey && !r.adAvailable && (
+										<button
+											className={`inline-flex items-center justify-center rounded-lg border border-orange-500/30 bg-orange-500/10 px-2 py-1.5 text-xs font-bold text-orange-500 transition-all hover:bg-orange-500/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
+											onClick={() => handleCheckWithLoading(r, ['AD'])}
+											disabled={
+												isCheckingAvailability ||
+												checkingHashes.has(r.hash)
+											}
+										>
+											{isCheckingAvailability ||
+												checkingHashes.has(r.hash) ? (
+												<>
+													<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+													{checkingLabel || 'Checking...'}
+												</>
+											) : (
+												<span className="inline-flex items-center">
+													<SearchIcon className="mr-1.5 h-3.5 w-3.5" />
+													Check AD
+												</span>
+											)}
+										</button>
+									)}
+									{torboxKey && !r.tbAvailable && (
+										<button
+											className={`inline-flex items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-2 py-1.5 text-xs font-bold text-cyan-500 transition-all hover:bg-cyan-500/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm`}
+											onClick={() => handleCheckWithLoading(r, ['TB'])}
+											disabled={
+												isCheckingAvailability ||
+												checkingHashes.has(r.hash)
+											}
+										>
+											{isCheckingAvailability ||
+												checkingHashes.has(r.hash) ? (
+												<>
+													<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+													{checkingLabel || 'Checking...'}
+												</>
+											) : (
+												<span className="inline-flex items-center">
+													<SearchIcon className="mr-1.5 h-3.5 w-3.5" />
+													Check TB
+												</span>
+											)}
+										</button>
+									)}
 
-										{/* Report button */}
-										<ReportButton
-											hash={r.hash}
-											imdbId={imdbId!}
-											userId={rdKey || adKey || ''}
-											isShow={true}
-										/>
-									</div>
+									{/* Watch button */}
+									{rdKey && player && r.rdAvailable && (
+										<button
+											className="inline-flex items-center justify-center rounded-lg border border-success/30 bg-success/10 px-2 py-1.5 text-xs font-bold text-success transition-all hover:bg-success/20 backdrop-blur-sm"
+											onClick={() =>
+												window.open(
+													`/api/watch/instant/${player}?token=${rdKey}&hash=${r.hash}&fileId=${getBiggestFileId(r)}`
+												)
+											}
+										>
+											<span className="inline-flex items-center">
+												<EyeIcon className="mr-1.5 h-3.5 w-3.5" />
+												Watch
+											</span>
+										</button>
+									)}
+
+									{/* Magnet button */}
+									<button
+										className="inline-flex items-center justify-center rounded-lg border border-pink-500/30 bg-pink-500/10 px-2 py-1.5 text-xs font-bold text-pink-500 transition-all hover:bg-pink-500/20 backdrop-blur-sm"
+										onClick={() => handleMagnetAction(r.hash)}
+									>
+										<span className="inline-flex items-center">
+											{downloadMagnets ? (
+												<Download className="mr-1.5 h-3.5 w-3.5" />
+											) : (
+												<Link2 className="mr-1.5 h-3.5 w-3.5" />
+											)}
+											{downloadMagnets ? 'Download' : 'Copy'}
+										</span>
+									</button>
+
+									{/* Report button */}
+									<ReportButton
+										hash={r.hash}
+										imdbId={imdbId!}
+										userId={rdKey || adKey || ''}
+										isShow={true}
+									/>
 								</div>
 							</div>
-						);
-					})
+						</div>
+					);
+				})
 				: null}
 		</div>
 	);

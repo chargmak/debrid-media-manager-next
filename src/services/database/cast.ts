@@ -21,19 +21,19 @@ const EPISODE_PATTERNS: Array<{
 	seasonIndex: number;
 	episodeIndex: number;
 }> = [
-	{ regex: /s(\d{1,2})e(\d{1,2})/i, seasonIndex: 1, episodeIndex: 2 },
-	{ regex: /(\d{1,2})x(\d{1,2})/i, seasonIndex: 1, episodeIndex: 2 },
-	{
-		regex: /season[^\d]{0,6}(\d{1,2}).*episode[^\d]{0,6}(\d{1,2})/i,
-		seasonIndex: 1,
-		episodeIndex: 2,
-	},
-	{
-		regex: /episode[^\d]{0,6}(\d{1,2}).*season[^\d]{0,6}(\d{1,2})/i,
-		seasonIndex: 2,
-		episodeIndex: 1,
-	},
-];
+		{ regex: /s(\d{1,2})e(\d{1,2})/i, seasonIndex: 1, episodeIndex: 2 },
+		{ regex: /(\d{1,2})x(\d{1,2})/i, seasonIndex: 1, episodeIndex: 2 },
+		{
+			regex: /season[^\d]{0,6}(\d{1,2}).*episode[^\d]{0,6}(\d{1,2})/i,
+			seasonIndex: 1,
+			episodeIndex: 2,
+		},
+		{
+			regex: /episode[^\d]{0,6}(\d{1,2}).*season[^\d]{0,6}(\d{1,2})/i,
+			seasonIndex: 2,
+			episodeIndex: 1,
+		},
+	];
 
 const SEASON_ONLY_PATTERNS: Array<{ regex: RegExp; captureIndex?: number }> = [
 	{ regex: /season[^\d]{0,6}(\d{1,2})/i, captureIndex: 1 },
@@ -197,9 +197,9 @@ export class CastService extends DatabaseClient {
 		});
 		return castItems
 			.filter(
-				(item): item is { url: string; link: string; size: bigint } => item.link !== null
+				(item: any): item is { url: string; link: string; size: bigint } => item.link !== null
 			)
-			.map((item) => ({
+			.map((item: any) => ({
 				url: item.url,
 				link: item.link,
 				size: Number(item.size),
@@ -236,8 +236,10 @@ export class CastService extends DatabaseClient {
 		});
 
 		return castItems
-			.filter((item): item is { url: string; link: string; size: bigint } => !!item.link)
-			.map((item) => ({
+			.filter(
+				(item: any): item is { url: string; link: string; size: bigint } => !!item.link
+			)
+			.map((item: any) => ({
 				url: item.url,
 				link: item.link,
 				size: Number(item.size),
@@ -320,7 +322,7 @@ export class CastService extends DatabaseClient {
 			},
 		});
 
-		return movies.map((movie) => movie.imdbId);
+		return movies.map((movie: any) => movie.imdbId);
 	}
 
 	public async fetchCastedShows(userId: string): Promise<string[]> {
@@ -340,8 +342,8 @@ export class CastService extends DatabaseClient {
 		});
 
 		const uniqueShows = showsWithDuplicates
-			.map((show) => show.imdbId.split(':')[0]) // Extracts the base imdbId of the show
-			.filter((value, index, self) => self.indexOf(value) === index); // Ensures uniqueness
+			.map((show: any) => show.imdbId.split(':')[0]) // Extracts the base imdbId of the show
+			.filter((value: any, index: any, self: any) => self.indexOf(value) === index); // Ensures uniqueness
 
 		return uniqueShows;
 	}
@@ -371,7 +373,7 @@ export class CastService extends DatabaseClient {
 			},
 		});
 
-		return castItems.map((item) => ({
+		return castItems.map((item: any) => ({
 			...item,
 			size: Number(item.size),
 		}));
@@ -414,7 +416,7 @@ export class CastService extends DatabaseClient {
 				size: true,
 			},
 		});
-		return casts.map((cast) => ({
+		return casts.map((cast: any) => ({
 			imdbId: cast.imdbId,
 			hash: cast.hash,
 			url: cast.url,
@@ -461,10 +463,10 @@ export class CastService extends DatabaseClient {
 
 		return castItems
 			.filter(
-				(item): item is { url: string; link: string; size: bigint; hash: string } =>
+				(item: any): item is { url: string; link: string; size: bigint; hash: string } =>
 					item.link !== null
 			)
-			.map((item) => ({
+			.map((item: any) => ({
 				url: item.url,
 				link: item.link,
 				size: Number(item.size),
@@ -522,8 +524,8 @@ export class CastService extends DatabaseClient {
 		});
 
 		const fileStreams = availableFileResults
-			.filter((file) => file.link)
-			.map((file) => ({
+			.filter((file: any) => file.link)
+			.map((file: any) => ({
 				url: file.link,
 				link: file.link,
 				size: Number(file.bytes) / 1024 / 1024,
@@ -570,7 +572,7 @@ export class CastService extends DatabaseClient {
 		});
 
 		const torrentStreams = availableItems
-			.filter((item) => {
+			.filter((item: any) => {
 				if (item.files.length === 0 || !item.files[0]?.link) {
 					return false;
 				}
@@ -583,7 +585,7 @@ export class CastService extends DatabaseClient {
 				}
 				return true;
 			})
-			.map((item) => ({
+			.map((item: any) => ({
 				url: item.files[0].link,
 				link: item.files[0].link,
 				size: Number(item.files[0].bytes) / 1024 / 1024,
@@ -628,10 +630,10 @@ export class CastService extends DatabaseClient {
 
 		const castStreams = otherCastItems
 			.filter(
-				(item): item is { url: string; link: string; size: bigint; hash: string } =>
+				(item: any): item is { url: string; link: string; size: bigint; hash: string } =>
 					item.link !== null
 			)
-			.map((item) => ({
+			.map((item: any) => ({
 				url: item.url,
 				link: item.link,
 				size: Number(item.size),

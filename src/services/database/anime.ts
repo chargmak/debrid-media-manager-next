@@ -26,7 +26,7 @@ export class AnimeService extends DatabaseClient {
     GROUP BY a.anidb_id, a.mal_id, a.poster_url
     ORDER BY last_updated DESC
     LIMIT ${limit}`;
-		return results.map((anime) => ({
+		return results.map((anime: any) => ({
 			id: anime.anidb_id ? `anime:anidb-${anime.anidb_id}` : `anime:mal-${anime.mal_id}`,
 			poster_url: anime.poster_url,
 		}));
@@ -41,11 +41,10 @@ export class AnimeService extends DatabaseClient {
       a.mal_id,
       a.poster_url
     FROM Anime AS a
-    WHERE (SOUNDEX(a.title) = ${soundexQuery} OR a.title LIKE ${
-		'%' + query.toLowerCase() + '%'
-	}) AND a.poster_url IS NOT NULL AND a.poster_url != ''
+    WHERE (SOUNDEX(a.title) = ${soundexQuery} OR a.title LIKE ${'%' + query.toLowerCase() + '%'
+			}) AND a.poster_url IS NOT NULL AND a.poster_url != ''
     ORDER BY a.rating DESC`;
-		return results.map((anime) => ({
+		return results.map((anime: any) => ({
 			id: anime.anidb_id ? `anime:anidb-${anime.anidb_id}` : `anime:mal-${anime.mal_id}`,
 			title: anime.title,
 			poster_url: anime.poster_url,
@@ -71,7 +70,7 @@ export class AnimeService extends DatabaseClient {
 				poster_url: true,
 			},
 		});
-		return results.map((anime) => ({
+		return results.map((anime: any) => ({
 			id: anime.anidb_id ? `anime:anidb-${anime.anidb_id}` : `anime:mal-${anime.mal_id}`,
 			title: anime.title,
 			poster_url: anime.poster_url,
@@ -97,7 +96,7 @@ export class AnimeService extends DatabaseClient {
 				poster_url: true,
 			},
 		});
-		return results.map((anime) => ({
+		return results.map((anime: any) => ({
 			id: anime.anidb_id ? `anime:anidb-${anime.anidb_id}` : `anime:mal-${anime.mal_id}`,
 			title: anime.title,
 			poster_url: anime.poster_url,

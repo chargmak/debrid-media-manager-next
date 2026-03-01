@@ -8,19 +8,19 @@ import { Toaster } from 'react-hot-toast';
 
 function SettingsPage() {
 	return (
-		<div className="flex min-h-screen flex-col items-center bg-gray-900 p-4">
+		<div className="flex min-h-screen flex-col items-center bg-black p-4 selection:bg-primary/30">
 			<Head>
-				<title>Debrid Media Manager - Settings</title>
+				<title>Settings | Debrid Media Manager</title>
 				<meta name="robots" content="noindex, nofollow" />
 			</Head>
 			<Logo />
 			<Toaster position="bottom-right" />
-			<div className="mt-6 flex w-full max-w-md flex-col items-center gap-6">
+			<div className="mt-8 flex w-full max-w-lg flex-col gap-6">
 				<Link
 					href="/"
-					className="inline-flex w-full items-center gap-2 text-sm text-gray-400 transition-colors hover:text-gray-200"
+					className="group inline-flex items-center gap-2 self-start text-sm text-default-400 transition-all hover:text-primary"
 				>
-					<ArrowLeft className="h-4 w-4" />
+					<ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
 					<span>Back to dashboard</span>
 				</Link>
 				<SettingsSection />

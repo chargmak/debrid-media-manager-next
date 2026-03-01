@@ -178,9 +178,9 @@ export class ImdbSearchService extends DatabaseClient {
 			LIMIT ${limit}
 		`;
 
-		const results = await this.prisma.$queryRaw<any[]>(query);
+		const results: any[] = await this.prisma.$queryRawUnsafe(query.sql, ...query.values);
 
-		return results.map((r) => ({
+		return results.map((r: any) => ({
 			imdbId: r.imdbId,
 			type: r.type as 'movie' | 'show',
 			year: r.year,
@@ -249,9 +249,9 @@ export class ImdbSearchService extends DatabaseClient {
 			LIMIT ${limit}
 		`;
 
-		const results = await this.prisma.$queryRaw<any[]>(query);
+		const results: any[] = await this.prisma.$queryRawUnsafe(query.sql, ...query.values);
 
-		return results.map((r) => ({
+		return results.map((r: any) => ({
 			imdbId: r.imdbId,
 			type: r.type as 'movie' | 'show',
 			year: r.year,
@@ -302,9 +302,9 @@ export class ImdbSearchService extends DatabaseClient {
 			LIMIT ${limit}
 		`;
 
-		const results = await this.prisma.$queryRaw<any[]>(query);
+		const results: any[] = await this.prisma.$queryRawUnsafe(query.sql, ...query.values);
 
-		return results.map((r) => ({
+		return results.map((r: any) => ({
 			imdbId: r.imdbId,
 			type: r.type as 'movie' | 'show',
 			year: r.year,

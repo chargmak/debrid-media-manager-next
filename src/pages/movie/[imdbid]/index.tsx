@@ -56,8 +56,8 @@ const torrentDB = new UserTorrentDB();
 // Color scale for video count
 const getColorScale = () => {
 	const scale = [
-		{ threshold: 1, color: 'gray-800', label: 'Single' },
-		{ threshold: Infinity, color: 'blue-900', label: 'With extras' },
+		{ threshold: 1, color: 'bg-default-200/20 text-default-600 border border-divider', label: 'Single' },
+		{ threshold: Infinity, color: 'bg-primary/10 text-primary border border-primary/20', label: 'With extras' },
 	];
 	return scale;
 };
@@ -644,76 +644,70 @@ const MovieSearch: FunctionComponent = () => {
 	};
 
 	const handleActionButtons = () => (
-		<>
+		<div className="flex flex-wrap gap-2 mb-4">
 			{(rdKey || adKey || torboxKey) && (
 				<>
 					{rdKey && (
 						<button
-							className="mb-1 mr-2 mt-0 rounded border-2 border-yellow-500 bg-yellow-900/30 p-1 text-xs text-yellow-100 transition-colors hover:bg-yellow-800/50 disabled:cursor-not-allowed disabled:opacity-50"
+							className="inline-flex items-center justify-center rounded-md border border-warning/20 bg-warning/10 px-3 py-1.5 text-xs font-semibold text-warning transition-all hover:bg-warning/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm"
 							onClick={() => checkServiceAvailabilityBulk(filteredResults, ['RD'])}
 							disabled={isCheckingAvailability}
 						>
-							<b className="flex items-center justify-center">
-								{isCheckingAvailability ? (
-									<>
-										<Loader2 className="mr-1 h-3 w-3 animate-spin text-yellow-500" />
-										Checking RD...
-									</>
-								) : (
-									<>
-										<Search className="mr-1 h-3 w-3 text-yellow-500" />
-										Check RD
-									</>
-								)}
-							</b>
+							{isCheckingAvailability ? (
+								<>
+									<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+									Checking RD...
+								</>
+							) : (
+								<>
+									<Search className="mr-1.5 h-3.5 w-3.5" />
+									Check RD
+								</>
+							)}
 						</button>
 					)}
 					{adKey && (
 						<button
-							className="mb-1 mr-2 mt-0 rounded border-2 border-orange-500 bg-orange-900/30 p-1 text-xs text-orange-100 transition-colors hover:bg-orange-800/50 disabled:cursor-not-allowed disabled:opacity-50"
+							className="inline-flex items-center justify-center rounded-md border border-[#F59E0B]/20 bg-[#F59E0B]/10 px-3 py-1.5 text-xs font-semibold text-[#F59E0B] transition-all hover:bg-[#F59E0B]/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm"
 							onClick={() => checkServiceAvailabilityBulk(filteredResults, ['AD'])}
 							disabled={isCheckingAvailability}
 						>
-							<b className="flex items-center justify-center">
-								{isCheckingAvailability ? (
-									<>
-										<Loader2 className="mr-1 h-3 w-3 animate-spin text-orange-500" />
-										Checking AD...
-									</>
-								) : (
-									<>
-										<Search className="mr-1 h-3 w-3 text-orange-500" />
-										Check AD
-									</>
-								)}
-							</b>
+							{isCheckingAvailability ? (
+								<>
+									<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+									Checking AD...
+								</>
+							) : (
+								<>
+									<Search className="mr-1.5 h-3.5 w-3.5" />
+									Check AD
+								</>
+							)}
 						</button>
 					)}
 					{torboxKey && (
 						<button
-							className="mb-1 mr-2 mt-0 rounded border-2 border-cyan-500 bg-cyan-900/30 p-1 text-xs text-cyan-100 transition-colors hover:bg-cyan-800/50 disabled:cursor-not-allowed disabled:opacity-50"
+							className="inline-flex items-center justify-center rounded-md border border-[#22D3EE]/20 bg-[#22D3EE]/10 px-3 py-1.5 text-xs font-semibold text-[#22D3EE] transition-all hover:bg-[#22D3EE]/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm"
 							onClick={() => checkServiceAvailabilityBulk(filteredResults, ['TB'])}
 							disabled={isCheckingAvailability}
 						>
-							<b className="flex items-center justify-center">
-								{isCheckingAvailability ? (
-									<>
-										<Loader2 className="mr-1 h-3 w-3 animate-spin text-cyan-500" />
-										Checking TB...
-									</>
-								) : (
-									<>
-										<Search className="mr-1 h-3 w-3 text-cyan-500" />
-										Check TB
-									</>
-								)}
-							</b>
+							{isCheckingAvailability ? (
+								<>
+									<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+									Checking TB...
+								</>
+							) : (
+								<>
+									<Search className="mr-1.5 h-3.5 w-3.5" />
+									Check TB
+								</>
+							)}
 						</button>
 					)}
 					{getFirstAvailableRdTorrent() && (
 						<>
 							<button
-								className="mb-1 mr-2 mt-0 rounded border-2 border-green-500 bg-green-900/30 p-1 text-xs text-green-100 transition-colors hover:bg-green-800/50"
+								className="inline-flex items-center justify-center rounded-md border border-success/20 bg-success/10 px-3 py-1.5 text-xs font-semibold text-success transition-all hover:bg-success/20 backdrop-blur-sm mx-1"
 								onClick={() => {
 									const firstAvailable = getFirstAvailableRdTorrent()!;
 									if (`rd:${firstAvailable.hash}` in hashAndProgress) {
@@ -723,70 +717,62 @@ const MovieSearch: FunctionComponent = () => {
 									addRd(firstAvailable.hash);
 								}}
 							>
-								<b className="flex items-center justify-center">
-									<Zap className="mr-1 h-3 w-3 text-yellow-500" />
-									Instant RD
-								</b>
+								<Zap className="mr-1.5 h-3.5 w-3.5" />
+								Instant RD
 							</button>
 							<button
-								className="mb-1 mr-2 mt-0 rounded border-2 border-teal-500 bg-teal-900/30 p-1 text-xs text-teal-100 transition-colors hover:bg-teal-800/50"
+								className="inline-flex items-center justify-center rounded-md border border-secondary/20 bg-secondary/10 px-3 py-1.5 text-xs font-semibold text-secondary transition-all hover:bg-secondary/20 backdrop-blur-sm"
 								onClick={() =>
 									window.open(
 										`/api/watch/instant/${player}?token=${rdKey}&hash=${getFirstAvailableRdTorrent()!.hash}&fileId=${getBiggestFileId(getFirstAvailableRdTorrent()!)}`
 									)
 								}
 							>
-								<b className="flex items-center justify-center">
-									<EyeIcon className="mr-1 h-3 w-3 text-teal-500" />
-									Watch
-								</b>
+								<EyeIcon className="mr-1.5 h-3.5 w-3.5" />
+								Watch
 							</button>
 							<button
-								className="mb-1 mr-2 mt-0 rounded border-2 border-green-500 bg-green-900/30 p-1 text-xs text-green-100 transition-colors hover:bg-green-800/50"
+								className="inline-flex items-center justify-center rounded-md border border-success/20 bg-success/10 px-3 py-1.5 text-xs font-semibold text-success transition-all hover:bg-success/20 backdrop-blur-sm"
 								onClick={() => handleCast(getFirstAvailableRdTorrent()!.hash)}
 							>
-								<b className="flex items-center justify-center">
-									<Cast className="mr-1 h-3 w-3 text-green-400" />
-									Cast (RD)
-								</b>
+								<Cast className="mr-1.5 h-3.5 w-3.5" />
+								Cast (RD)
 							</button>
 						</>
 					)}
 				</>
 			)}
 			<button
-				className="mb-1 mr-2 mt-0 rounded border-2 border-purple-500 bg-purple-900/30 p-1 text-xs text-purple-100 transition-colors hover:bg-purple-800/50"
+				className="inline-flex items-center justify-center rounded-md border border-[#A855F7]/20 bg-[#A855F7]/10 px-3 py-1.5 text-xs font-semibold text-[#A855F7] transition-all hover:bg-[#A855F7]/20 backdrop-blur-sm mx-1"
 				onClick={() => window.open(`stremio://detail/movie/${imdbid}/${imdbid}`)}
 			>
-				<b className="flex items-center justify-center">
-					<Sparkles className="mr-1 h-3 w-3 text-purple-500" />
-					Stremio
-				</b>
+				<Sparkles className="mr-1.5 h-3.5 w-3.5" />
+				Stremio
 			</button>
 			{onlyShowCached && totalUncachedCount > 0 && (
 				<button
-					className="mb-1 mr-2 mt-0 rounded border-2 border-blue-500 bg-blue-900/30 p-1 text-xs text-blue-100 transition-colors hover:bg-blue-800/50"
+					className="inline-flex items-center justify-center rounded-md border border-primary/20 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary transition-all hover:bg-primary/20 backdrop-blur-sm"
 					onClick={() => setOnlyShowCached(false)}
 				>
-					<CloudOff className="mr-1 h-3 w-3 text-blue-500" />
+					<CloudOff className="mr-1.5 h-3.5 w-3.5" />
 					Show {totalUncachedCount} uncached
 				</button>
 			)}
-		</>
+		</div>
 	);
 
 	if (!movieInfo.title) {
-		return <div>Loading...</div>;
+		return <div className="min-h-screen max-w-full bg-mesh bg-noise flex items-center justify-center text-foreground">Loading...</div>;
 	}
 
 	return (
-		<div className="min-h-screen max-w-full bg-gray-900 text-gray-100">
+		<div className="min-h-screen max-w-full bg-mesh bg-noise text-foreground pb-20">
 			<Head>
-				<title>
-					Debrid Media Manager - Movie - {movieInfo.title} ({movieInfo.year})
-				</title>
+				<title>DMM — Movie — {movieInfo.title} ({movieInfo.year})</title>
 			</Head>
-			<Toaster position="bottom-right" />
+			<Toaster position="bottom-right" toastOptions={{
+				style: { background: '#18181B', color: '#FAFAFA', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)' }
+			}} />
 
 			<MediaHeader
 				mediaType="movie"
@@ -880,7 +866,7 @@ const MovieSearch: FunctionComponent = () => {
 
 					{searchResults.length > 0 && searchState === 'loaded' && hasMoreResults && (
 						<button
-							className="my-4 w-full rounded border-2 border-gray-500 bg-gray-800/30 px-4 py-2 font-medium text-gray-100 shadow-md transition-colors duration-200 hover:bg-gray-700/50 hover:shadow-lg"
+							className="my-4 w-full rounded-xl border border-divider bg-content1/50 backdrop-blur-sm px-4 py-3 font-semibold text-foreground shadow-sm transition-all duration-200 hover:bg-content2 hover:border-primary/50"
 							onClick={() => {
 								setCurrentPage((prev) => prev + 1);
 								fetchData(imdbid as string, currentPage + 1);

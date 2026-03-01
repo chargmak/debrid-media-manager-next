@@ -82,7 +82,7 @@ export class TrackerStatsService extends DatabaseClient {
 				},
 			});
 
-			return stats.map((stat) => ({
+			return stats.map((stat: any) => ({
 				hash: stat.hash,
 				seeders: stat.seeders,
 				leechers: stat.leechers,
@@ -122,7 +122,7 @@ export class TrackerStatsService extends DatabaseClient {
 			},
 		});
 
-		return staleStats.map((stat) => stat.hash);
+		return staleStats.map((stat: any) => stat.hash);
 	}
 
 	public async cleanupOldTrackerStats(olderThanDays: number = 30): Promise<number> {
@@ -152,7 +152,7 @@ export class TrackerStatsService extends DatabaseClient {
 			take: limit,
 		});
 
-		return stats.map((stat) => ({
+		return stats.map((stat: any) => ({
 			hash: stat.hash,
 			seeders: stat.seeders,
 			leechers: stat.leechers,

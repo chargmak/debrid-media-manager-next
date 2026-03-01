@@ -152,7 +152,7 @@ function TorrentRow({
 	return (
 		<>
 			<tr
-				className={`border-b border-gray-800 align-middle lg:hover:bg-gray-800/50 ${isSelected ? 'bg-green-800' : ''}`}
+				className={`border-b border-divider align-middle lg:hover:bg-content2 transition-colors ${isSelected ? 'bg-success/10' : ''}`}
 			>
 				<td
 					onClick={() => onSelect(torrent.id)}
@@ -237,8 +237,8 @@ function TorrentRow({
 					{[rdKey, adKey, tbKey].filter(Boolean).length > 1 && torrentPrefix(torrent.id)}{' '}
 					{torrent.filename === torrent.hash ? 'Magnet' : torrent.filename}
 					{torrent.filename === torrent.hash ||
-					torrent.filename === 'Magnet' ||
-					torrent.status === UserTorrentStatus.error
+						torrent.filename === 'Magnet' ||
+						torrent.status === UserTorrentStatus.error
 						? ` (${getStatusText(torrent)})`
 						: ''}
 				</td>
@@ -247,7 +247,7 @@ function TorrentRow({
 				</td>
 				<td onClick={() => onShowInfo(torrent)} className="px-0.5 py-1 text-center text-xs">
 					{torrent.status !== UserTorrentStatus.finished &&
-					torrent.status !== UserTorrentStatus.error ? (
+						torrent.status !== UserTorrentStatus.error ? (
 						<>
 							<span className="inline-block align-middle">
 								{(torrent.progress ?? 0).toFixed(2)}%&nbsp;

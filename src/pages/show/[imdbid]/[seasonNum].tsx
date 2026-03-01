@@ -895,12 +895,12 @@ const TvSearch: FunctionComponent = () => {
 	}
 
 	if (isLoading) {
-		return <div className="mx-2 my-1 min-h-screen bg-gray-900 text-white">Loading...</div>;
+		return <div className="min-h-screen max-w-full bg-mesh bg-noise flex items-center justify-center text-foreground">Loading...</div>;
 	}
 
 	if (!showInfo) {
 		return (
-			<div className="mx-2 my-1 min-h-screen bg-gray-900 text-white">
+			<div className="min-h-screen max-w-full bg-mesh bg-noise flex items-center justify-center text-foreground">
 				No show information available
 			</div>
 		);
@@ -911,148 +911,137 @@ const TvSearch: FunctionComponent = () => {
 	const selectedSeason = Number.parseInt(seasonId, 10);
 
 	const seasonNavigation = (
-		<div className="flex items-center overflow-x-auto" data-testid="media-header-season-nav">
+		<div className="flex items-center gap-2 overflow-x-auto pb-2" data-testid="media-header-season-nav">
 			{showInfo.has_specials && (
 				<Link
 					href={`/show/${imdbId}/0`}
-					className={`inline-flex items-center border-2 p-1 text-xs border-${selectedSeason === 0 ? 'red' : 'yellow'}-500 bg-${selectedSeason === 0 ? 'red' : 'yellow'}-900/30 text-${selectedSeason === 0 ? 'red' : 'yellow'}-100 hover:bg-${selectedSeason === 0 ? 'red' : 'yellow'}-800/50 mb-1 mr-2 rounded transition-colors`}
+					className={`inline-flex items-center justify-center rounded-md border px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition-all backdrop-blur-sm ${selectedSeason === 0
+						? 'border-primary/50 bg-primary/20 text-primary shadow-sm'
+						: 'border-divider bg-content1/40 text-default-500 hover:bg-content2 hover:text-foreground'
+						}`}
 				>
-					<Tv className="mr-2 h-3 w-3 text-cyan-500" />
-					<span className="whitespace-nowrap">Specials</span>
+					<Tv className="mr-1.5 h-3.5 w-3.5" />
+					Specials
 				</Link>
 			)}
 			{Array.from({ length: showInfo.season_count }, (_, i) => showInfo.season_count - i).map(
-				(season, idx) => {
-					const color = selectedSeason === season ? 'red' : 'yellow';
-					return (
-						<Link
-							key={idx}
-							href={`/show/${imdbId}/${season}`}
-							className={`inline-flex items-center border-2 p-1 text-xs border-${color}-500 bg-${color}-900/30 text-${color}-100 hover:bg-${color}-800/50 mb-1 mr-2 rounded transition-colors`}
-						>
-							<Tv className="mr-2 h-3 w-3 text-cyan-500" />
-							<span className="whitespace-nowrap">
-								{showInfo.season_names && showInfo.season_names[season - 1]
-									? showInfo.season_names[season - 1]
-									: `Season ${season}`}
-							</span>
-						</Link>
-					);
-				}
+				(season, idx) => (
+					<Link
+						key={idx}
+						href={`/show/${imdbId}/${season}`}
+						className={`inline-flex items-center justify-center rounded-md border px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition-all backdrop-blur-sm ${selectedSeason === season
+							? 'border-primary/50 bg-primary/20 text-primary shadow-sm'
+							: 'border-divider bg-content1/40 text-default-500 hover:bg-content2 hover:text-foreground'
+							}`}
+					>
+						<Tv className="mr-1.5 h-3.5 w-3.5" />
+						{showInfo.season_names && showInfo.season_names[season - 1]
+							? showInfo.season_names[season - 1]
+							: `Season ${season}`}
+					</Link>
+				)
 			)}
 		</div>
 	);
 
 	const headerActionButtons = (
-		<div data-testid="media-header-actions">
+		<div className="flex flex-wrap gap-2 mb-4" data-testid="media-header-actions">
 			{(rdKey || adKey || torboxKey) && (
 				<>
 					{rdKey && (
 						<button
-							className="mb-1 mr-2 mt-0 rounded border-2 border-yellow-500 bg-yellow-900/30 p-1 text-xs text-yellow-100 transition-colors hover:bg-yellow-800/50 disabled:cursor-not-allowed disabled:opacity-50"
+							className="inline-flex items-center justify-center rounded-md border border-warning/20 bg-warning/10 px-3 py-1.5 text-xs font-semibold text-warning transition-all hover:bg-warning/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm"
 							onClick={() => checkServiceAvailabilityBulk(filteredResults, ['RD'])}
 							disabled={isCheckingAvailability}
 						>
-							<b className="flex items-center justify-center">
-								{isCheckingAvailability ? (
-									<>
-										<Loader2 className="mr-1 h-3 w-3 animate-spin text-yellow-500" />
-										Checking RD...
-									</>
-								) : (
-									<>
-										<Search className="mr-1 h-3 w-3 text-yellow-500" />
-										Check RD
-									</>
-								)}
-							</b>
+							{isCheckingAvailability ? (
+								<>
+									<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+									Checking RD...
+								</>
+							) : (
+								<>
+									<Search className="mr-1.5 h-3.5 w-3.5" />
+									Check RD
+								</>
+							)}
 						</button>
 					)}
 					{adKey && (
 						<button
-							className="mb-1 mr-2 mt-0 rounded border-2 border-orange-500 bg-orange-900/30 p-1 text-xs text-orange-100 transition-colors hover:bg-orange-800/50 disabled:cursor-not-allowed disabled:opacity-50"
+							className="inline-flex items-center justify-center rounded-md border border-[#F59E0B]/20 bg-[#F59E0B]/10 px-3 py-1.5 text-xs font-semibold text-[#F59E0B] transition-all hover:bg-[#F59E0B]/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm"
 							onClick={() => checkServiceAvailabilityBulk(filteredResults, ['AD'])}
 							disabled={isCheckingAvailability}
 						>
-							<b className="flex items-center justify-center">
-								{isCheckingAvailability ? (
-									<>
-										<Loader2 className="mr-1 h-3 w-3 animate-spin text-orange-500" />
-										Checking AD...
-									</>
-								) : (
-									<>
-										<Search className="mr-1 h-3 w-3 text-orange-500" />
-										Check AD
-									</>
-								)}
-							</b>
+							{isCheckingAvailability ? (
+								<>
+									<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+									Checking AD...
+								</>
+							) : (
+								<>
+									<Search className="mr-1.5 h-3.5 w-3.5" />
+									Check AD
+								</>
+							)}
 						</button>
 					)}
 					{torboxKey && (
 						<button
-							className="mb-1 mr-2 mt-0 rounded border-2 border-cyan-500 bg-cyan-900/30 p-1 text-xs text-cyan-100 transition-colors hover:bg-cyan-800/50 disabled:cursor-not-allowed disabled:opacity-50"
+							className="inline-flex items-center justify-center rounded-md border border-[#22D3EE]/20 bg-[#22D3EE]/10 px-3 py-1.5 text-xs font-semibold text-[#22D3EE] transition-all hover:bg-[#22D3EE]/20 disabled:cursor-not-allowed disabled:opacity-50 backdrop-blur-sm"
 							onClick={() => checkServiceAvailabilityBulk(filteredResults, ['TB'])}
 							disabled={isCheckingAvailability}
 						>
-							<b className="flex items-center justify-center">
-								{isCheckingAvailability ? (
-									<>
-										<Loader2 className="mr-1 h-3 w-3 animate-spin text-cyan-500" />
-										Checking TB...
-									</>
-								) : (
-									<>
-										<Search className="mr-1 h-3 w-3 text-cyan-500" />
-										Check TB
-									</>
-								)}
-							</b>
+							{isCheckingAvailability ? (
+								<>
+									<Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+									Checking TB...
+								</>
+							) : (
+								<>
+									<Search className="mr-1.5 h-3.5 w-3.5" />
+									Check TB
+								</>
+							)}
 						</button>
 					)}
 					{getFirstCompleteSeasonTorrent() && (
 						<button
-							className="haptic-sm mb-1 mr-2 mt-0 rounded border-2 border-green-500 bg-green-900/30 p-1 text-xs text-green-100 transition-colors hover:bg-green-800/50"
+							className="inline-flex items-center justify-center rounded-md border border-success/20 bg-success/10 px-3 py-1.5 text-xs font-semibold text-success transition-all hover:bg-success/20 backdrop-blur-sm mx-1"
 							onClick={handleInstantRdWholeSeason}
 						>
-							<b className="flex items-center justify-center">
-								<Zap className="mr-1 h-3 w-3 text-yellow-500" />
-								Instant RD (Whole Season)
-							</b>
+							<Zap className="mr-1.5 h-3.5 w-3.5" />
+							Instant RD (Whole Season)
 						</button>
 					)}
 					{getIndividualEpisodeTorrents().length > 0 && (
 						<button
-							className="haptic-sm mb-1 mr-2 mt-0 rounded border-2 border-green-500 bg-green-900/30 p-1 text-xs text-green-100 transition-colors hover:bg-green-800/50"
+							className="inline-flex items-center justify-center rounded-md border border-success/20 bg-success/10 px-3 py-1.5 text-xs font-semibold text-success transition-all hover:bg-success/20 backdrop-blur-sm mx-1"
 							onClick={handleInstantRdEveryEpisode}
 						>
-							<b className="flex items-center justify-center">
-								<Zap className="mr-1 h-3 w-3 text-yellow-500" />
-								Instant RD (Every Episode)
-							</b>
+							<Zap className="mr-1.5 h-3.5 w-3.5" />
+							Instant RD (Every Episode)
 						</button>
 					)}
 					<button
-						className="mb-1 mr-2 mt-0 rounded border-2 border-purple-500 bg-purple-900/30 p-1 text-xs text-purple-100 transition-colors hover:bg-purple-800/50"
+						className="inline-flex items-center justify-center rounded-md border border-[#A855F7]/20 bg-[#A855F7]/10 px-3 py-1.5 text-xs font-semibold text-[#A855F7] transition-all hover:bg-[#A855F7]/20 backdrop-blur-sm"
 						onClick={() =>
 							window.open(`stremio://detail/series/${imdbId}/${imdbId}:${seasonId}:1`)
 						}
 					>
-						<b className="flex items-center justify-center">
-							<Sparkles className="mr-1 h-3 w-3 text-purple-500" />
-							Stremio
-						</b>
+						<Sparkles className="mr-1.5 h-3.5 w-3.5" />
+						Stremio
 					</button>
 				</>
 			)}
 			{onlyShowCached && totalUncachedCount > 0 && (
 				<button
-					className="haptic-sm mb-1 mr-2 mt-0 rounded border-2 border-blue-500 bg-blue-900/30 p-1 text-xs text-blue-100 transition-colors hover:bg-blue-800/50"
+					className="inline-flex items-center justify-center rounded-md border border-primary/20 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary transition-all hover:bg-primary/20 backdrop-blur-sm"
 					onClick={() => {
 						setOnlyShowCached(false);
 					}}
 				>
-					<CloudOff className="mr-1 h-3 w-3 text-blue-500" />
+					<CloudOff className="mr-1.5 h-3.5 w-3.5" />
 					Show {totalUncachedCount} uncached
 				</button>
 			)}
@@ -1060,13 +1049,13 @@ const TvSearch: FunctionComponent = () => {
 	);
 
 	return (
-		<div className="min-h-screen max-w-full bg-gray-900 text-gray-100">
+		<div className="min-h-screen max-w-full bg-mesh bg-noise text-foreground pb-20">
 			<Head>
-				<title>
-					Debrid Media Manager - TV Show - {showInfo.title} - Season {seasonNum}
-				</title>
+				<title>DMM — TV Show — {showInfo.title} (Season {seasonNum})</title>
 			</Head>
-			<Toaster position="bottom-right" />
+			<Toaster position="bottom-right" toastOptions={{
+				style: { background: '#18181B', color: '#FAFAFA', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)' }
+			}} />
 
 			<MediaHeader
 				mediaType="tv"
@@ -1112,56 +1101,60 @@ const TvSearch: FunctionComponent = () => {
 				</div>
 			)}
 
-			<div className="mb-1 flex items-center border-b-2 border-gray-600 py-2">
+			<div className="mb-4 flex items-center border border-divider bg-content1/50 rounded-xl px-2 py-1 focus-within:border-primary/50 focus-within:bg-content2 transition-colors max-w-2xl mt-4">
+				<Search className="h-4 w-4 text-default-400 ml-2 mr-1" />
 				<input
-					className="mr-3 w-full appearance-none border-none bg-transparent px-2 py-1 text-sm leading-tight text-gray-100 focus:outline-none"
+					className="w-full appearance-none border-none bg-transparent px-2 py-2 text-sm font-medium leading-tight text-foreground focus:outline-none placeholder:text-default-400"
 					type="text"
 					id="query"
-					placeholder="filter results, supports regex"
+					placeholder="Filter results, supports regex"
 					value={query}
 					onChange={(e) => {
 						setQuery(e.target.value.toLocaleLowerCase());
 					}}
 				/>
-				<span
-					className="me-2 inline-flex cursor-pointer items-center rounded bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
+				<button
+					className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-lg bg-content2 px-3 py-1.5 text-xs font-semibold text-default-600 transition-colors hover:bg-content3 hover:text-foreground"
 					onClick={() => setQuery('')}
 					title="Reset search"
 				>
-					<RotateCcw className="h-3 w-3" />
-					<span className="ml-1 hidden sm:inline">Reset</span>
-				</span>
-				<span className="text-xs text-gray-400">
-					{
-						filteredResults.filter(
-							(r) => r.rdAvailable || r.adAvailable || r.tbAvailable
-						).length
-					}
-					/{filteredResults.length}
-				</span>
+					<RotateCcw className="h-3.5 w-3.5 mr-1" />
+					<span className="hidden sm:inline">Reset</span>
+				</button>
+				<div className="flex items-center gap-1.5 px-3 py-1 bg-content2 rounded-lg text-xs font-semibold text-default-500 mr-1 whitespace-nowrap">
+					<span className="text-secondary">
+						{
+							filteredResults.filter(
+								(r) => r.rdAvailable || r.adAvailable || r.tbAvailable
+							).length
+						}
+					</span>
+					<span>/</span>
+					<span>{filteredResults.length}</span>
+				</div>
 				{query && filteredResults.length > 0 && rdKey && showMassReportButtons && (
 					<div className="ml-2 flex gap-2">
-						<span
-							className="cursor-pointer whitespace-nowrap rounded border border-red-500 bg-red-900/30 px-2 py-0.5 text-xs text-red-100 transition-colors hover:bg-red-800/50"
+						<button
+							className="cursor-pointer whitespace-nowrap rounded-lg border border-danger/20 bg-danger/10 px-3 py-1.5 text-xs font-semibold text-danger transition-colors hover:bg-danger/20"
 							onClick={() => handleMassReport('porn', filteredResults)}
 							title="Report all filtered torrents as pornographic content"
 						>
 							Report as Porn ({filteredResults.length})
-						</span>
-						<span
-							className="cursor-pointer whitespace-nowrap rounded border border-red-500 bg-red-900/30 px-2 py-0.5 text-xs text-red-100 transition-colors hover:bg-red-800/50"
+						</button>
+						<button
+							className="cursor-pointer whitespace-nowrap rounded-lg border border-danger/20 bg-danger/10 px-3 py-1.5 text-xs font-semibold text-danger transition-colors hover:bg-danger/20"
 							onClick={() => handleMassReport('wrong_imdb', filteredResults)}
 							title="Report all filtered torrents as wrong IMDB ID"
 						>
 							Report Wrong IMDB ({filteredResults.length})
-						</span>
-						<span
-							className="cursor-pointer whitespace-nowrap rounded border border-red-500 bg-red-900/30 px-2 py-0.5 text-xs text-red-100 transition-colors hover:bg-red-800/50"
+						</button>
+						<button
+							className="cursor-pointer whitespace-nowrap rounded-lg border border-danger/20 bg-danger/10 px-3 py-1.5 text-xs font-semibold text-danger transition-colors hover:bg-danger/20"
 							onClick={() => handleMassReport('wrong_season', filteredResults)}
 							title="Report all filtered torrents as wrong season"
 						>
 							Report Wrong Season ({filteredResults.length})
-						</span>
+						</button>
 					</div>
 				)}
 			</div>
@@ -1178,7 +1171,7 @@ const TvSearch: FunctionComponent = () => {
 				{getColorScale(expectedEpisodeCount).map((scale, idx) => (
 					<span
 						key={idx}
-						className={`bg-${scale.color} cursor-pointer whitespace-nowrap rounded px-2 py-1 text-xs text-white`}
+						className={`${scale.color} cursor-pointer whitespace-nowrap rounded-lg px-3 py-1 text-xs font-semibold backdrop-blur-sm`}
 						onClick={() => {
 							const queryText = getQueryForEpisodeCount(
 								scale.threshold,
@@ -1223,7 +1216,7 @@ const TvSearch: FunctionComponent = () => {
 
 			{searchResults.length > 0 && searchState === 'loaded' && hasMoreResults && (
 				<button
-					className="haptic my-4 w-full rounded border-2 border-gray-500 bg-gray-800/30 px-4 py-2 font-medium text-gray-100 shadow-md transition-colors duration-200 hover:bg-gray-700/50 hover:shadow-lg"
+					className="my-4 w-full rounded-xl border border-divider bg-content1/50 backdrop-blur-sm px-4 py-3 font-semibold text-foreground shadow-sm transition-all duration-200 hover:bg-content2 hover:border-primary/50"
 					onClick={() => {
 						setCurrentPage((prev) => prev + 1);
 						fetchData(imdbid as string, parseInt(seasonNum as string), currentPage + 1);

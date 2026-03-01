@@ -1,7 +1,8 @@
 import { RealDebridUser } from '@/hooks/auth';
 import { TorBoxUser } from '@/services/types';
-import { BookOpen, Music2, Rocket, Sparkles } from 'lucide-react';
+import { BookOpen, Music2, Rocket, Cast, Activity } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from '@heroui/react';
 
 interface MainActionsProps {
 	rdUser: RealDebridUser | null;
@@ -12,44 +13,24 @@ interface MainActionsProps {
 
 const isLocalDev = process.env.NODE_ENV === 'development';
 
-export function MainActions({ rdUser, tbUser, adUser, isLoading }: MainActionsProps) {
+export function MainActions({ rdUser, tbUser, adUser }: MainActionsProps) {
 	const castButtons = [
 		rdUser && {
 			href: '/stremio',
 			label: 'Cast for RD',
-			borderColor: 'border-green-500',
-			bgColor: 'bg-green-900/30',
-			hoverColor: 'hover:bg-green-800/50',
-			textColor: 'text-green-100',
-			iconColor: 'text-green-400',
+			colorClass: 'text-success hover:bg-success/10',
 		},
 		tbUser && {
 			href: '/stremio-torbox',
 			label: 'Cast for TB',
-			borderColor: 'border-purple-500',
-			bgColor: 'bg-purple-900/30',
-			hoverColor: 'hover:bg-purple-800/50',
-			textColor: 'text-purple-100',
-			iconColor: 'text-purple-400',
+			colorClass: 'text-warning hover:bg-warning/10',
 		},
 		adUser && {
 			href: '/stremio-alldebrid',
 			label: 'Cast for AD',
-			borderColor: 'border-yellow-500',
-			bgColor: 'bg-yellow-900/30',
-			hoverColor: 'hover:bg-yellow-800/50',
-			textColor: 'text-yellow-100',
-			iconColor: 'text-yellow-400',
+			colorClass: 'text-secondary hover:bg-secondary/10',
 		},
-	].filter(Boolean) as {
-		href: string;
-		label: string;
-		borderColor: string;
-		bgColor: string;
-		hoverColor: string;
-		textColor: string;
-		iconColor: string;
-	}[];
+	].filter(Boolean) as { href: string; label: string; colorClass: string }[];
 
 	const castGridCols =
 		castButtons.length === 1
@@ -59,56 +40,71 @@ export function MainActions({ rdUser, tbUser, adUser, isLoading }: MainActionsPr
 				: 'grid-cols-3';
 
 	return (
-		<div className="flex w-full flex-col gap-3">
-			{/* First row: Library, Hash lists, Is RD Down */}
-			<div className="grid w-full grid-cols-3 gap-3">
+		<div className="flex w-full flex-col gap-4">
+			{/* Main Three Actions */}
+			<div className="grid w-full grid-cols-3 gap-4">
 				<Link
 					href="/library"
-					className="haptic flex items-center justify-center gap-2 rounded border-2 border-cyan-500 bg-cyan-900/30 p-3 text-cyan-100 transition-colors hover:bg-cyan-800/50"
+					className="glass-card group flex h-24 flex-col items-center justify-center gap-2 transition-all hover:bg-white/10 hover:shadow-primary/10"
 				>
-					<BookOpen className="mr-1 inline-block h-4 w-4 text-cyan-400" />
-					Library
+					<div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform group-hover:scale-110">
+						<BookOpen className="h-6 w-6" />
+					</div>
+					<span className="text-[10px] font-black uppercase tracking-widest text-default-400 group-hover:text-white">Library</span>
 				</Link>
+
 				<Link
 					href={isLocalDev ? '/hashlists' : 'https://hashlists.debridmediamanager.com'}
 					target={isLocalDev ? undefined : '_blank'}
-					className="haptic flex items-center justify-center gap-2 rounded border-2 border-indigo-500 bg-indigo-900/30 p-3 text-indigo-100 transition-colors hover:bg-indigo-800/50"
+					className="glass-card group flex h-24 flex-col items-center justify-center gap-2 transition-all hover:bg-white/10 hover:shadow-secondary/10"
 				>
-					<Rocket className="mr-1 inline-block h-4 w-4 text-indigo-400" />
-					Hash lists
+					<div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary/10 text-secondary transition-transform group-hover:-translate-y-1">
+						<Rocket className="h-6 w-6" />
+					</div>
+					<span className="text-[10px] font-black uppercase tracking-widest text-default-400 group-hover:text-white">Hash lists</span>
 				</Link>
+
 				<Link
 					href="/albums"
-					className="haptic flex items-center justify-center gap-2 rounded border-2 border-green-500 bg-green-900/30 p-3 text-green-100 transition-colors hover:bg-green-800/50"
+					className="glass-card group flex h-24 flex-col items-center justify-center gap-2 transition-all hover:bg-white/10 hover:shadow-success/10"
 				>
-					<Music2 className="mr-1 inline-block h-4 w-4 text-green-400" />
-					Music
+					<div className="flex h-10 w-10 items-center justify-center rounded-xl bg-success/10 text-success transition-transform group-hover:rotate-12">
+						<Music2 className="h-6 w-6" />
+					</div>
+					<span className="text-[10px] font-black uppercase tracking-widest text-default-400 group-hover:text-white">Music</span>
 				</Link>
 			</div>
 
-			{/* Second row: Cast buttons */}
+			{/* Cast Buttons Row */}
 			{castButtons.length > 0 && (
-				<div className={`grid w-full gap-3 ${castGridCols}`}>
+				<div className={`grid w-full gap-2 ${castGridCols}`}>
 					{castButtons.map((button) => (
 						<Link
 							key={button.href}
 							href={button.href}
-							className={`haptic flex items-center justify-center gap-2 rounded border-2 ${button.borderColor} ${button.bgColor} p-3 ${button.textColor} transition-colors ${button.hoverColor}`}
+							className="glass-card flex h-12 items-center justify-center gap-2 text-xs font-bold transition-all hover:bg-white/5"
 						>
-							<Sparkles className={`mr-1 inline-block h-4 w-4 ${button.iconColor}`} />
-							{button.label}
+							<Cast className="h-4 w-4" />
+							<span className={button.colorClass.split(' ')[0]}>{button.label}</span>
 						</Link>
 					))}
 				</div>
 			)}
 
-			{/* Is RD Down - full width */}
+			{/* RD Status */}
 			{rdUser && (
 				<Link
 					href="/is-real-debrid-down-or-just-me"
-					className="haptic flex w-full items-center justify-center rounded border-2 border-emerald-500 bg-emerald-900/30 p-3 text-center text-sm text-emerald-100 transition-colors hover:bg-emerald-800/40"
+					className="glass-card flex h-12 items-center justify-center gap-3 bg-danger/5 transition-all hover:bg-danger/10 group"
 				>
-					Is Real-Debrid down or just me?
+					<div className="relative flex h-2 w-2">
+						<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-danger opacity-75"></span>
+						<span className="relative inline-flex h-2 w-2 rounded-full bg-danger"></span>
+					</div>
+					<span className="text-[10px] font-black uppercase tracking-[0.2em] text-danger group-hover:text-danger-500">
+						Service Status Monitor
+					</span>
+					<Activity className="h-4 w-4 text-danger opacity-50 transition-transform group-hover:scale-110" />
 				</Link>
 			)}
 		</div>

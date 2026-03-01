@@ -12,12 +12,13 @@ import { handleLogout } from '@/utils/logout';
 import { checkPremiumStatus } from '@/utils/premiumCheck';
 import { genericToastOptions } from '@/utils/toastOptions';
 import { withAuth } from '@/utils/withAuth';
-import { Megaphone, Settings, Star, X } from 'lucide-react';
+import { Settings, RefreshCw, Database, LogOut, ChevronRight } from 'lucide-react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
+import { Button, Spinner, Card, CardBody, Divider, Tooltip } from '@heroui/react';
 
 function IndexPage() {
 	const router = useRouter();
@@ -38,14 +39,8 @@ function IndexPage() {
 	} = useCurrentUser();
 	const { loginWithRealDebrid, loginWithAllDebrid, loginWithTorbox } = useDebridLogin();
 	const [browseTerms] = useState(getTerms(2));
-	const [showElfHostedBanner, setShowElfHostedBanner] = useState(true);
 
 	useCastToken();
-
-	// Loading state tracking
-	useEffect(() => {
-		// Loading state managed by auth system
-	}, [isLoading]);
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
@@ -65,50 +60,26 @@ function IndexPage() {
 	}, []);
 
 	useEffect(() => {
-		if (rdError) {
-			toast.error('RD load failed. Clear site data and sign in again.');
-		}
-		if (adError) {
-			toast.error('AllDebrid fetch failed. Confirm your DMM login email.');
-		}
-		if (tbError) {
-			toast.error('Torbox profile failed. Verify the API key in Settings.');
-		}
-		if (traktError) {
-			toast.error('Trakt profile fetch failed.');
-		}
+		if (rdError) toast.error('RD load failed. Clear site data and sign in again.');
+		if (adError) toast.error('AllDebrid fetch failed. Confirm your DMM login email.');
+		if (tbError) toast.error('Torbox profile failed. Verify the API key in Settings.');
+		if (traktError) toast.error('Trakt profile fetch failed.');
 		if (localStorage.getItem('next_action') === 'clear_cache') {
 			localStorage.removeItem('next_action');
 			const request = window.indexedDB.deleteDatabase('DMMDB');
-			request.onsuccess = function () {
-				window.location.assign('/');
-			};
-			request.onerror = function () {
-				toast.error('Failed to delete local cache.', genericToastOptions);
-			};
-			request.onblocked = function () {
-				toast('Local DB still open. Refresh and retry.', genericToastOptions);
-			};
+			request.onsuccess = function () { window.location.assign('/'); };
+			request.onerror = function () { toast.error('Failed to delete local cache.', genericToastOptions); };
+			request.onblocked = function () { toast('Local DB still open. Refresh and retry.', genericToastOptions); };
 		}
 	}, [rdError, adError, tbError, traktError]);
 
 	useEffect(() => {
 		if (rdUser) {
 			checkPremiumStatus(rdUser).then(async ({ shouldLogout }) => {
-				if (shouldLogout) {
-					await handleLogout('rd:', router);
-				}
+				if (shouldLogout) await handleLogout('rd:', router);
 			});
 		}
 	}, [rdUser, router]);
-
-	// Check if ElfHosted banner should be hidden
-	useEffect(() => {
-		const hideElfHostedBanner = localStorage.getItem('hideElfHostedBanner');
-		if (hideElfHostedBanner === 'true') {
-			setShowElfHostedBanner(false);
-		}
-	}, []);
 
 	const loginWithTrakt = async () => {
 		const authUrl = `/api/trakt/auth?redirect=${window.location.origin}`;
@@ -122,103 +93,81 @@ function IndexPage() {
 
 	const handleClearLocalStorage = () => {
 		localStorage.clear();
-		// Dispatch logout event to update UI immediately
 		window.dispatchEvent(new Event('logout'));
 		window.location.reload();
 	};
 
-	const handleHideElfHostedBanner = () => {
-		localStorage.setItem('hideElfHostedBanner', 'true');
-		setShowElfHostedBanner(false);
-	};
-
-	const actionButtonGroupClasses = 'grid w-full max-w-md gap-3 sm:grid-cols-2 md:grid-cols-3';
-	const actionButtonClasses =
-		'haptic-sm w-full rounded border-2 border-gray-500 bg-gray-800/30 px-4 py-2 text-sm font-medium text-gray-100 transition-colors hover:bg-gray-700/50';
+	const isReady = !isLoading &&
+		(rdUser || !hasRDAuth) &&
+		(adUser || !hasADAuth) &&
+		(tbUser || !hasTBAuth) &&
+		(traktUser || !hasTraktAuth);
 
 	return (
-		<div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 p-4">
+		<div className="relative min-h-screen bg-mesh bg-noise">
 			<Head>
-				<title>Debrid Media Manager - Home</title>
+				<title>DMM — Debrid Media Manager</title>
 				<meta name="robots" content="index, nofollow" />
 			</Head>
-			<Logo />
-			<Toaster position="bottom-right" />
-			{!isLoading &&
-			(rdUser || !hasRDAuth) &&
-			(adUser || !hasADAuth) &&
-			(tbUser || !hasTBAuth) &&
-			(traktUser || !hasTraktAuth) ? (
-				<>
-					<h1 className="mb-2 flex items-center justify-center text-xl font-bold text-white">
-						Debrid Media Manager{' '}
-						<a
-							href="https://www.patreon.com/debridmediamanager"
-							className="ml-2 inline-flex hover:opacity-75"
-						>
-							<Megaphone className="h-6 w-6 text-yellow-400" />
-						</a>
-					</h1>
 
-					{/* Search Bar */}
-					<div className="mb-4 w-full max-w-md">
+			<Toaster position="bottom-right" toastOptions={{
+				style: {
+					background: '#18181B',
+					color: '#FAFAFA',
+					borderRadius: '12px',
+					border: '1px solid rgba(255,255,255,0.06)',
+					fontSize: '14px',
+				}
+			}} />
+
+			{isReady ? (
+				<div className="mx-auto max-w-lg px-4 pb-16 pt-8 animate-fade-in">
+					{/* Header */}
+					<div className="flex items-center justify-between mb-8">
+						<Logo size="md" showText />
+						<div className="flex items-center gap-1">
+							<Tooltip content="Settings" placement="bottom">
+								<Button
+									as={Link}
+									href="/settings"
+									isIconOnly
+									variant="light"
+									radius="full"
+									className="text-default-400 hover:text-foreground"
+								>
+									<Settings className="h-5 w-5" />
+								</Button>
+							</Tooltip>
+						</div>
+					</div>
+
+					{/* Search */}
+					<div className="mb-8">
 						<SearchBar />
 					</div>
 
-					{/* ElfHosted Promo Banner - Compact Version */}
-					{showElfHostedBanner && (
-						<div className="mb-2 w-full max-w-md rounded-md border border-blue-500 bg-blue-900/30 p-1.5 text-xs shadow-sm">
-							<div className="flex justify-between">
-								<div className="flex-1">
-									<span className="inline-flex items-center text-yellow-300">
-										<Star className="mr-1 inline-block h-3 w-3 text-yellow-400" />
-										Sponsor:
-									</span>{' '}
-									<a
-										className="font-medium text-blue-300 underline hover:text-blue-200"
-										href="https://store.elfhosted.com/product-category/streaming-bundles/"
-										target="_blank"
-									>
-										<b>ElfHosted</b>
-									</a>{' '}
-									- Self-hosting too stressful? Try ElfHosted&apos;s turn-key
-									streaming stack including Zurg, Plex, Seerrbridge, Radarr/Sonarr
-									& more!{' '}
-									<span className="whitespace-nowrap">
-										7-day trial available.
-									</span>
-								</div>
-								<button
-									onClick={handleHideElfHostedBanner}
-									className="ml-1 text-gray-400 hover:text-gray-200"
-									title="Hide banner"
-								>
-									<X className="h-4 w-4" />
-								</button>
-							</div>
-						</div>
-					)}
-
-					<div className="flex w-full max-w-md flex-col items-center gap-6">
+					{/* Quick Actions */}
+					<div className="mb-8 stagger-children">
 						<MainActions
 							rdUser={rdUser}
 							tbUser={tbUser}
 							adUser={!!adUser}
 							isLoading={isLoading}
 						/>
-						<Link
-							href="/settings"
-							className="haptic-sm flex w-full items-center justify-between rounded border-2 border-gray-500 bg-gray-800/30 px-4 py-2 text-sm font-medium text-gray-100 transition-colors hover:bg-gray-700/50"
-						>
-							<span className="flex items-center">
-								<Settings className="mr-2 inline-block h-4 w-4 text-gray-400" />
-								Settings
-							</span>
-							<span className="text-xs text-gray-400">Open full page</span>
-						</Link>
+					</div>
+
+					{/* Browse & Trakt */}
+					<div className="flex flex-col gap-6 mb-8 stagger-children">
 						<BrowseSection terms={browseTerms} />
 						<TraktSection traktUser={traktUser} />
-						<div className="grid w-full grid-cols-1 gap-3">
+					</div>
+
+					{/* Services */}
+					<div className="mb-8">
+						<h2 className="text-xs font-semibold uppercase tracking-wider text-default-400 mb-3 px-1">
+							Connected Services
+						</h2>
+						<div className="flex flex-col gap-2.5 stagger-children">
 							<ServiceCard
 								service="rd"
 								user={rdUser}
@@ -244,41 +193,51 @@ function IndexPage() {
 								onLogout={async (prefix) => await handleLogout(prefix, router)}
 							/>
 						</div>
-						<InfoSection />
-
-						{/* Action Buttons */}
-						<div className={actionButtonGroupClasses}>
-							<button
-								onClick={() => window.location.reload()}
-								className={actionButtonClasses}
-							>
-								↻&nbsp;Refresh
-							</button>
-							<button
-								onClick={() => handleClearCache()}
-								className={actionButtonClasses}
-							>
-								Clear library cache
-							</button>
-							<button
-								onClick={async () => await handleLogout(undefined, router)}
-								className={actionButtonClasses}
-							>
-								Logout All
-							</button>
-						</div>
 					</div>
-				</>
-			) : (
-				<div className="flex flex-col items-center gap-4">
-					<h1 className="pb-4 text-center text-xl text-white">
-						Debrid Media Manager is loading...
-					</h1>
-					<div className={actionButtonGroupClasses}>
-						<button onClick={handleClearLocalStorage} className={actionButtonClasses}>
-							Clear Data and Reload
+
+					{/* Info */}
+					<InfoSection />
+
+					{/* Footer Actions */}
+					<Divider className="my-6" />
+					<div className="grid grid-cols-3 gap-3">
+						<button
+							onClick={() => window.location.reload()}
+							className="glass-card flex h-12 flex-col items-center justify-center gap-1 transition-all hover:bg-white/5 active:scale-95"
+						>
+							<RefreshCw className="h-4 w-4 text-default-400" />
+							<span className="text-[8px] font-black uppercase tracking-widest text-default-500">Refresh</span>
+						</button>
+						<button
+							onClick={() => handleClearCache()}
+							className="glass-card flex h-12 flex-col items-center justify-center gap-1 transition-all hover:bg-white/5 active:scale-95"
+						>
+							<Database className="h-4 w-4 text-default-400" />
+							<span className="text-[8px] font-black uppercase tracking-widest text-default-500">Clear Cache</span>
+						</button>
+						<button
+							onClick={async () => await handleLogout(undefined, router)}
+							className="glass-card flex h-12 flex-col items-center justify-center gap-1 bg-danger/5 transition-all hover:bg-danger/10 active:scale-95 border-danger/20"
+						>
+							<LogOut className="h-4 w-4 text-danger" />
+							<span className="text-[8px] font-black uppercase tracking-widest text-danger/80">Logout</span>
 						</button>
 					</div>
+				</div>
+			) : (
+				<div className="flex flex-col items-center justify-center min-h-screen gap-6">
+					<Logo size="lg" />
+					<Spinner size="lg" color="primary" />
+					<p className="text-sm text-default-400 animate-pulse">Loading your library...</p>
+					<Button
+						variant="flat"
+						color="warning"
+						size="sm"
+						onClick={handleClearLocalStorage}
+						className="mt-4 font-medium"
+					>
+						Clear Data & Reload
+					</Button>
 				</div>
 			)}
 		</div>

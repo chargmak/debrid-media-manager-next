@@ -41,9 +41,11 @@ export default function LibraryMenuButtons({
 			>
 				<ChevronLeft className="h-4 w-4 text-indigo-400" />
 			</LibraryButton>
-			<span className="w-16 text-center">
-				{currentPage}/{maxPages}
-			</span>
+			<div className="flex items-center justify-center bg-content2 border border-divider rounded-md px-3 mx-1 mb-2 h-9">
+				<span className="text-xs font-semibold text-foreground whitespace-nowrap">
+					{currentPage} / {maxPages}
+				</span>
+			</div>
 			<LibraryButton
 				variant="indigo"
 				size="xs"

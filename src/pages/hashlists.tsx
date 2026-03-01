@@ -110,81 +110,80 @@ export default function HashlistsPage() {
 	const currentFile = files[currentIndex];
 
 	return (
-		<div className="flex h-screen flex-col items-center justify-center bg-gray-900">
+		<div className="flex h-screen flex-col items-center justify-center bg-black selection:bg-primary/30">
 			<Head>
-				<title>Debrid Media Manager - Hash Lists</title>
+				<title>Hash Lists | Debrid Media Manager</title>
 			</Head>
 
 			{/* Control Panel */}
-			<div className="flex w-full max-w-md flex-col items-center gap-4 p-4">
-				<h1 className="text-xl font-bold text-white">Hash Lists Browser</h1>
+			<div className="flex w-full max-w-md flex-col items-center gap-8 p-6 text-center">
+				<div className="flex flex-col items-center gap-4">
+					<Home className="h-12 w-12 text-primary animate-pulse" />
+					<h1 className="text-3xl font-bold tracking-tight text-white">Hash Lists Browser</h1>
+					<p className="text-sm text-default-400">Discover and browse shared community lists</p>
+				</div>
 
-				<div className="flex items-center gap-2">
+				<div className="glass-card flex items-center justify-center gap-3 p-4">
 					<Link
 						href="/"
-						className="rounded border-2 border-cyan-500 bg-cyan-900/30 p-2 text-cyan-100 transition-colors hover:bg-cyan-800/50"
+						className="group flex h-10 w-10 items-center justify-center rounded-xl bg-content2/50 text-default-400 transition-all hover:bg-primary/20 hover:text-primary"
 						title="Go Home"
 					>
-						<Home className="h-4 w-4" />
+						<Home className="h-5 w-5 transition-transform group-hover:scale-110" />
 					</Link>
 					<button
 						onClick={handlePrevious}
 						disabled={currentIndex <= 0 || loading || loadingHash}
-						className={`rounded border-2 border-indigo-500 bg-indigo-900/30 p-2 text-indigo-100 transition-colors hover:bg-indigo-800/50 ${
-							currentIndex <= 0 || loading || loadingHash
-								? 'cursor-not-allowed opacity-50'
-								: ''
-						}`}
+						className="flex h-10 w-10 items-center justify-center rounded-xl bg-content2/50 text-default-400 transition-all hover:bg-secondary/20 hover:text-secondary disabled:cursor-not-allowed disabled:opacity-30"
 						title="Previous"
 					>
-						<ChevronLeft className="h-4 w-4" />
+						<ChevronLeft className="h-6 w-6" />
 					</button>
 					<button
 						onClick={handleRandom}
 						disabled={files.length <= 1 || loading || loadingHash}
-						className={`rounded border-2 border-purple-500 bg-purple-900/30 p-2 text-purple-100 transition-colors hover:bg-purple-800/50 ${
-							files.length <= 1 || loading || loadingHash
-								? 'cursor-not-allowed opacity-50'
-								: ''
-						}`}
+						className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:scale-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
 						title="Random"
 					>
-						<Shuffle className="h-4 w-4" />
+						<Shuffle className="h-6 w-6" />
 					</button>
 					<button
 						onClick={handleNext}
 						disabled={currentIndex >= files.length - 1 || loading || loadingHash}
-						className={`rounded border-2 border-indigo-500 bg-indigo-900/30 p-2 text-indigo-100 transition-colors hover:bg-indigo-800/50 ${
-							currentIndex >= files.length - 1 || loading || loadingHash
-								? 'cursor-not-allowed opacity-50'
-								: ''
-						}`}
+						className="flex h-10 w-10 items-center justify-center rounded-xl bg-content2/50 text-default-400 transition-all hover:bg-secondary/20 hover:text-secondary disabled:cursor-not-allowed disabled:opacity-30"
 						title="Next"
 					>
-						<ChevronRight className="h-4 w-4" />
+						<ChevronRight className="h-6 w-6" />
 					</button>
 					<Link
 						href="/"
-						className="rounded border-2 border-red-500 bg-red-900/30 p-2 text-red-100 transition-colors hover:bg-red-800/50"
+						className="group flex h-10 w-10 items-center justify-center rounded-xl bg-content2/50 text-default-400 transition-all hover:bg-danger/20 hover:text-danger"
 						title="Close"
 					>
-						<X className="h-4 w-4" />
+						<X className="h-5 w-5 transition-transform group-hover:rotate-90" />
 					</Link>
 				</div>
 
-				<div className="text-center text-sm text-gray-300">
+				<div className="flex h-12 items-center justify-center px-4">
 					{loading ? (
-						'Loading hashlists...'
+						<div className="flex items-center gap-2 text-primary">
+							<div className="h-2 w-2 animate-bounce rounded-full bg-primary" />
+							<div className="h-2 w-2 animate-bounce rounded-full bg-primary [animation-delay:0.2s]" />
+							<div className="h-2 w-2 animate-bounce rounded-full bg-primary [animation-delay:0.4s]" />
+						</div>
 					) : loadingHash ? (
-						'Loading hashlist...'
+						<p className="animate-pulse text-sm font-medium text-secondary">Switching list...</p>
 					) : error ? (
-						<span className="text-red-400">{error}</span>
+						<p className="text-sm font-medium text-danger">{error}</p>
 					) : currentFile ? (
-						<span>
-							{currentFile.name} ({currentIndex + 1}/{files.length})
-						</span>
+						<div className="flex flex-col gap-1">
+							<p className="text-sm font-bold text-white line-clamp-1">{currentFile.name}</p>
+							<p className="text-xs text-default-400">
+								{currentIndex + 1} of {files.length} lists
+							</p>
+						</div>
 					) : (
-						'No hashlists found'
+						<p className="text-sm text-default-400">No hashlists found</p>
 					)}
 				</div>
 			</div>

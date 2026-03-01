@@ -59,7 +59,7 @@ export class ReportService extends DatabaseClient {
 		});
 
 		if (scrapedItems.length > 0) {
-			return scrapedItems.map((item) => item.key.split(':')[1]);
+			return scrapedItems.map((item: any) => item.key.split(':')[1]);
 		}
 
 		return null;

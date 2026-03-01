@@ -112,7 +112,7 @@ export class ZurgKeysService extends DatabaseClient {
 
 		const now = new Date();
 
-		return keys.map((key) => ({
+		return keys.map((key: any) => ({
 			apiKey: key.apiKey,
 			validUntil: key.validUntil,
 			createdAt: key.createdAt,

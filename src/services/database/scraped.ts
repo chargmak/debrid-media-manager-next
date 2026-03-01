@@ -51,7 +51,7 @@ export class ScrapedService extends DatabaseClient {
       ) AS jt`;
 
 		try {
-			const result = await this.prisma.$queryRaw<{ value: T }[]>(query);
+			const result: { value: T }[] = await this.prisma.$queryRawUnsafe(query.sql, ...query.values);
 			return result.length > 0 ? result[0].value : undefined;
 		} catch (error) {
 			console.error(
@@ -113,7 +113,7 @@ export class ScrapedService extends DatabaseClient {
       ) AS jt`;
 
 		try {
-			const result = await this.prisma.$queryRaw<{ value: T }[]>(query);
+			const result: { value: T }[] = await this.prisma.$queryRawUnsafe(query.sql, ...query.values);
 			return result.length > 0 ? result[0].value : undefined;
 		} catch (error) {
 			console.error(
@@ -308,7 +308,7 @@ export class ScrapedService extends DatabaseClient {
 		});
 
 		if (scrapedItems.length > 0) {
-			return scrapedItems.map((item) => item.key.split(':')[1]);
+			return scrapedItems.map((item: any) => item.key.split(':')[1]);
 		}
 
 		return null;
@@ -325,7 +325,7 @@ export class ScrapedService extends DatabaseClient {
 
 		if (scrapedItems.length > 0) {
 			// ensure unique imdbIds
-			return Array.from(new Set(scrapedItems.map((item) => item.key.split(':')[1])));
+			return Array.from(new Set(scrapedItems.map((item: any) => item.key.split(':')[1])));
 		}
 
 		return null;
@@ -388,29 +388,29 @@ export class ScrapedService extends DatabaseClient {
 	}
 
 	public async getContentSize(): Promise<number> {
-		const result = await this.prisma.$queryRaw<[{ contentSize: number }]>`
+		const result: [{ contentSize: number }] = await this.prisma.$queryRawUnsafe(`
       SELECT count(*) as contentSize
       FROM Scraped
       WHERE Scraped.key LIKE 'movie:%' OR Scraped.key LIKE 'tv:%';
-    `;
+    `);
 		return parseInt(result[0].contentSize.toString());
 	}
 
 	public async getProcessingCount(): Promise<number> {
-		const result = await this.prisma.$queryRaw<[{ processing: number }]>`
+		const result: [{ processing: number }] = await this.prisma.$queryRawUnsafe(`
       SELECT count(*) as processing
       FROM Scraped
       WHERE Scraped.key LIKE 'processing:%';
-    `;
+    `);
 		return parseInt(result[0].processing.toString());
 	}
 
 	public async getRequestedCount(): Promise<number> {
-		const result = await this.prisma.$queryRaw<[{ requested: number }]>`
+		const result: [{ requested: number }] = await this.prisma.$queryRawUnsafe(`
       SELECT count(*) as requested
       FROM Scraped
       WHERE Scraped.key LIKE 'requested:%';
-    `;
+    `);
 		return parseInt(result[0].requested.toString());
 	}
 }

@@ -1,19 +1,28 @@
-import { PrismaClient } from '@prisma/client';
+// Only import PrismaClient on the server side
+let PrismaClient: any;
+if (typeof window === 'undefined') {
+	PrismaClient = require('@prisma/client').PrismaClient;
+}
 
 // Prevent multiple instances in development due to hot reloading
 const globalForPrisma = globalThis as unknown as {
-	prisma: PrismaClient | undefined;
+	prisma: any | undefined;
 };
 
 export class DatabaseClient {
-	private static instance: PrismaClient;
-	protected prisma: PrismaClient;
+	private static instance: any;
+	protected prisma: any;
 
 	constructor() {
 		this.prisma = DatabaseClient.getInstance();
 	}
 
-	private static getInstance(): PrismaClient {
+	private static getInstance(): any {
+		// Return null on client side - DB operations should only run server-side
+		if (typeof window !== 'undefined') {
+			return null;
+		}
+
 		if (!DatabaseClient.instance) {
 			// Use global instance in development to survive hot reloads
 			if (globalForPrisma.prisma) {

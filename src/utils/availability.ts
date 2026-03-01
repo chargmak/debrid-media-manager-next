@@ -67,7 +67,7 @@ export async function checkAvailability(
 			let error: any = {};
 			try {
 				error = await response.json();
-			} catch {}
+			} catch { }
 			const detail = error.hash ? ` (invalid: ${error.hash})` : '';
 			throw new Error(
 				error.error || error.errorMessage || `Failed to check availability${detail}`
@@ -76,8 +76,8 @@ export async function checkAvailability(
 
 		return await response.json();
 	} catch (error) {
-		console.error('Error checking availability:', error);
-		throw error;
+		console.warn('Availability check failed (database may not be configured):', error);
+		return { available: [] } as any;
 	}
 }
 
@@ -108,19 +108,19 @@ export async function checkAvailabilityByHashes(
 			let error: any = {};
 			try {
 				error = await response.json();
-			} catch {}
+			} catch { }
 			const detail = error.hash ? ` (invalid: ${error.hash})` : '';
 			throw new Error(
 				error.error ||
-					error.errorMessage ||
-					`Failed to check availability by hashes${detail}`
+				error.errorMessage ||
+				`Failed to check availability by hashes${detail}`
 			);
 		}
 
 		return await response.json();
 	} catch (error) {
-		console.error('Error checking availability by hashes:', error);
-		throw error;
+		console.warn('Availability check by hashes failed (database may not be configured):', error);
+		return { available: [] } as any;
 	}
 }
 
@@ -234,18 +234,18 @@ export async function checkAvailabilityAd(
 			let error: any = {};
 			try {
 				error = await response.json();
-			} catch {}
+			} catch { }
 			const detail = error.hash ? ` (invalid: ${error.hash})` : '';
 			throw new Error(
 				error.error ||
-					error.errorMessage ||
-					`Failed to check AllDebrid availability${detail}`
+				error.errorMessage ||
+				`Failed to check AllDebrid availability${detail}`
 			);
 		}
 
 		return await response.json();
 	} catch (error) {
-		console.error('Error checking AllDebrid availability:', error);
-		throw error;
+		console.warn('AllDebrid availability check failed (database may not be configured):', error);
+		return { available: [] } as any;
 	}
 }

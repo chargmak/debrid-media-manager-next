@@ -1,4 +1,5 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { ReactNode } from 'react';
+import { Button } from '@heroui/react';
 
 type ButtonVariant =
 	| 'orange'
@@ -11,23 +12,26 @@ type ButtonVariant =
 	| 'slate'
 	| 'cyan';
 
-interface LibraryButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface LibraryButtonProps {
 	variant: ButtonVariant;
 	children: ReactNode;
 	size?: 'xs' | 'sm';
 	showCount?: number;
+	className?: string;
+	disabled?: boolean;
+	onClick?: (e: any) => void;
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-	orange: 'border-orange-500 bg-orange-900/30 text-orange-100 hover:bg-orange-800/50',
-	green: 'border-green-500 bg-green-900/30 text-green-100 hover:bg-green-800/50',
-	indigo: 'border-indigo-500 bg-indigo-900/30 text-indigo-100 hover:bg-indigo-800/50',
-	red: 'border-red-500 bg-red-900/30 text-red-100 hover:bg-red-800/50',
-	teal: 'border-teal-500 bg-teal-900/30 text-teal-100 hover:bg-teal-800/50',
-	yellow: 'border-yellow-500 bg-yellow-900/30 text-yellow-100 hover:bg-yellow-800/50',
-	amber: 'border-amber-500 bg-amber-900/30 text-amber-100 hover:bg-amber-800/50',
-	slate: 'border-slate-500 bg-slate-900/30 text-slate-100 hover:bg-slate-800/50',
-	cyan: 'border-cyan-500 bg-cyan-900/30 text-cyan-100 hover:bg-cyan-800/50',
+	orange: 'border-warning/20 bg-warning/10 text-warning hover:bg-warning/20',
+	green: 'border-success/20 bg-success/10 text-success hover:bg-success/20',
+	indigo: 'border-primary/20 bg-primary/10 text-primary hover:bg-primary/20',
+	red: 'border-danger/20 bg-danger/10 text-danger hover:bg-danger/20',
+	teal: 'border-secondary/20 bg-secondary/10 text-secondary hover:bg-secondary/20',
+	yellow: 'border-[#FCD34D]/20 bg-[#FCD34D]/10 text-[#FCD34D] hover:bg-[#FCD34D]/20',
+	amber: 'border-[#F59E0B]/20 bg-[#F59E0B]/10 text-[#F59E0B] hover:bg-[#F59E0B]/20',
+	slate: 'border-default-400/20 bg-default-400/10 text-default-400 hover:bg-default-400/20 hover:text-foreground',
+	cyan: 'border-[#22D3EE]/20 bg-[#22D3EE]/10 text-[#22D3EE] hover:bg-[#22D3EE]/20',
 };
 
 export default function LibraryButton({
@@ -39,17 +43,20 @@ export default function LibraryButton({
 	disabled,
 	...props
 }: LibraryButtonProps) {
-	const sizeClasses = size === 'xs' ? 'text-xs' : 'text-[0.6rem]';
-	const disabledClasses = disabled ? 'cursor-not-allowed opacity-60' : '';
+	const sizeClasses = size === 'xs' ? 'h-7 text-xs px-3 min-w-0' : 'h-9 text-xs font-semibold px-4 min-w-0';
 
 	return (
-		<button
-			className={`mb-1 mr-2 rounded border-2 px-1 py-0.5 ${sizeClasses} ${variantStyles[variant]} transition-colors ${disabledClasses} ${className}`}
-			disabled={disabled}
+		<Button
+			className={`mb-2 mr-2 border backdrop-blur-sm transition-all ${sizeClasses} ${variantStyles[variant]} ${className}`}
+			isDisabled={disabled}
+			variant="flat"
+			radius="md"
 			{...props}
 		>
-			{children}
-			{showCount !== undefined && showCount > 0 && ` (${showCount})`}
-		</button>
+			<span className="flex items-center gap-1.5 whitespace-nowrap">
+				{children}
+				{showCount !== undefined && showCount > 0 && ` (${showCount})`}
+			</span>
+		</Button>
 	);
 }

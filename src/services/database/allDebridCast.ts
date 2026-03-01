@@ -96,9 +96,9 @@ export class AllDebridCastService extends DatabaseClient {
 		});
 		return castItems
 			.filter(
-				(item): item is { url: string; link: string; size: bigint } => item.link !== null
+				(item: any): item is { url: string; link: string; size: bigint } => item.link !== null
 			)
-			.map((item) => ({
+			.map((item: any) => ({
 				url: item.url,
 				link: item.link,
 				size: Number(item.size),
@@ -135,8 +135,10 @@ export class AllDebridCastService extends DatabaseClient {
 		});
 
 		return castItems
-			.filter((item): item is { url: string; link: string; size: bigint } => !!item.link)
-			.map((item) => ({
+			.filter(
+				(item: any): item is { url: string; link: string; size: bigint } => !!item.link
+			)
+			.map((item: any) => ({
 				url: item.url,
 				link: item.link,
 				size: Number(item.size),
@@ -221,7 +223,7 @@ export class AllDebridCastService extends DatabaseClient {
 			},
 		});
 
-		return movies.map((movie) => movie.imdbId);
+		return movies.map((movie: any) => movie.imdbId);
 	}
 
 	public async fetchCastedShows(userId: string): Promise<string[]> {
@@ -241,8 +243,8 @@ export class AllDebridCastService extends DatabaseClient {
 		});
 
 		const uniqueShows = showsWithDuplicates
-			.map((show) => show.imdbId.split(':')[0]) // Extracts the base imdbId of the show
-			.filter((value, index, self) => self.indexOf(value) === index); // Ensures uniqueness
+			.map((show: any) => show.imdbId.split(':')[0]) // Extracts the base imdbId of the show
+			.filter((value: any, index: any, self: any) => self.indexOf(value) === index); // Ensures uniqueness
 
 		return uniqueShows;
 	}
@@ -272,7 +274,7 @@ export class AllDebridCastService extends DatabaseClient {
 			},
 		});
 
-		return castItems.map((item) => ({
+		return castItems.map((item: any) => ({
 			...item,
 			size: Number(item.size),
 		}));
@@ -315,7 +317,7 @@ export class AllDebridCastService extends DatabaseClient {
 				size: true,
 			},
 		});
-		return casts.map((cast) => ({
+		return casts.map((cast: any) => ({
 			imdbId: cast.imdbId,
 			hash: cast.hash,
 			url: cast.url,
@@ -366,10 +368,10 @@ export class AllDebridCastService extends DatabaseClient {
 
 		return castItems
 			.filter(
-				(item): item is { url: string; link: string; size: bigint; hash: string; magnetId: number | null; fileIndex: number | null } =>
+				(item: any): item is { url: string; link: string; size: bigint; hash: string; magnetId: number | null; fileIndex: number | null } =>
 					item.link !== null
 			)
-			.map((item) => ({
+			.map((item: any) => ({
 				url: item.url,
 				link: item.link,
 				size: Number(item.size),
@@ -434,10 +436,10 @@ export class AllDebridCastService extends DatabaseClient {
 
 		const castStreams = otherCastItems
 			.filter(
-				(item): item is { url: string; link: string; size: bigint; hash: string; magnetId: number | null; fileIndex: number | null } =>
+				(item: any): item is { url: string; link: string; size: bigint; hash: string; magnetId: number | null; fileIndex: number | null } =>
 					item.link !== null
 			)
-			.map((item) => ({
+			.map((item: any) => ({
 				url: item.url,
 				link: item.link,
 				size: Number(item.size),

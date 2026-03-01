@@ -12,19 +12,19 @@ const EPISODE_PATTERNS: Array<{
 	seasonIndex: number;
 	episodeIndex: number;
 }> = [
-	{ regex: /s(\d{1,2})e(\d{1,2})/i, seasonIndex: 1, episodeIndex: 2 },
-	{ regex: /(\d{1,2})x(\d{1,2})/i, seasonIndex: 1, episodeIndex: 2 },
-	{
-		regex: /season[^\d]{0,6}(\d{1,2}).*episode[^\d]{0,6}(\d{1,2})/i,
-		seasonIndex: 1,
-		episodeIndex: 2,
-	},
-	{
-		regex: /episode[^\d]{0,6}(\d{1,2}).*season[^\d]{0,6}(\d{1,2})/i,
-		seasonIndex: 2,
-		episodeIndex: 1,
-	},
-];
+		{ regex: /s(\d{1,2})e(\d{1,2})/i, seasonIndex: 1, episodeIndex: 2 },
+		{ regex: /(\d{1,2})x(\d{1,2})/i, seasonIndex: 1, episodeIndex: 2 },
+		{
+			regex: /season[^\d]{0,6}(\d{1,2}).*episode[^\d]{0,6}(\d{1,2})/i,
+			seasonIndex: 1,
+			episodeIndex: 2,
+		},
+		{
+			regex: /episode[^\d]{0,6}(\d{1,2}).*season[^\d]{0,6}(\d{1,2})/i,
+			seasonIndex: 2,
+			episodeIndex: 1,
+		},
+	];
 
 const SEASON_ONLY_PATTERNS: Array<{ regex: RegExp; captureIndex?: number }> = [
 	{ regex: /season[^\d]{0,6}(\d{1,2})/i, captureIndex: 1 },
@@ -142,19 +142,19 @@ export class AvailabilityService extends DatabaseClient {
 				files:
 					selectedFiles.length > 0
 						? {
-								deleteMany: {},
-								create: selectedFiles.map((file, index) => {
-									const fileEpisodeInfo = extractEpisodeInfo(file.path);
-									return {
-										link: torrentInfo.links?.[index] || '',
-										file_id: file.id,
-										path: file.path,
-										bytes: BigInt(file.bytes || 0),
-										season: fileEpisodeInfo?.season,
-										episode: fileEpisodeInfo?.episode,
-									};
-								}),
-							}
+							deleteMany: {},
+							create: selectedFiles.map((file, index) => {
+								const fileEpisodeInfo = extractEpisodeInfo(file.path);
+								return {
+									link: torrentInfo.links?.[index] || '',
+									file_id: file.id,
+									path: file.path,
+									bytes: BigInt(file.bytes || 0),
+									season: fileEpisodeInfo?.season,
+									episode: fileEpisodeInfo?.episode,
+								};
+							}),
+						}
 						: undefined,
 			},
 			create: {
@@ -162,18 +162,18 @@ export class AvailabilityService extends DatabaseClient {
 				files:
 					selectedFiles.length > 0
 						? {
-								create: selectedFiles.map((file, index) => {
-									const fileEpisodeInfo = extractEpisodeInfo(file.path);
-									return {
-										link: torrentInfo.links?.[index] || '',
-										file_id: file.id,
-										path: file.path,
-										bytes: BigInt(file.bytes || 0),
-										season: fileEpisodeInfo?.season,
-										episode: fileEpisodeInfo?.episode,
-									};
-								}),
-							}
+							create: selectedFiles.map((file, index) => {
+								const fileEpisodeInfo = extractEpisodeInfo(file.path);
+								return {
+									link: torrentInfo.links?.[index] || '',
+									file_id: file.id,
+									path: file.path,
+									bytes: BigInt(file.bytes || 0),
+									season: fileEpisodeInfo?.season,
+									episode: fileEpisodeInfo?.episode,
+								};
+							}),
+						}
 						: undefined,
 			},
 		});
@@ -308,9 +308,9 @@ export class AvailabilityService extends DatabaseClient {
 			},
 		});
 
-		return availableHashes.map((record) => ({
+		return availableHashes.map((record: any) => ({
 			hash: record.hash,
-			files: record.files.map((file) => ({
+			files: record.files.map((file: any) => ({
 				file_id: file.file_id,
 				path: file.path,
 				bytes: Number(file.bytes),
@@ -345,9 +345,9 @@ export class AvailabilityService extends DatabaseClient {
 			},
 		});
 
-		return availableHashes.map((record) => ({
+		return availableHashes.map((record: any) => ({
 			hash: record.hash,
-			files: record.files.map((file) => ({
+			files: record.files.map((file: any) => ({
 				file_id: file.file_id,
 				path: file.path,
 				bytes: Number(file.bytes),
@@ -491,9 +491,9 @@ export class AvailabilityService extends DatabaseClient {
 			},
 		});
 
-		return availableHashes.map((record) => ({
+		return availableHashes.map((record: any) => ({
 			hash: record.hash,
-			files: record.files.map((file) => ({
+			files: record.files.map((file: any) => ({
 				file_id: file.file_id,
 				path: file.path,
 				bytes: Number(file.bytes),
