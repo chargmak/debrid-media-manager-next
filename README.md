@@ -1,90 +1,144 @@
-![DMM Logo](./dmm-logo.svg)
+# 🎬 Debrid Media Manager Next
 
-# Debrid Media Manager
+> A modern, premium reimagining of Debrid Media Manager — built with a completely redesigned UI and enhanced user experience.
 
-Start building your media library with truly unlimited storage size!
+**Debrid Media Manager Next** (DMM Next) is a free and open source web application that makes it effortless to build, manage, and stream your personal media library using Debrid services like [Real-Debrid](https://real-debrid.com), [AllDebrid](https://alldebrid.com), and [TorBox](https://torbox.app).
 
-## What is this?
+---
 
-Do you want a movie and TV show library that has unlimited size? Consider using a Debrid service, like Real-Debrid, AllDebrid, or TorBox. These services work like a shared storage space for downloading torrents. You can download as much as you want without worrying about storage limits, because the files are shared among all users. You only "own" the file when you download it to your account.
+## ✨ What's New in DMM Next
 
-These Debrid services also offer a WebDAV interface that lets you mount your library as a network drive. You can connect it to media players like [Infuse](https://firecore.com/infuse) (Mac, iPhone, Apple TV, iPad) or media server software like Plex, Emby, or Jellyfin. This way, your media library can be accessed and played from anywhere!
+- 🎨 **Completely redesigned UI** — dark-first, glassmorphic design built with HeroUI
+- ⚡ **Faster and more responsive** — optimised Next.js 15 with improved page performance
+- 🖌️ **New branding** — custom logo, SVG favicon, and updated PWA manifest
+- 🧩 **Modular settings** — settings page split into clean, focused sections
+- 🌐 **One-click deployment** — ready for Vercel + Railway / PlanetScale
 
-[Debrid Media Manager](https://debridmediamanager.com/) is a **free** and open source web app that makes it easy to download movies and TV shows directly to your Debrid library. Build and curate your media collection without ever worrying about storage limits.
+---
 
-## Features
+## 🚀 What is a Debrid Service?
 
-This builds on top of the amazing service brought by [Real-Debrid](https://real-debrid.com/?id=11137529), [AllDebrid](https://alldebrid.com/?uid=1kk5i&lang=en), and [TorBox](https://torbox.app/subscription?referral=74ffa560-7381-4a18-adb1-cef97378c670).
+Debrid services (Real-Debrid, AllDebrid, TorBox) act as a shared cloud storage for torrents. Files are cached across users, so you get:
 
-### Library management
+- ⚡ Instant downloads at full speed
+- ♾️ Virtually unlimited library size
+- 📺 Stream directly via WebDAV, Stremio, Plex, Infuse, Emby, or Jellyfin
 
-See all your torrents in one page, sort them by name, size, status, or date added. It groups torrents by title and helps you delete duplicates. It can show you failed or slow downloads and delete them.
+DMM Next makes it easy to search, download, and curate your entire media collection from one beautiful interface.
 
-### Torrent search
+---
 
-Add content to your library by searching for torrents. It detects what you already have downloaded and currently downloading in your library.
+## 🛠️ Features
 
-### Movie and TV show info pages
+### 📚 Library Management
+Manage all your torrents in one place — sort by name, size, status, or date. Automatically detects duplicates, failed downloads, and slow torrents.
 
-Browse detailed information about movies and TV shows including cast, crew, trailers, and related content. View comprehensive person filmography pages to explore an actor's or director's complete work.
+### 🔍 Torrent Search
+Search and add movies or TV shows directly to your Debrid library. Shows what you already have downloaded or currently downloading.
 
-### Stremio integration
+### 🎭 Movie & TV Show Info Pages
+Browse rich metadata including cast, crew, trailers, ratings, and related content. Explore full actor/director filmographies.
 
-Use DMM as a Stremio addon to stream your debrid library directly through Stremio. Includes a Cast addon for sharing your library streams.
+### 📡 Stremio Integration
+Use DMM Next as a Stremio addon to stream your Debrid library directly through Stremio. Includes a Cast addon for stream sharing.
 
-### Trakt integration
+### 🎯 Trakt Integration
+Sync your Trakt watchlist, collection, and custom lists to easily add content to your library.
 
-Sync with your Trakt watchlist, collection, and custom lists to easily add content to your library.
+### 🔗 Library Sharing
+Share your entire collection or select specific items via shareable hash lists. Mirror other users' libraries instantly.
 
-### Share your library and mirror other libraries
+---
 
-Share your whole collection or select specific items. Head over to [r/debridmediamanager](https://www.reddit.com/r/debridmediamanager/) to see other people's media collections and easily mirror their content to yours.
+## 🖥️ Quick Deploy (Recommended)
 
-## Setup
+The easiest way to run DMM Next is with **Vercel** + **Railway MySQL**:
 
-1. Have a MySQL database ready
-2. Clone this repository
-3. Create your local env file: `cp .env.example .env.local` and fill in the details
-4. Fill in required settings in `.env.local`:
-    - `DATABASE_URL` - Your MySQL connection string
-5. (Optional) Configure additional integrations in `.env.local`:
-    - `TMDB_KEY`, `OMDB_KEY`, `MDBLIST_KEY` - For enhanced movie/show metadata
-    - `TRAKT_CLIENT_ID` and `TRAKT_CLIENT_SECRET` - For Trakt integration
-    - `PROXY` - SOCKS5 proxy for stream proxying (e.g. `localhost:9050`)
-    - See `.env.example` for all available options
-6. Install the dependencies: `npm install`
-7. Run the app: `npm run dev` (development) or `npm run build && npm run start` (production)
-8. Head to `http://localhost:3000`
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/chargmak/debrid-media-manager-next)
 
-### Docker
+1. Fork or clone this repo to your GitHub
+2. Create a MySQL database on [Railway](https://railway.app) or [PlanetScale](https://planetscale.com)
+3. Deploy to [Vercel](https://vercel.com) and set your environment variables (see below)
+4. Run `npx prisma db push` to initialise your database tables
+5. Done! 🎉
+
+---
+
+## ⚙️ Local Setup
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/chargmak/debrid-media-manager-next.git
+cd debrid-media-manager-next
+
+# 2. Install dependencies
+npm install
+
+# 3. Configure environment
+cp .env.example .env.local
+# Edit .env.local with your settings (see below)
+
+# 4. Set up the database
+npx prisma db push
+
+# 5. Start the development server
+npm run dev
+```
+
+The app will be available at `http://localhost:3000`
+
+---
+
+## 🔑 Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DATABASE_URL` | ✅ | MySQL connection string |
+| `DMM_ORIGIN` | ✅ | Your app's public URL (e.g. `https://yourapp.vercel.app`) |
+| `DMMCAST_SALT` | ✅ | Random secret string for cast token generation |
+| `DMM_MAX_UNCACHED_LINKS` | ☑️ | Max uncached links (default: `50`) |
+| `REQUEST_TIMEOUT` | ☑️ | Timeout in ms (default: `5000`) |
+| `TMDB_KEY` | ☑️ | [TMDB](https://themoviedb.org) API key for enhanced metadata |
+| `OMDB_KEY` | ☑️ | [OMDB](https://omdbapi.com) API key |
+| `MDBLIST_KEY` | ☑️ | [MDBList](https://mdblist.com) API key |
+| `TRAKT_CLIENT_ID` | ☑️ | Trakt app client ID |
+| `TRAKT_CLIENT_SECRET` | ☑️ | Trakt app client secret |
+
+See [`.env.example`](.env.example) for the full list of available options.
+
+---
+
+## 🐳 Docker
 
 ```bash
 cp .env.example .env.local
 # Fill in your settings in .env.local
+
 docker swarm init
 docker stack deploy -c docker-compose.yml dmm
 ```
 
-The website will be accessible at `http://localhost:3000`
+Available at `http://localhost:3000`
 
-## FAQ
+---
 
-### I just don't know where to start or why do I need this?
+## ❓ FAQ
 
-[Read the guide here](https://docs.google.com/document/d/13enrfVXcGEEd0Yqb0PBTpGYrIvQpSfeIaAMZ_LiBDzM/edit).
+**Why use DMM Next instead of Kodi/Stremio/FEN?**
+If you want a curated media library with fine-grained control over quality (e.g. only 100GB+ remux releases), DMM Next is ideal. It's simpler than -arr stacks and doesn't require any monitoring setup.
 
-### But with Kodi and FEN and Stremio being available, why would I ever need this?
+**Is library sharing anonymous?**
+Yes. Shared data is only filename, magnet hash, and file size — compressed into the URL. Nothing is stored in the database.
 
-If you want some level of curation on your library. I personally prefer watching only 100+ GB remux releases. Don't ask me about -arr apps and/or Usenet. I also came from that setup and found it too time consuming to maintain.
+**How does it know what's in my library?**
+It fetches your library when you open the Library page and caches it in your browser's local storage. No background monitoring.
 
-### How does it monitor what's in your library?
+---
 
-It doesn't do any sort of monitoring. It gets that information when you open the Library page and caches it in your browser's local storage.
-
-### When I share my library, is it linked to my account's identity?
-
-No. It's completely anonymous. What's shared are 3 things: filename, magnet hash, file size. It's not even stored in any database. The data is compressed and stored in the URL. A "webpage" is then created over at https://hashlists.debridmediamanager.com that loads this list of magnet hashes.
-
-## License
+## 📄 License
 
 This project is licensed under the [AGPL-3.0](LICENSE).
+
+---
+
+> Built on top of the original [Debrid Media Manager](https://github.com/debridmediamanager/debrid-media-manager) with a fully redesigned interface and modern deployment setup.
