@@ -17,9 +17,9 @@ export default function Document() {
 				<meta property="og:description" content="Curate an infinite media library" />
 				<meta
 					property="og:image"
-					content="https://debridmediamanager.com/apple-touch-icon.png"
+					content="/apple-touch-icon.png"
 				/>
-				<meta property="og:url" content="https://debridmediamanager.com" />
+				<meta property="og:url" content="/" />
 				<meta property="og:type" content="website" />
 				<meta name="author" content="yowmamasita" />
 				<meta name="robots" content="noindex, nofollow" />
@@ -36,127 +36,22 @@ export default function Document() {
 				<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
 				<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 				<link rel="manifest" href="/site.webmanifest" />
-				{/* DNS prefetch for faster DNS lookups */}
-				<link rel="dns-prefetch" href="//posters0.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//posters1.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//posters2.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//posters3.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//posters4.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//posters5.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//posters6.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//posters7.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//posters8.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//posters9.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//proxy0.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//proxy1.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//proxy2.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//proxy3.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//proxy4.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//proxy5.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//proxy6.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//proxy7.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//proxy8.debridmediamanager.com" />
-				<link rel="dns-prefetch" href="//proxy9.debridmediamanager.com" />
+				{/* DNS prefetch for poster CDN domains */}
+				<link rel="dns-prefetch" href="//image.tmdb.org" />
+				<link rel="dns-prefetch" href="//m.media-amazon.com" />
+				<link rel="dns-prefetch" href="//app.real-debrid.com" />
+				<link rel="dns-prefetch" href="//api.torbox.app" />
+				<link rel="dns-prefetch" href="//api.alldebrid.com" />
 
-				{/* Preconnect to establish early connections (DNS + TCP + TLS) for all proxy and poster domains */}
+				{/* Preconnect to establish early connections */}
 				<link
 					rel="preconnect"
-					href="https://proxy0.debridmediamanager.com"
+					href="https://image.tmdb.org"
 					crossOrigin="anonymous"
 				/>
 				<link
 					rel="preconnect"
-					href="https://proxy1.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://proxy2.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://proxy3.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://proxy4.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://proxy5.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://proxy6.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://proxy7.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://proxy8.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://proxy9.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://posters0.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://posters1.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://posters2.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://posters3.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://posters4.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://posters5.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://posters6.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://posters7.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://posters8.debridmediamanager.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preconnect"
-					href="https://posters9.debridmediamanager.com"
+					href="https://app.real-debrid.com"
 					crossOrigin="anonymous"
 				/>
 			</Head>

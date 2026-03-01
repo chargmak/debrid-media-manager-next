@@ -54,8 +54,8 @@ export function MainActions({ rdUser, tbUser, adUser }: MainActionsProps) {
 				</Link>
 
 				<Link
-					href={isLocalDev ? '/hashlists' : 'https://hashlists.debridmediamanager.com'}
-					target={isLocalDev ? undefined : '_blank'}
+					href="/hashlists"
+					target={undefined}
 					className="glass-card group flex h-24 flex-col items-center justify-center gap-2 transition-all hover:bg-white/10 hover:shadow-secondary/10"
 				>
 					<div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary/10 text-secondary transition-transform group-hover:-translate-y-1">

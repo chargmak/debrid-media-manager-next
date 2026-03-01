@@ -389,7 +389,7 @@ export const getDeviceCode = async () => {
 
 export const getCredentials = async (deviceCode: string) => {
 	try {
-		const url = `${getProxyUrl(config.proxy)}${config.realDebridHostname}/oauth/v2/device/credentials?client_id=${config.realDebridClientId}&code=${deviceCode}`;
+		const url = `${config.realDebridHostname}/oauth/v2/device/credentials?client_id=${config.realDebridClientId}&code=${deviceCode}`;
 		const response = await genericAxios.get<CredentialsResponse>(url);
 		return response.data;
 	} catch (error: any) {
@@ -416,7 +416,7 @@ export const getToken = async (
 		params.append('grant_type', 'http://oauth.net/grant_type/device/1.0');
 
 		const response = await genericAxios.post<AccessTokenResponse>(
-			`${bare ? 'https://app.real-debrid.com' : getProxyUrl(config.proxy) + config.realDebridHostname}/oauth/v2/token`,
+			`${config.realDebridHostname}/oauth/v2/token`,
 			params.toString(),
 			{
 				headers: {
@@ -717,8 +717,8 @@ export const proxyUnrestrictLink = async (
 		};
 
 		const response = await genericAxios.post<UnrestrictResponse>(
-			`https://unrestrict.debridmediamanager.com/`,
-			body,
+			`${config.realDebridHostname}/rest/1.0/unrestrict/link`,
+			JSON.stringify({ link }),
 			{ headers }
 		);
 

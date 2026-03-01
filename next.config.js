@@ -93,8 +93,8 @@ const nextConfig = {
 	publicRuntimeConfig: {
 		// Will be available on both server and client
 		externalSearchApiHostname: process.env.EXTERNAL_SEARCH_API_HOSTNAME,
-		// Use external cors.* subdomains (rewritten /anticors -> /api/anticors)
-		proxy: 'https://#num#.cors.debridmediamanager.com/api/anticors?url=',
+		// Use the app's own CORS proxy (Next.js API route) instead of external domains
+		proxy: '/api/anticors?url=',
 		realDebridHostname: 'https://app.real-debrid.com',
 		realDebridClientId: 'X245A4XAIBGVM',
 		allDebridHostname: 'https://api.alldebrid.com',

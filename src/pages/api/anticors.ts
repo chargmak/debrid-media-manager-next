@@ -13,7 +13,19 @@ const ALLOWED_ORIGINS = [
 	'https://www.debridmediamanager.com',
 ];
 
-const DEFAULT_ORIGIN = 'https://debridmediamanager.com';
+// Also allow any Vercel preview/production deployment
+function isAllowedOrigin(origin: string | undefined): boolean {
+	if (!origin) return true; // Same-origin requests have no Origin header
+	if (ALLOWED_ORIGINS.includes(origin)) return true;
+	// Allow any *.vercel.app deployment
+	if (/^https:\/\/[\w-]+\.vercel\.app$/.test(origin)) return true;
+	// Allow requests from our own DMM_ORIGIN
+	const dmmOrigin = process.env.DMM_ORIGIN;
+	if (dmmOrigin && origin === dmmOrigin) return true;
+	return false;
+}
+
+const DEFAULT_ORIGIN = process.env.DMM_ORIGIN || 'https://debridmediamanager.com';
 
 const ALLOWED_HOSTS = [
 	'app.real-debrid.com',
@@ -30,7 +42,7 @@ type HeadersToProxy = (typeof HEADERS_TO_PROXY)[number];
 
 function getOrigin(req: NextApiRequest): string {
 	const originHeader = req.headers.origin;
-	if (typeof originHeader === 'string' && ALLOWED_ORIGINS.includes(originHeader)) {
+	if (typeof originHeader === 'string' && isAllowedOrigin(originHeader)) {
 		return originHeader;
 	}
 	return DEFAULT_ORIGIN;
@@ -232,7 +244,7 @@ const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse
 			) {
 				recordRdOperationEvent(operation, 500);
 			}
-		} catch {}
+		} catch { }
 
 		res.status(500).send(`Error fetching the proxy URL: ${message}`);
 	}
