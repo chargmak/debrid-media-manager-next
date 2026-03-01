@@ -377,8 +377,8 @@ genericAxios.interceptors.response.use(
 
 export const getDeviceCode = async () => {
 	try {
-		// Direct call to Real-Debrid without proxy to avoid hanging
-		const url = `${config.realDebridHostname}/oauth/v2/device/code?client_id=${config.realDebridClientId}\u0026new_credentials=yes`;
+		// Route through our own /api/anticors proxy (Real-Debrid blocks direct CORS)
+		const url = `${getProxyUrl(config.proxy)}${config.realDebridHostname}/oauth/v2/device/code?client_id=${config.realDebridClientId}&new_credentials=yes`;
 		const response = await genericAxios.get<DeviceCodeResponse>(url);
 		return response.data;
 	} catch (error: any) {
@@ -389,7 +389,7 @@ export const getDeviceCode = async () => {
 
 export const getCredentials = async (deviceCode: string) => {
 	try {
-		const url = `${config.realDebridHostname}/oauth/v2/device/credentials?client_id=${config.realDebridClientId}&code=${deviceCode}`;
+		const url = `${getProxyUrl(config.proxy)}${config.realDebridHostname}/oauth/v2/device/credentials?client_id=${config.realDebridClientId}&code=${deviceCode}`;
 		const response = await genericAxios.get<CredentialsResponse>(url);
 		return response.data;
 	} catch (error: any) {
@@ -416,7 +416,7 @@ export const getToken = async (
 		params.append('grant_type', 'http://oauth.net/grant_type/device/1.0');
 
 		const response = await genericAxios.post<AccessTokenResponse>(
-			`${config.realDebridHostname}/oauth/v2/token`,
+			`${getProxyUrl(config.proxy)}${config.realDebridHostname}/oauth/v2/token`,
 			params.toString(),
 			{
 				headers: {
