@@ -377,7 +377,8 @@ genericAxios.interceptors.response.use(
 
 export const getDeviceCode = async () => {
 	try {
-		const url = `${getProxyUrl(config.proxy)}${config.realDebridHostname}/oauth/v2/device/code?client_id=${config.realDebridClientId}&new_credentials=yes`;
+		// Direct call to Real-Debrid without proxy to avoid hanging
+		const url = `${config.realDebridHostname}/oauth/v2/device/code?client_id=${config.realDebridClientId}\u0026new_credentials=yes`;
 		const response = await genericAxios.get<DeviceCodeResponse>(url);
 		return response.data;
 	} catch (error: any) {
