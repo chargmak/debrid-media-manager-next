@@ -195,7 +195,7 @@ function Search() {
 								isPressable
 								as={Link}
 								href={result.type === 'movie' ? `/movie/${result.imdbid}` : `/show/${result.imdbid}`}
-								className="group bg-content1/20 hover:bg-content2/60 border border-transparent hover:border-divider transition-all overflow-hidden h-full flex flex-col"
+								className="group bg-content1 hover:bg-content2 border border-divider hover:border-primary/30 transition-all overflow-hidden h-full flex flex-col shadow-sm"
 								shadow="none"
 							>
 								{/* Image Container with precise aspect ratio */}
@@ -213,12 +213,17 @@ function Search() {
 								</div>
 
 								{/* Info Area */}
-								<CardFooter className="flex-col items-start gap-1 p-3 bg-content1/50 backdrop-blur-md border-t border-divider/50 flex-1 justify-start">
+								<CardFooter className="flex-col items-start gap-1 p-3 bg-content2 border-t border-divider/50 flex-1 justify-start">
 									<h3 className="text-sm font-semibold truncate w-full text-foreground group-hover:text-primary transition-colors" title={result.title}>
 										{result.title}
 									</h3>
-									<div className="text-xs font-medium text-default-400">
-										{result.year || 'Unknown Year'}
+									<div className="flex items-center gap-2 w-full">
+										<span className="text-xs font-medium text-default-400">
+											{result.year || 'Unknown Year'}
+										</span>
+										<span className="text-[10px] font-bold uppercase tracking-wider text-primary/70 bg-primary/10 px-1.5 py-0.5 rounded border border-primary/20 ml-auto">
+											{result.type}
+										</span>
 									</div>
 								</CardFooter>
 							</Card>

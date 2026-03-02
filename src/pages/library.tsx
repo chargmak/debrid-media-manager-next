@@ -1670,7 +1670,7 @@ function TorrentsPage() {
 								</div>
 							) : (
 								<table className="w-full text-left font-sans text-sm">
-									<thead className="sticky top-0 z-10">
+									<thead className="hidden sm:table-header-group sticky top-0 z-10">
 										<LibraryTableHeader
 											sortBy={sortBy}
 											onSort={handleSort}

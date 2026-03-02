@@ -152,90 +152,87 @@ function TorrentRow({
 	return (
 		<>
 			<tr
-				className={`border-b border-divider align-middle lg:hover:bg-content2 transition-colors ${isSelected ? 'bg-success/10' : ''}`}
+				className={`flex flex-col sm:table-row border-b border-divider p-3 sm:p-0 transition-colors ${isSelected ? 'bg-success/10' : 'hover:bg-content2/50 sm:hover:bg-content2'}`}
 			>
 				<td
 					onClick={() => onSelect(torrent.id)}
-					className="truncate px-0.5 py-1 text-center text-sm"
+					className="sm:table-cell relative h-8 w-8 sm:h-auto sm:w-auto px-0.5 py-1 text-center text-sm order-2 sm:order-none"
 				>
-					{isSelected ? (
-						<Check className="inline-block h-4 w-4 text-green-500" />
-					) : (
-						<Plus className="inline-block h-4 w-4 text-gray-500" />
-					)}
+					<div className="flex items-center gap-2 sm:justify-center">
+						{isSelected ? (
+							<Check className="h-5 w-5 sm:h-4 sm:w-4 text-green-500" />
+						) : (
+							<Plus className="h-5 w-5 sm:h-4 sm:w-4 text-gray-500" />
+						)}
+						<span className="sm:hidden text-xs font-medium text-default-500">Select this torrent</span>
+					</div>
 				</td>
-				<td onClick={() => onShowInfo(torrent)} className="truncate px-0.5 py-1 text-sm">
+				<td onClick={() => onShowInfo(torrent)} className="block sm:table-cell px-0.5 py-1 text-sm order-1 sm:order-none mb-2 sm:mb-0">
 					{!['Invalid Magnet', 'Magnet', 'noname'].includes(torrent.filename) && (
-						<>
-							<div
-								className="inline-block cursor-pointer"
-								onClick={(e) => {
-									e.stopPropagation();
-									onTypeChange(torrent);
-								}}
-							>
-								{
+						<div className="flex flex-col gap-1">
+							<div className="flex items-start gap-2">
+								<div
+									className="mt-0.5 cursor-pointer shrink-0"
+									onClick={(e) => {
+										e.stopPropagation();
+										onTypeChange(torrent);
+									}}
+								>
 									{
-										movie: (
-											<Film className="inline-block h-4 w-4 text-yellow-500" />
-										),
-										tv: <Tv className="inline-block h-4 w-4 text-cyan-500" />,
-										other: (
-											<FolderOpen className="inline-block h-4 w-4 text-orange-500" />
-										),
-									}[torrent.mediaType]
-								}
+										{
+											movie: (
+												<Film className="h-4 w-4 text-yellow-500" />
+											),
+											tv: <Tv className="h-4 w-4 text-cyan-500" />,
+											other: (
+												<FolderOpen className="h-4 w-4 text-orange-500" />
+											),
+										}[torrent.mediaType]
+									}
+								</div>
+								<div className="flex flex-col min-w-0 flex-1">
+									<strong className="text-sm sm:text-base leading-snug break-words">{torrent.title}</strong>
+									<div className="flex flex-wrap items-center gap-1.5 mt-1">
+										{hashFilterText && (
+											<Link
+												href={`/library?hash=${torrent.hash}&page=1`}
+												className="rounded border border-orange-500/50 bg-orange-500/10 px-1.5 py-0.5 text-[10px] font-bold text-orange-200"
+												onClick={(e) => e.stopPropagation()}
+											>
+												{hashFilterText}
+											</Link>
+										)}
+										{titleFilterText && (
+											<Link
+												href={`/library?title=${encodeURIComponent(normalize(torrent.title))}&page=1`}
+												className="rounded border border-amber-500/50 bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-bold text-amber-200"
+												onClick={(e) => e.stopPropagation()}
+											>
+												{titleFilterText}
+											</Link>
+										)}
+										{tvTitleFilterText && torrent.info?.title && (
+											<Link
+												href={`/library?tvTitle=${encodeURIComponent(normalize(torrent.info.title))}&page=1`}
+												className="rounded border border-sky-500/50 bg-sky-500/10 px-1.5 py-0.5 text-[10px] font-bold text-sky-200"
+												onClick={(e) => e.stopPropagation()}
+											>
+												{tvTitleFilterText}
+											</Link>
+										)}
+										<div className="sm:hidden flex items-center gap-1 text-[11px] font-medium text-default-400 bg-content2 px-1.5 py-0.5 rounded">
+											{(torrent.bytes / ONE_GIGABYTE).toFixed(1)} GB
+											<span className="opacity-30 mx-0.5">|</span>
+											{getStatusText(torrent)}
+										</div>
+									</div>
+								</div>
 							</div>
-							&nbsp;<strong>{torrent.title}</strong>{' '}
-							{hashFilterText ? (
-								<Link
-									href={`/library?hash=${torrent.hash}&page=1`}
-									className="ml-1 inline-block cursor-pointer rounded border-2 border-orange-500 bg-orange-900/30 px-1 py-0 text-xs font-bold text-orange-100 transition-colors hover:bg-orange-800/50"
-									onClick={(e) => e.stopPropagation()}
-								>
-									{hashFilterText}
-								</Link>
-							) : (
-								titleFilterText && (
-									<Link
-										href={`/library?title=${encodeURIComponent(normalize(torrent.title))}&page=1`}
-										className="ml-1 inline-block cursor-pointer rounded border-2 border-amber-500 bg-amber-900/30 px-1 py-0 text-xs font-bold text-amber-100 transition-colors hover:bg-amber-800/50"
-										onClick={(e) => e.stopPropagation()}
-									>
-										{titleFilterText}
-									</Link>
-								)
-							)}
-							{tvTitleFilterText && torrent.info?.title && (
-								<Link
-									href={`/library?tvTitle=${encodeURIComponent(normalize(torrent.info.title))}&page=1`}
-									className="ml-1 inline-block cursor-pointer rounded border-2 border-sky-500 bg-sky-900/30 px-1 py-0 text-xs font-bold text-sky-100 transition-colors hover:bg-sky-800/50"
-									onClick={(e) => e.stopPropagation()}
-								>
-									{tvTitleFilterText}
-								</Link>
-							)}
-							{torrent.info && (
-								<Link
-									href={`/search?query=${encodeURIComponent(
-										(
-											torrent.info.title +
-											' ' +
-											(torrent.info.year || '')
-										).trim() || torrent.title
-									)}`}
-									target="_blank"
-									className="ml-1 mr-2 inline-block cursor-pointer rounded border-2 border-blue-500 bg-blue-900/30 px-1 py-0 text-xs font-bold text-blue-100 transition-colors hover:bg-blue-800/50"
-									onClick={(e) => e.stopPropagation()}
-								>
-									Search again
-								</Link>
-							)}
-							<br />
-						</>
+						</div>
 					)}
-					{[rdKey, adKey, tbKey].filter(Boolean).length > 1 && torrentPrefix(torrent.id)}{' '}
-					{torrent.filename === torrent.hash ? 'Magnet' : torrent.filename}
+					<div className="mt-2 text-[11px] text-default-400 font-mono break-all opacity-70">
+						{torrent.filename === torrent.hash ? 'Magnet' : torrent.filename}
+					</div>
 					{torrent.filename === torrent.hash ||
 						torrent.filename === 'Magnet' ||
 						torrent.status === UserTorrentStatus.error
@@ -306,7 +303,7 @@ function TorrentRow({
 						</button>
 					</div>
 				</td>
-				<td onClick={() => onShowInfo(torrent)} className="px-0.5 py-1 text-center text-xs">
+				<td onClick={() => onShowInfo(torrent)} className="hidden sm:table-cell px-0.5 py-1 text-center text-xs">
 					{(torrent.bytes / ONE_GIGABYTE).toFixed(1)} GB
 				</td>
 				<td onClick={() => onShowInfo(torrent)} className="px-0.5 py-1 text-center text-xs hidden sm:table-cell">
@@ -334,97 +331,93 @@ function TorrentRow({
 				</td>
 				{/* ── Desktop-only action buttons column (hidden on mobile) ── */}
 				<td
-					onClick={() => onShowInfo(torrent)}
-					className="hidden sm:flex flex-wrap place-content-center px-0.5 py-1 gap-1"
+					className="block sm:table-cell sm:table-cell sm:flex flex-wrap place-content-center px-0.5 py-1 gap-1 order-3 sm:order-none"
 				>
-					{rdKey && torrent.id.startsWith('rd:') && (
+					<div className="flex flex-wrap gap-2 mt-2 sm:mt-0" onClick={(e) => e.stopPropagation()}>
+						{rdKey && torrent.id.startsWith('rd:') && (
+							<button
+								title="Cast (RD)"
+								className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-2 sm:p-1 rounded bg-green-500/10 sm:bg-transparent text-green-400 hover:bg-green-500/20 sm:hover:bg-green-400/10 disabled:opacity-50 border border-green-500/20 sm:border-transparent transition-colors"
+								onClick={(e) => {
+									e.stopPropagation();
+									handleCastClick();
+								}}
+								disabled={isCasting}
+							>
+								<Cast className="h-4 w-4" />
+								<span className="sm:hidden text-xs font-bold">Cast</span>
+							</button>
+						)}
 						<button
-							title="Cast (RD)"
-							className="p-1 rounded cursor-pointer text-green-400 hover:bg-green-400/10 disabled:opacity-50"
-							onClick={(e) => {
+							title="Share"
+							className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-2 sm:p-1 rounded bg-indigo-500/10 sm:bg-transparent text-indigo-400 hover:bg-indigo-500/20 sm:hover:bg-indigo-400/10 border border-indigo-500/20 sm:border-transparent transition-colors"
+							onClick={async (e) => {
 								e.stopPropagation();
-								handleCastClick();
+								router.push(await handleShare(torrent));
 							}}
-							disabled={isCasting}
 						>
-							<Cast className="h-4 w-4 text-green-400" />
+							<Share2 className="h-4 w-4" />
+							<span className="sm:hidden text-xs font-bold">Share</span>
 						</button>
-					)}
-					<button
-						title="Share"
-						className="p-1 rounded cursor-pointer text-indigo-600 hover:bg-indigo-400/10"
-						onClick={async (e) => {
-							e.stopPropagation();
-							router.push(await handleShare(torrent));
-						}}
-					>
-						<Share2 className="h-4 w-4 text-indigo-500" />
-					</button>
-					<button
-						title="Delete"
-						className="p-1 rounded cursor-pointer text-red-500 hover:bg-red-400/10"
-						onClick={async (e) => {
-							e.stopPropagation();
-							if (rdKey && torrent.id.startsWith('rd:')) {
-								await handleDeleteRdTorrent(rdKey, torrent.id);
-							}
-							if (adKey && torrent.id.startsWith('ad:')) {
-								await handleDeleteAdTorrent(adKey, torrent.id);
-							}
-							if (tbKey && torrent.id.startsWith('tb:')) {
-								await handleDeleteTbTorrent(tbKey, torrent.id);
-							}
-							onDelete(torrent.id);
-						}}
-					>
-						<Trash2 className="h-4 w-4 text-red-500" />
-					</button>
-					<button
-						title="Copy magnet url"
-						className="p-1 rounded cursor-pointer text-pink-500 hover:bg-teal-400/10"
-						onClick={(e) => {
-							e.stopPropagation();
-							void handleCopyOrDownloadMagnet(torrent.hash, shouldDownloadMagnets);
-						}}
-					>
-						<Link2 className="h-4 w-4 text-teal-500" />
-					</button>
-					<button
-						title="Reinsert"
-						className="p-1 rounded cursor-pointer text-green-500 hover:bg-green-400/10"
-						onClick={async (e) => {
-							e.stopPropagation();
-							try {
+						<button
+							title="Delete"
+							className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-2 sm:p-1 rounded bg-red-500/10 sm:bg-transparent text-red-500 hover:bg-red-500/20 sm:hover:bg-red-400/10 border border-red-500/20 sm:border-transparent transition-colors"
+							onClick={async (e) => {
+								e.stopPropagation();
 								if (rdKey && torrent.id.startsWith('rd:')) {
-									// The function now handles fetching info and preserving selection internally
-									await handleReinsertTorrentinRd(rdKey, torrent, true);
-									onDelete(torrent.id);
-									// Trigger library refresh to fetch the newly reinserted torrent
-									if (onRefreshLibrary) {
-										await onRefreshLibrary();
-									}
+									await handleDeleteRdTorrent(rdKey, torrent.id);
 								}
 								if (adKey && torrent.id.startsWith('ad:')) {
-									await handleRestartTorrent(adKey, torrent.id);
-									// AllDebrid might also need refresh
-									if (onRefreshLibrary) {
-										await onRefreshLibrary();
-									}
+									await handleDeleteAdTorrent(adKey, torrent.id);
 								}
 								if (tbKey && torrent.id.startsWith('tb:')) {
-									await handleRestartTbTorrent(tbKey, torrent.id);
-									// TorBox might also need refresh
-									if (onRefreshLibrary) {
-										await onRefreshLibrary();
-									}
+									await handleDeleteTbTorrent(tbKey, torrent.id);
 								}
-							} catch (error) {
-								console.error(error);
-							}
-						}}
-					>
-						<RefreshCw className="h-4 w-4 text-green-500" />
-					</button>
+								onDelete(torrent.id);
+							}}
+						>
+							<Trash2 className="h-4 w-4" />
+							<span className="sm:hidden text-xs font-bold">Delete</span>
+						</button>
+						<button
+							title="Copy magnet url"
+							className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-2 sm:p-1 rounded bg-teal-500/10 sm:bg-transparent text-teal-500 hover:bg-teal-500/20 sm:hover:bg-teal-400/10 border border-teal-500/20 sm:border-transparent transition-colors"
+							onClick={(e) => {
+								e.stopPropagation();
+								void handleCopyOrDownloadMagnet(torrent.hash, shouldDownloadMagnets);
+							}}
+						>
+							<Link2 className="h-4 w-4" />
+							<span className="sm:hidden text-xs font-bold">Magnet</span>
+						</button>
+						<button
+							title="Reinsert"
+							className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-2 sm:p-1 rounded bg-emerald-500/10 sm:bg-transparent text-emerald-500 hover:bg-emerald-500/20 sm:hover:bg-green-400/10 border border-emerald-500/20 sm:border-transparent transition-colors"
+							onClick={async (e) => {
+								e.stopPropagation();
+								try {
+									if (rdKey && torrent.id.startsWith('rd:')) {
+										await handleReinsertTorrentinRd(rdKey, torrent, true);
+										onDelete(torrent.id);
+										if (onRefreshLibrary) await onRefreshLibrary();
+									}
+									if (adKey && torrent.id.startsWith('ad:')) {
+										await handleRestartTorrent(adKey, torrent.id);
+										if (onRefreshLibrary) await onRefreshLibrary();
+									}
+									if (tbKey && torrent.id.startsWith('tb:')) {
+										await handleRestartTbTorrent(tbKey, torrent.id);
+										if (onRefreshLibrary) await onRefreshLibrary();
+									}
+								} catch (error) {
+									console.error(error);
+								}
+							}}
+						>
+							<RefreshCw className="h-4 w-4" />
+							<span className="sm:hidden text-xs font-bold">Reinsert</span>
+						</button>
+					</div>
 				</td>
 			</tr>
 			{/* Cast Search Modal */}

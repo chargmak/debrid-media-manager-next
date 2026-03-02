@@ -1,9 +1,9 @@
 export const getColorScale = (expectedEpisodeCount: number) => {
 	const scale = [
-		{ threshold: 1, color: 'bg-default-200/20 text-default-600 border border-divider', label: 'Single' },
-		{ threshold: expectedEpisodeCount - 1, color: 'bg-warning/10 text-warning border border-warning/20', label: 'Incomplete' },
-		{ threshold: expectedEpisodeCount, color: 'bg-success/10 text-success border border-success/20', label: 'Complete' },
-		{ threshold: Infinity, color: 'bg-primary/10 text-primary border border-primary/20', label: 'With extras' },
+		{ threshold: 1, color: 'bg-zinc-900/95 text-default-600 border border-divider', label: 'Single' },
+		{ threshold: expectedEpisodeCount - 1, color: 'bg-warning/20 text-warning border border-warning/30 bg-zinc-900/40', label: 'Incomplete' },
+		{ threshold: expectedEpisodeCount, color: 'bg-success/20 text-success border border-success/30 bg-green-950/40', label: 'Complete' },
+		{ threshold: Infinity, color: 'bg-primary/20 text-primary border border-primary/30 bg-blue-950/40', label: 'With extras' },
 	];
 	return scale;
 };

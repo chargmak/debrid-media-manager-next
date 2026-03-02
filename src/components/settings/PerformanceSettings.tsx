@@ -71,50 +71,56 @@ export const PerformanceSettings = () => {
                     </div>
 
                     <div className="space-y-4">
-                        <Select
-                            label="Biggest movie size"
-                            placeholder="Select max size"
-                            selectedKeys={[movieMaxSize]}
-                            onChange={handleMovieSizeChange}
-                            variant="flat"
-                            radius="lg"
-                            classNames={{
-                                base: "max-w-full",
-                                mainWrapper: "bg-content1/50 rounded-xl",
-                                trigger: "bg-transparent hover:bg-content2/50 transition-colors",
-                            }}
-                        >
-                            <SelectItem key="1">1 GB (~1.5 Mbps)</SelectItem>
-                            <SelectItem key="3">3 GB (~4.5 Mbps)</SelectItem>
-                            <SelectItem key="5">5 GB (~7.5 Mbps)</SelectItem>
-                            <SelectItem key="15">15 GB (~22 Mbps)</SelectItem>
-                            <SelectItem key="30">30 GB (~45 Mbps)</SelectItem>
-                            <SelectItem key="60">60 GB (~90 Mbps)</SelectItem>
-                            <SelectItem key="0">Biggest available</SelectItem>
-                        </Select>
+                        <div className="flex flex-col gap-2">
+                            <span className="text-sm font-medium text-foreground">Biggest movie size</span>
+                            <Select
+                                className="w-full"
+                                placeholder="Select max size"
+                                selectedKeys={[movieMaxSize]}
+                                onChange={handleMovieSizeChange}
+                                variant="flat"
+                                radius="lg"
+                                classNames={{
+                                    base: "max-w-full",
+                                    mainWrapper: "bg-content1/50 rounded-xl",
+                                    trigger: "bg-transparent hover:bg-content2/50 transition-colors p-2",
+                                }}
+                            >
+                                <SelectItem key="1">1 GB (~1.5 Mbps)</SelectItem>
+                                <SelectItem key="3">3 GB (~4.5 Mbps)</SelectItem>
+                                <SelectItem key="5">5 GB (~7.5 Mbps)</SelectItem>
+                                <SelectItem key="15">15 GB (~22 Mbps)</SelectItem>
+                                <SelectItem key="30">30 GB (~45 Mbps)</SelectItem>
+                                <SelectItem key="60">60 GB (~90 Mbps)</SelectItem>
+                                <SelectItem key="0">Biggest available</SelectItem>
+                            </Select>
 
-                        <Select
-                            label="Biggest episode size"
-                            placeholder="Select max size"
-                            selectedKeys={[episodeMaxSize]}
-                            onChange={handleEpisodeSizeChange}
-                            variant="flat"
-                            radius="lg"
-                            classNames={{
-                                base: "max-w-full",
-                                mainWrapper: "bg-content1/50 rounded-xl",
-                                trigger: "bg-transparent hover:bg-content2/50 transition-colors",
-                            }}
-                            description="💡 applies to Stremio Cast addon selection"
-                        >
-                            <SelectItem key="0.1">100 MB (~0.7 Mbps)</SelectItem>
-                            <SelectItem key="0.3">300 MB (~2 Mbps)</SelectItem>
-                            <SelectItem key="0.5">500 MB (~3.5 Mbps)</SelectItem>
-                            <SelectItem key="1">1 GB (~7 Mbps)</SelectItem>
-                            <SelectItem key="3">3 GB (~21 Mbps)</SelectItem>
-                            <SelectItem key="5">5 GB (~35 Mbps)</SelectItem>
-                            <SelectItem key="0">Biggest available</SelectItem>
-                        </Select>
+                            <div className="flex flex-col gap-1">
+                                <span className="text-sm font-medium text-foreground">Biggest episode size</span>
+                                <Select
+                                    className="w-full"
+                                    placeholder="Select max size"
+                                    selectedKeys={[episodeMaxSize]}
+                                    onChange={handleEpisodeSizeChange}
+                                    variant="flat"
+                                    radius="lg"
+                                    description="💡 applies to Stremio Cast addon selection"
+                                    classNames={{
+                                        base: "max-w-full",
+                                        mainWrapper: "bg-content1/50 rounded-xl",
+                                        trigger: "bg-transparent hover:bg-content2/50 transition-colors p-2",
+                                    }}
+                                >
+                                    <SelectItem key="0.1">100 MB (~0.7 Mbps)</SelectItem>
+                                    <SelectItem key="0.3">300 MB (~2 Mbps)</SelectItem>
+                                    <SelectItem key="0.5">500 MB (~3.5 Mbps)</SelectItem>
+                                    <SelectItem key="1">1 GB (~7 Mbps)</SelectItem>
+                                    <SelectItem key="3">3 GB (~21 Mbps)</SelectItem>
+                                    <SelectItem key="5">5 GB (~35 Mbps)</SelectItem>
+                                    <SelectItem key="0">Biggest available</SelectItem>
+                                </Select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </CardBody>

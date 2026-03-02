@@ -301,7 +301,7 @@ const TvSearchResults: React.FC<TvSearchResultsProps> = ({
 					return (
 						<div
 							key={i}
-							className={`relative flex flex-col border ${borderColor(downloaded, downloading)} ${getEpisodeCountClass(r.videoCount, expectedEpisodeCount, r.rdAvailable || r.adAvailable || r.tbAvailable)} overflow-hidden rounded-xl backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:shadow-xl group`}
+							className={`relative flex flex-col border ${borderColor(downloaded, downloading)} ${getEpisodeCountClass(r.videoCount, expectedEpisodeCount, r.rdAvailable || r.adAvailable || r.tbAvailable) || 'bg-zinc-950/90'} overflow-hidden rounded-xl glass transition-all duration-300 hover:scale-[1.02] hover:shadow-xl group shadow-lg`}
 						>
 							<div className="space-y-2 p-1">
 								<h2 className="line-clamp-2 min-h-[2.5rem] overflow-hidden text-ellipsis break-words text-sm font-bold leading-tight text-foreground group-hover:text-primary transition-colors">

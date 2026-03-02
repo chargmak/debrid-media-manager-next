@@ -36,12 +36,13 @@ export const StremioCastSettings = () => {
                 <p className="text-xs text-default-400">Configure how your content appears in Stremio</p>
             </CardHeader>
             <CardBody className="gap-8 px-6 py-4">
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
                     <div className="flex flex-col gap-1">
                         <span className="text-sm font-medium">Community Streams Limit</span>
                         <span className="text-xs text-default-400">How many community streams to show in the addon</span>
                     </div>
                     <Select
+                        className="w-full"
                         placeholder="Select limit"
                         selectedKeys={[otherStreamsLimit]}
                         onChange={handleOtherStreamsLimitChange}
@@ -50,7 +51,7 @@ export const StremioCastSettings = () => {
                         classNames={{
                             base: "max-w-full",
                             mainWrapper: "bg-content1/50 rounded-xl",
-                            trigger: "bg-transparent hover:bg-content2/50 transition-colors",
+                            trigger: "bg-transparent hover:bg-content2/50 transition-colors p-2",
                         }}
                     >
                         <SelectItem key="0">Don&apos;t show other streams</SelectItem>
