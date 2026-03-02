@@ -32,7 +32,7 @@ export default function LibraryMenuButtons({
 	failedCount,
 }: LibraryMenuButtonsProps) {
 	return (
-		<div className="mb-0 flex overflow-x-auto">
+		<div className="mb-0 flex flex-wrap gap-y-0">
 			<LibraryButton
 				variant="indigo"
 				onClick={onPrevPage}

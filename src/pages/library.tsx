@@ -1559,30 +1559,30 @@ function TorrentsPage() {
 			}} />
 			<div className="flex flex-1 flex-col overflow-hidden">
 				<div className="z-20 bg-content1/80 backdrop-blur-xl border-b border-divider shadow-sm pb-3 px-4 pt-3">
-					<div className="mb-3 flex items-center justify-between">
-						<div className="flex items-center gap-3">
+					<div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+						<div className="flex items-center gap-2 min-w-0">
 							<h1
-								className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2"
+								className="text-lg sm:text-xl font-bold tracking-tight text-foreground flex items-center gap-2 shrink-0"
 								onDoubleClick={backupOldWeekData}
 								style={{ cursor: 'default' }}
 							>
-								<BookOpen className="h-5 w-5 text-primary" />
+								<BookOpen className="h-5 w-5 text-primary shrink-0" />
 								Library
-								<span className="font-medium text-default-400 text-sm ml-2">
-									<LibrarySize
-										torrentCount={userTorrentsList.length}
-										totalBytes={totalBytes}
-										isLoading={isFetching}
-									/>
-								</span>
-								{selectedTorrents.size > 0 && (
-									<span className="ml-2 text-sm font-semibold text-secondary bg-secondary/10 px-2 py-0.5 rounded-full border border-secondary/20">
-										{selectedTorrents.size}/{filteredList.length} selected
-									</span>
-								)}
 							</h1>
-							<div className="flex items-center gap-2 ml-4">
-								<span className="text-xs font-medium text-default-400 bg-content2 px-2 py-1 rounded-md border border-divider">
+							<span className="font-medium text-default-400 text-xs sm:text-sm shrink-0">
+								<LibrarySize
+									torrentCount={userTorrentsList.length}
+									totalBytes={totalBytes}
+									isLoading={isFetching}
+								/>
+							</span>
+							{selectedTorrents.size > 0 && (
+								<span className="text-xs font-semibold text-secondary bg-secondary/10 px-1.5 py-0.5 rounded-full border border-secondary/20 shrink-0">
+									{selectedTorrents.size}/{filteredList.length}
+								</span>
+							)}
+							<div className="flex items-center gap-1.5">
+								<span className="hidden sm:inline-block text-xs font-medium text-default-400 bg-content2 px-2 py-1 rounded-md border border-divider">
 									{lastFetchLabel}
 								</span>
 								<button
@@ -1602,18 +1602,18 @@ function TorrentsPage() {
 						</div>
 						<Link
 							href="/"
-							className="rounded-lg border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary transition-all hover:bg-primary/20 hover:border-primary/50"
+							className="rounded-lg border border-primary/30 bg-primary/10 px-3 py-1 text-xs sm:text-sm font-semibold text-primary transition-all hover:bg-primary/20 hover:border-primary/50 shrink-0"
 						>
 							Go Home
 						</Link>
 					</div>
 
-					<div className="mb-3 flex items-center border border-divider bg-content1/50 rounded-lg py-0 focus-within:border-primary/50 focus-within:bg-content2 transition-colors">
+					<div className="mb-2 flex items-center border border-divider bg-content1/50 rounded-lg py-0 focus-within:border-primary/50 focus-within:bg-content2 transition-colors">
 						<input
 							className="mr-3 w-full appearance-none border-none bg-transparent px-3 py-2 text-sm font-medium leading-tight text-foreground focus:outline-none placeholder:text-default-400"
 							type="text"
 							id="query"
-							placeholder="Search by filename, hash, or ID..."
+							placeholder="Search library..."
 							value={query}
 							onChange={(e) => {
 								setCurrentPage(1);

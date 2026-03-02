@@ -41,7 +41,7 @@ export default function LibraryActionButtons({
 	showHashCombine,
 }: LibraryActionButtonsProps) {
 	return (
-		<div className="mb-0 flex overflow-x-auto">
+		<div className="mb-0 flex flex-wrap gap-y-0">
 			<LibraryButton variant="orange" onClick={onSelectShown}>
 				<Check className="mr-1 inline-block h-4 w-4 text-green-500" />
 				Select Shown

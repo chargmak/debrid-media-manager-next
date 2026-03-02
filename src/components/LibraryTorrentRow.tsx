@@ -241,11 +241,75 @@ function TorrentRow({
 						torrent.status === UserTorrentStatus.error
 						? ` (${getStatusText(torrent)})`
 						: ''}
+					{/* ── Mobile-only inline action buttons (hidden on sm+) ── */}
+					<div className="mt-1.5 flex flex-wrap gap-1 sm:hidden" onClick={(e) => e.stopPropagation()}>
+						{rdKey && torrent.id.startsWith('rd:') && (
+							<button
+								title="Cast (RD)"
+								className="flex items-center gap-1 rounded px-1.5 py-1 text-xs font-medium text-green-400 bg-green-400/10 hover:bg-green-400/20 disabled:opacity-50"
+								onClick={(e) => { e.stopPropagation(); handleCastClick(); }}
+								disabled={isCasting}
+							>
+								<Cast className="h-3.5 w-3.5" /> Cast
+							</button>
+						)}
+						<button
+							title="Share"
+							className="flex items-center gap-1 rounded px-1.5 py-1 text-xs font-medium text-indigo-400 bg-indigo-400/10 hover:bg-indigo-400/20"
+							onClick={async (e) => { e.stopPropagation(); router.push(await handleShare(torrent)); }}
+						>
+							<Share2 className="h-3.5 w-3.5" /> Share
+						</button>
+						<button
+							title="Delete"
+							className="flex items-center gap-1 rounded px-1.5 py-1 text-xs font-medium text-red-400 bg-red-400/10 hover:bg-red-400/20"
+							onClick={async (e) => {
+								e.stopPropagation();
+								if (rdKey && torrent.id.startsWith('rd:')) await handleDeleteRdTorrent(rdKey, torrent.id);
+								if (adKey && torrent.id.startsWith('ad:')) await handleDeleteAdTorrent(adKey, torrent.id);
+								if (tbKey && torrent.id.startsWith('tb:')) await handleDeleteTbTorrent(tbKey, torrent.id);
+								onDelete(torrent.id);
+							}}
+						>
+							<Trash2 className="h-3.5 w-3.5" /> Delete
+						</button>
+						<button
+							title="Copy magnet"
+							className="flex items-center gap-1 rounded px-1.5 py-1 text-xs font-medium text-teal-400 bg-teal-400/10 hover:bg-teal-400/20"
+							onClick={(e) => { e.stopPropagation(); void handleCopyOrDownloadMagnet(torrent.hash, shouldDownloadMagnets); }}
+						>
+							<Link2 className="h-3.5 w-3.5" /> Magnet
+						</button>
+						<button
+							title="Reinsert"
+							className="flex items-center gap-1 rounded px-1.5 py-1 text-xs font-medium text-emerald-400 bg-emerald-400/10 hover:bg-emerald-400/20"
+							onClick={async (e) => {
+								e.stopPropagation();
+								try {
+									if (rdKey && torrent.id.startsWith('rd:')) {
+										await handleReinsertTorrentinRd(rdKey, torrent, true);
+										onDelete(torrent.id);
+										if (onRefreshLibrary) await onRefreshLibrary();
+									}
+									if (adKey && torrent.id.startsWith('ad:')) {
+										await handleRestartTorrent(adKey, torrent.id);
+										if (onRefreshLibrary) await onRefreshLibrary();
+									}
+									if (tbKey && torrent.id.startsWith('tb:')) {
+										await handleRestartTbTorrent(tbKey, torrent.id);
+										if (onRefreshLibrary) await onRefreshLibrary();
+									}
+								} catch (error) { console.error(error); }
+							}}
+						>
+							<RefreshCw className="h-3.5 w-3.5" /> Reinsert
+						</button>
+					</div>
 				</td>
 				<td onClick={() => onShowInfo(torrent)} className="px-0.5 py-1 text-center text-xs">
 					{(torrent.bytes / ONE_GIGABYTE).toFixed(1)} GB
 				</td>
-				<td onClick={() => onShowInfo(torrent)} className="px-0.5 py-1 text-center text-xs">
+				<td onClick={() => onShowInfo(torrent)} className="px-0.5 py-1 text-center text-xs hidden sm:table-cell">
 					{torrent.status !== UserTorrentStatus.finished &&
 						torrent.status !== UserTorrentStatus.error ? (
 						<>
@@ -265,17 +329,18 @@ function TorrentRow({
 						getStatusText(torrent)
 					)}
 				</td>
-				<td onClick={() => onShowInfo(torrent)} className="px-0.5 py-1 text-center text-xs">
+				<td onClick={() => onShowInfo(torrent)} className="px-0.5 py-1 text-center text-xs hidden md:table-cell">
 					{new Date(torrent.added).toLocaleString(undefined, { timeZone: 'UTC' })}
 				</td>
+				{/* ── Desktop-only action buttons column (hidden on mobile) ── */}
 				<td
 					onClick={() => onShowInfo(torrent)}
-					className="flex place-content-center px-0.5 py-1"
+					className="hidden sm:flex flex-wrap place-content-center px-0.5 py-1 gap-1"
 				>
 					{rdKey && torrent.id.startsWith('rd:') && (
 						<button
 							title="Cast (RD)"
-							className="mb-2 mr-2 cursor-pointer text-green-400 disabled:opacity-50"
+							className="p-1 rounded cursor-pointer text-green-400 hover:bg-green-400/10 disabled:opacity-50"
 							onClick={(e) => {
 								e.stopPropagation();
 								handleCastClick();
@@ -287,7 +352,7 @@ function TorrentRow({
 					)}
 					<button
 						title="Share"
-						className="mb-2 mr-2 cursor-pointer text-indigo-600"
+						className="p-1 rounded cursor-pointer text-indigo-600 hover:bg-indigo-400/10"
 						onClick={async (e) => {
 							e.stopPropagation();
 							router.push(await handleShare(torrent));
@@ -297,7 +362,7 @@ function TorrentRow({
 					</button>
 					<button
 						title="Delete"
-						className="mb-2 mr-2 cursor-pointer text-red-500"
+						className="p-1 rounded cursor-pointer text-red-500 hover:bg-red-400/10"
 						onClick={async (e) => {
 							e.stopPropagation();
 							if (rdKey && torrent.id.startsWith('rd:')) {
@@ -316,7 +381,7 @@ function TorrentRow({
 					</button>
 					<button
 						title="Copy magnet url"
-						className="mb-2 mr-2 cursor-pointer text-pink-500"
+						className="p-1 rounded cursor-pointer text-pink-500 hover:bg-teal-400/10"
 						onClick={(e) => {
 							e.stopPropagation();
 							void handleCopyOrDownloadMagnet(torrent.hash, shouldDownloadMagnets);
@@ -326,7 +391,7 @@ function TorrentRow({
 					</button>
 					<button
 						title="Reinsert"
-						className="mb-2 mr-2 cursor-pointer text-green-500"
+						className="p-1 rounded cursor-pointer text-green-500 hover:bg-green-400/10"
 						onClick={async (e) => {
 							e.stopPropagation();
 							try {
