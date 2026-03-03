@@ -62,7 +62,7 @@ export const showInfoForRD = async (
 
 	if (info.progress === 100 && !isIntact) {
 		if (info.links.length === 1) {
-			warning = `<div class="text-sm text-red-400">Warning: This torrent appears to have been rar'ed by Real-Debrid (<a class="underline text-red-200" href="https://www.patreon.com/posts/that-annoying-rd-144564359" target="_blank" rel="noreferrer">zurg supports rar files</a>)<br/></div>`;
+			warning = `<div class="text-sm text-red-400">Warning: This torrent appears to have been rar'ed by Real-Debrid (zurg supports rar files)<br/></div>`;
 		} else {
 			warning = `<div class="text-sm text-red-400">Warning: Some files have expired</div>`;
 		}
@@ -83,9 +83,9 @@ export const showInfoForRD = async (
 	const searchAgainButton =
 		originalFilename && searchQuery && !info.fake
 			? renderButton('searchAgain', {
-					link: '/search',
-					linkParam: { name: 'query', value: searchQuery },
-				})
+				link: '/search',
+				linkParam: { name: 'query', value: searchQuery },
+			})
 			: '';
 	const libraryActions = !info.fake
 		? `
@@ -95,14 +95,13 @@ export const showInfoForRD = async (
         ${renderButton('magnet', { id: 'btn-magnet-copy', text: shouldDownloadMagnets ? 'Download' : 'Copy' })}
         ${renderButton('reinsert', { id: 'btn-reinsert-rd' })}
 		${rdKey ? renderButton('castAll', { id: 'btn-cast-all' }) : ''}
-		${
-			info.links.length > 0
-				? renderButton('downloadAll', {
-						link: 'https://real-debrid.com/downloader',
-						linkParam: { name: 'links', value: downloadAllLinksParam },
-						id: 'btn-download-all',
-					})
-				: ''
+		${info.links.length > 0
+			? renderButton('downloadAll', {
+				link: 'https://real-debrid.com/downloader',
+				linkParam: { name: 'links', value: downloadAllLinksParam },
+				id: 'btn-download-all',
+			})
+			: ''
 		}
         ${info.links.length > 0 ? renderButton('exportLinks', { id: 'btn-export-links' }) : ''}
         ${info.links.length > 0 ? renderButton('generateStrm', { id: 'btn-generate-strm' }) : ''}
@@ -124,7 +123,7 @@ export const showInfoForRD = async (
 
 	const saveButton = !info.fake
 		? (() => {
-				return `
+			return `
                 <div class="m-2 text-center">
                     <div class="mb-2 flex flex-wrap items-center justify-center gap-2 rounded border border-cyan-500/40 bg-gray-900 px-2 py-1 text-sm font-semibold text-cyan-200">
 						<span id="selection-count">
@@ -157,49 +156,49 @@ export const showInfoForRD = async (
                     </div>
                 </div>
             `;
-			})()
+		})()
 		: '';
 
 	const originalFilenameRow = info.original_filename
 		? [
-				{
-					label: 'Original filename',
-					value: searchAgainButton
-						? `<span class="mr-2">${info.original_filename}</span>${searchAgainButton}`
-						: info.original_filename,
-				},
-			]
+			{
+				label: 'Original filename',
+				value: searchAgainButton
+					? `<span class="mr-2">${info.original_filename}</span>${searchAgainButton}`
+					: info.original_filename,
+			},
+		]
 		: [];
 
 	const infoRows = info.fake
 		? [
-				{ label: 'Size', value: (info.bytes / 1024 ** 3).toFixed(2) + ' GB' },
-				...originalFilenameRow,
-				...getStreamInfo(mediaInfo),
-			]
+			{ label: 'Size', value: (info.bytes / 1024 ** 3).toFixed(2) + ' GB' },
+			...originalFilenameRow,
+			...getStreamInfo(mediaInfo),
+		]
 		: [
-				{ label: 'Size', value: (info.bytes / 1024 ** 3).toFixed(2) + ' GB' },
-				{ label: 'ID', value: info.id },
-				...originalFilenameRow,
-				{
-					label: 'Original size',
-					value: (info.original_bytes / 1024 ** 3).toFixed(2) + ' GB',
-				},
-				{ label: 'Status', value: info.status },
-				...(info.status === 'downloading'
-					? [
-							{ label: 'Progress', value: info.progress.toFixed(2) + '%' },
-							{ label: 'Speed', value: (info.speed / 1024).toFixed(2) + ' KB/s' },
-							{ label: 'Seeders', value: info.seeders },
-						]
-					: []),
-				{
-					label: 'Added',
-					value: new Date(info.added).toLocaleString(undefined, { timeZone: 'UTC' }),
-				},
-				{ label: 'Progress', value: info.progress + '%' },
-				...getStreamInfo(mediaInfo),
-			];
+			{ label: 'Size', value: (info.bytes / 1024 ** 3).toFixed(2) + ' GB' },
+			{ label: 'ID', value: info.id },
+			...originalFilenameRow,
+			{
+				label: 'Original size',
+				value: (info.original_bytes / 1024 ** 3).toFixed(2) + ' GB',
+			},
+			{ label: 'Status', value: info.status },
+			...(info.status === 'downloading'
+				? [
+					{ label: 'Progress', value: info.progress.toFixed(2) + '%' },
+					{ label: 'Speed', value: (info.speed / 1024).toFixed(2) + ' KB/s' },
+					{ label: 'Seeders', value: info.seeders },
+				]
+				: []),
+			{
+				label: 'Added',
+				value: new Date(info.added).toLocaleString(undefined, { timeZone: 'UTC' }),
+			},
+			{ label: 'Progress', value: info.progress + '%' },
+			...getStreamInfo(mediaInfo),
+		];
 
 	html = html.replace(
 		'<hr class="border-gray-600"/>',
@@ -379,7 +378,7 @@ export const showInfoForRD = async (
 					});
 					toast.error(
 						'Failed to save selection: ' +
-							(error instanceof Error ? error.message : String(error)),
+						(error instanceof Error ? error.message : String(error)),
 						magnetToastOptions
 					);
 				}

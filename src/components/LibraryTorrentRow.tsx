@@ -152,19 +152,21 @@ function TorrentRow({
 	return (
 		<>
 			<tr
-				className={`flex flex-col sm:table-row border-b border-divider p-3 sm:p-0 transition-colors ${isSelected ? 'bg-success/10' : 'hover:bg-content2/50 sm:hover:bg-content2'}`}
+				className={`relative flex flex-col sm:table-row border-b border-divider p-3 sm:p-0 transition-colors ${isSelected ? 'bg-success/10' : 'hover:bg-content2/50 sm:hover:bg-content2'}`}
 			>
 				<td
-					onClick={() => onSelect(torrent.id)}
-					className="sm:table-cell relative h-8 w-8 sm:h-auto sm:w-auto px-0.5 py-1 text-center text-sm order-2 sm:order-none"
+					onClick={(e) => {
+						e.stopPropagation();
+						onSelect(torrent.id);
+					}}
+					className="absolute top-2 right-2 sm:static sm:table-cell px-0.5 py-1 text-center z-10 cursor-pointer"
 				>
-					<div className="flex items-center gap-2 sm:justify-center">
+					<div className="flex items-center justify-center p-1.5 sm:p-0 rounded-full bg-content2/80 sm:bg-transparent sm:shadow-none hover:bg-content2 transition-colors">
 						{isSelected ? (
 							<Check className="h-5 w-5 sm:h-4 sm:w-4 text-green-500" />
 						) : (
-							<Plus className="h-5 w-5 sm:h-4 sm:w-4 text-gray-500" />
+							<Plus className="h-5 w-5 sm:h-4 sm:w-4 text-default-400" />
 						)}
-						<span className="sm:hidden text-xs font-medium text-default-500">Select this torrent</span>
 					</div>
 				</td>
 				<td onClick={() => onShowInfo(torrent)} className="block sm:table-cell px-0.5 py-1 text-sm order-1 sm:order-none mb-2 sm:mb-0">
@@ -190,7 +192,7 @@ function TorrentRow({
 										}[torrent.mediaType]
 									}
 								</div>
-								<div className="flex flex-col min-w-0 flex-1">
+								<div className="flex flex-col min-w-0 flex-1 pr-10 sm:pr-0">
 									<strong className="text-sm sm:text-base leading-snug break-words">{torrent.title}</strong>
 									<div className="flex flex-wrap items-center gap-1.5 mt-1">
 										{hashFilterText && (
@@ -331,7 +333,7 @@ function TorrentRow({
 				</td>
 				{/* ── Desktop-only action buttons column (hidden on mobile) ── */}
 				<td
-					className="block sm:table-cell sm:table-cell sm:flex flex-wrap place-content-center px-0.5 py-1 gap-1 order-3 sm:order-none"
+					className="hidden sm:table-cell px-0.5 py-1 align-middle"
 				>
 					<div className="flex flex-wrap gap-2 mt-2 sm:mt-0" onClick={(e) => e.stopPropagation()}>
 						{rdKey && torrent.id.startsWith('rd:') && (

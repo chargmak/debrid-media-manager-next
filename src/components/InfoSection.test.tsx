@@ -23,24 +23,12 @@ describe('InfoSection', () => {
 		expect(userscriptLink.getAttribute('target')).toBe('_blank');
 	});
 
-	it('promotes community and sponsorship resources', () => {
+	it('promotes community resources', () => {
 		render(<InfoSection />);
 
-		expect(screen.getByRole('link', { name: /zurg/i }).getAttribute('href')).toContain(
-			'github.com'
-		);
 		expect(
-			screen.getByRole('link', { name: /r\/debridmediamanager/i }).getAttribute('href')
+			screen.getByRole('link', { name: /Reddit Community/i }).getAttribute('href')
 		).toContain('reddit.com');
-		expect(screen.getByRole('link', { name: 'Github' }).getAttribute('href')).toContain(
-			'github.com/sponsors'
-		);
-		expect(screen.getByRole('link', { name: 'Patreon' }).getAttribute('href')).toContain(
-			'patreon.com'
-		);
-		expect(screen.getByRole('link', { name: 'Paypal' }).getAttribute('href')).toContain(
-			'paypal.me'
-		);
 		expect(screen.getByRole('link', { name: /Discord/i }).getAttribute('href')).toContain(
 			'discord.gg'
 		);

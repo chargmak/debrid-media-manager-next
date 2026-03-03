@@ -45,33 +45,33 @@ export function MainActions({ rdUser, tbUser, adUser }: MainActionsProps) {
 			<div className="grid w-full grid-cols-3 gap-4">
 				<Link
 					href="/library"
-					className="glass-card group flex h-24 flex-col items-center justify-center gap-2 transition-all hover:bg-white/10 hover:shadow-primary/10"
+					className="glass-card group flex h-32 flex-col items-center justify-center gap-3 transition-all hover:bg-white/10 hover:shadow-primary/10"
 				>
-					<div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform group-hover:scale-110">
-						<BookOpen className="h-6 w-6" />
+					<div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-transform group-hover:scale-110">
+						<BookOpen className="h-7 w-7" />
 					</div>
-					<span className="text-[10px] font-black uppercase tracking-widest text-default-400 group-hover:text-white">Library</span>
+					<span className="text-xs font-black uppercase tracking-widest text-default-400 group-hover:text-white">Library</span>
 				</Link>
 
 				<Link
 					href="/hashlists"
 					target={undefined}
-					className="glass-card group flex h-24 flex-col items-center justify-center gap-2 transition-all hover:bg-white/10 hover:shadow-secondary/10"
+					className="glass-card group flex h-32 flex-col items-center justify-center gap-3 transition-all hover:bg-white/10 hover:shadow-secondary/10"
 				>
-					<div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary/10 text-secondary transition-transform group-hover:-translate-y-1">
-						<Rocket className="h-6 w-6" />
+					<div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary/10 text-secondary transition-transform group-hover:-translate-y-1">
+						<Rocket className="h-7 w-7" />
 					</div>
-					<span className="text-[10px] font-black uppercase tracking-widest text-default-400 group-hover:text-white">Hash lists</span>
+					<span className="text-xs font-black uppercase tracking-widest text-default-400 group-hover:text-white">Hash lists</span>
 				</Link>
 
 				<Link
 					href="/albums"
-					className="glass-card group flex h-24 flex-col items-center justify-center gap-2 transition-all hover:bg-white/10 hover:shadow-success/10"
+					className="glass-card group flex h-32 flex-col items-center justify-center gap-3 transition-all hover:bg-white/10 hover:shadow-success/10"
 				>
-					<div className="flex h-10 w-10 items-center justify-center rounded-xl bg-success/10 text-success transition-transform group-hover:rotate-12">
-						<Music2 className="h-6 w-6" />
+					<div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-success/10 text-success transition-transform group-hover:rotate-12">
+						<Music2 className="h-7 w-7" />
 					</div>
-					<span className="text-[10px] font-black uppercase tracking-widest text-default-400 group-hover:text-white">Music</span>
+					<span className="text-xs font-black uppercase tracking-widest text-default-400 group-hover:text-white">Music</span>
 				</Link>
 			</div>
 

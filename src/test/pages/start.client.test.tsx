@@ -144,18 +144,7 @@ describe('StartPage', () => {
 		expect(mockPush).not.toHaveBeenCalled();
 	});
 
-	it('should render open source link with correct attributes', () => {
-		render(<StartPage />);
 
-		const githubLink = screen.getByText(
-			'This website is open source and you can also run this on your own machine'
-		);
-		expect(githubLink).toHaveAttribute('target', '_blank');
-		expect(githubLink).toHaveAttribute(
-			'href',
-			'https://github.com/debridmediamanager/debrid-media-manager'
-		);
-	});
 
 	it('should render account creation links with correct attributes', () => {
 		render(<StartPage />);

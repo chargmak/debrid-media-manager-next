@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Logo } from '@/components/Logo';
 import { Button, Card, CardBody, Divider, Chip } from '@heroui/react';
-import { ArrowRight, Shield, Zap, Cloud, ExternalLink, Github } from 'lucide-react';
+import { ArrowRight, Shield, Zap, Cloud, ExternalLink } from 'lucide-react';
 
 export default function StartPage() {
 	const router = useRouter();
@@ -74,15 +74,7 @@ export default function StartPage() {
 					Build your movie & TV show library with truly unlimited storage
 				</p>
 
-				<a
-					target="_blank"
-					rel="noopener noreferrer"
-					href="https://github.com/debridmediamanager/debrid-media-manager"
-					className="inline-flex items-center gap-1.5 text-sm text-default-500 hover:text-primary transition-colors mt-1"
-				>
-					<Github className="h-3.5 w-3.5" />
-					Open source — run on your own machine
-				</a>
+
 			</div>
 
 			{/* Login Cards */}
